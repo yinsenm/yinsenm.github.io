@@ -1,0 +1,53 @@
+---
+layout: post
+title: loading a random image upon page refresh
+categories: [blog]
+tags: [css, javascript, jquery]
+---
+
+<p>A little while ago a friend asked me to do a little dev work on the side. One of the requests was that a random logo be loaded every time you refresh the page. I have the good fortune of having full control over how the filenames are named, and was also lucky in the sense that all the logos had the same dimensions, so it made writing the js pretty painless.</p>
+
+<p>First, I named the logo files uniformly; so, something like this:</p>
+
+{% highlight bash %}
+images/
+    logos/
+        logo1.jpg
+        logo2.jpg
+        logo3.jpg
+        logo4.jpg
+{% endhighlight %} 
+
+<p>Then this is how I did up the HTML/CSS for the <code>img</code> tag itself, approximately:</p>
+
+{% highlight html %}
+<img class="random-logo" src="" width="200px" height="100px" />
+{% endhighlight %} 
+
+<p>Then somewhere below that...</p>
+
+{% highlight html %}
+<script>
+  function getRandomInt(min, max) { 
+    return Math.floor(Math.random() * (max - min + 1)) + min; 
+  }
+
+  var imagePath = "/path/to/images/logos/"; 
+
+  function displayLogo() { 
+    var filename = "logo" + getRandomInt(1, 4).toString() + ".jpg";
+
+    $(".random-logo").attr({ 
+      "src": imagePath + filename, 
+    });
+  }
+
+  $(document).ready(function() { 
+    displayLogo(); 
+  });
+</script>
+{% endhighlight %}
+
+<p>...yeah, I rather shamelessly nicked the function character for character from the <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Math/random">MDN JS reference for Math.random()</a> (I didn't even change its name... but hey, why reinvent the wheel [0]), and also googled around for getting a random image on page load - <a href="http://www.robwalshonline.com/posts/jquery-plugin-random-image-on-page-load/">this one</a> didn't really fit my specific needs (it would probably be more helpful if, for whatever reason, you have lots of different filenames for your logos and can't name them uniformly in the way that I did above), though it did remind me to stick the image path in a variable of its own; <a href="http://briancray.com/posts/simple-image-randomizer-jquery/">this one</a> pointed me towards <code>Math.random()</code>, though I elected not to use the <code>background-image</code> attr.</p>
+
+<p>[0] Though, one of these days when I have a some free time on my hands, I'd like to find out why "[using] <code>Math.round()</code> will give you a non-uniform distribution".</p>

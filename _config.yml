@@ -1,10 +1,24 @@
-# Site settings
-title: Your awesome title
-email: your-email@domain.com
-description: "Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description."
-baseurl: ""
-url: "http://yourdomain.com"
+# Dependencies
+markdown:         redcarpet
+highlighter:      pygments
 
-# Build settings
-markdown: kramdown
-permalink: pretty
+# Permalinks
+permalink:        pretty
+
+# Setup
+title:            Yinsen Miao
+tagline:          'Tech Blogs'
+description:      '<p>This is a sub Tech Blog to Yinsen''s main <a href="http://yinsen.blogs.rice.edu/" target="_blank">Rice Blog</a>. <p> Powered by <a href="http://jekyllrb.com" target="_blank">Jekyll</a> and <a href="https://twitter.com/mdo" target="_blank">@mdo</a>'
+url:              http://yinsenm.github.io/
+baseurl:          '/'
+paginate:         5
+
+author:
+  name:           'Yinsen Miao'
+  url:             http://yinsen.blogs.rice.edu/
+
+# Custom vars
+version:          1.0.1
+
+github:
+  repo:           https://github.com/yinsenm
