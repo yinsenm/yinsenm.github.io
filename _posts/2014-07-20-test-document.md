@@ -1,3 +1,8 @@
+---
+layout: post
+title: test document
+---
+
 Welcome to StackEdit!	{#welcome}
 =====================
 
