@@ -10,6 +10,6 @@ I am 2nd year graduate student from [Department of Statistics](http://statistics
 
 Before [Rice](http://www.rice.edu/), I had my undergraduate time in Applied Mathematics from the School of Science at [Minzu University of China](http://www.muc.edu.cn/). Four years of study in Mathematics gave me chance to acquire some essential theoretical skills.
 
-If you feel interested in my background and like my Blog, please add up my [LinkedIn](www.linkedin.com/in/yinsenm/). We can also get in touch timely by [E-mail](yinsenm@gmail.com).
+If you feel interested in my background and like my Blog, please add up my [LinkedIn](http://www.linkedin.com/in/yinsenm/). We can also get in touch timely by [e-mail](mailto:yinsenm@gmail.com).
 
   [1]: https://lh6.googleusercontent.com/-LCArEpKyaQc/U8x1V4p-OUI/AAAAAAAAARA/FiK9nBp1ZgM/s400/me.jpg "me.jpg"
