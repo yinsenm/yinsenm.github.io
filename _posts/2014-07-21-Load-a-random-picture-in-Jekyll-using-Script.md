@@ -34,11 +34,5 @@ Then add a `Javascript` line somewhere above the description such as [this](http
 {% endhighlight %} 
 
 GitHub's fenced code blocks[^gfm] are also supported with **Prettify** syntax highlighting:
-  [^gfm]: **GitHub Flavored Markdown** (GFM) is supported by StackEdit.
 
-### MathJax
- 
-You can render *LaTeX* mathematical expressions using **MathJax**, as on [math.stackexchange.com][1]:
-
-The *Gamma function* satisfying $\Gamma(n) = (n-1)!\quad\forall
-n\in\mathbb N$ is via the Euler integral
+[^gfm]: **GitHub Flavored Markdown** (GFM) is supported by StackEdit.
