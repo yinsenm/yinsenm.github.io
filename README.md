@@ -1,0 +1,3 @@
+Welcome!
+==========
+This repository is the [Jeklly](http://jekyllrb.com/) background code for my [Blogs](http://yinsenm.github.io/). You can visit my blog by this [link](http://yinsenm.github.io/) and my original Rice Page is also [visitable](http://yinsen.blogs.rice.edu/). If you have any questions about those files and setting up your own website or Blogs using some static web page generator such as [Jeklly], please contact with me by [E-mail](yinsenm@gmail.com) and I am happy to help if I can. : )
