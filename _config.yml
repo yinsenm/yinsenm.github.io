@@ -8,7 +8,7 @@ permalink:        pretty
 # Setup
 title:            Yinsen Miao
 tagline:          'Tech Blogs'
-description:      '<p>This is a sub Tech Blog to Yinsen''s main <a href="http://yinsen.blogs.rice.edu/" target="_blank">Rice Blog</a>. <p> Powered by <a href="http://jekyllrb.com" target="_blank">Jekyll</a> and designed by <a href="https://twitter.com/mdo" target="_blank">@mdo</a>.'
+description:      'Powered by <a href="http://jekyllrb.com" target="_blank">Jekyll</a> and <a href="https://twitter.com/mdo" target="_blank">@mdo</a>.'
 url:              http://yinsenm.github.io/
 baseurl:          '/'
 paginate:         5

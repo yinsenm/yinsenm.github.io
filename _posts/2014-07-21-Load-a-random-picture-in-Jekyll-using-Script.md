@@ -2,7 +2,7 @@
 layout: post
 title: Load a random picture in Jekyll using Script
 ---
-It is frustrating for the user to see the same content with different visits. Suppose we want to direct the user to a `404` page if certain link is broken. It might be comforting, if we can show him or her different `404` pages such as this [example](/404). We can load `404` pages with random pictures on it by using a little bit of `Java script`.
+It is frustrating for the user to see the same content with different visits. Suppose we want to direct the user to a `404` page if certain link is broken. It might be comforting, if we can show him or her different `404` pages such as this [example](/404). We can load `404` pages with random pictures on it by using a little bit of `Javascript`.
 
 Following those the two steps, We can accomplish this task.
 
