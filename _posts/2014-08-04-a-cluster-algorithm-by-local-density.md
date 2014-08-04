@@ -5,13 +5,7 @@ title: A Cluster Algorithm by Local Density
 ##Introduction##
 The approach bases on the idea that cluster centers are characterized by a higher density than their neighbors and by a relatively large distance from points with higher density. Clusters with an arbitrary shape are easily detected by approaches on local density of data points.
 
-----------
-
-_Table of Content_
-
-[TOC]
-
-----------
+{:toc}
 
 ###Assumption###
 Cluster centers are surrounded by neighbors with lower local density and that they are at a relative large distance from any points with a higher local density.
