@@ -24,7 +24,7 @@ where
     \end{cases}
 \]` and `\( d_{c} \)` is a cutoff distance. Basically, `\( \rho_{i} \)` is equal to the number of points that are closer than `\( d_{c} \)` to point `\( i \)`. The algorithm is sensitive only to the relative maginitude of `\( \rho_{i} \)` in different points, implying that, for large data sets, the results of the analysis are robust with respect to the choice of `\( d_{c} \)`.
 
-$\delta_{i}$ is measured by computing the minimum distance between the point $i$ and other points with higher density than point $i$:
+`\(\delta_{i}\)` is measured by computing the minimum distance between the point `\(i\)` and other points with higher density than point `\(i\)`:
 `\[
     \delta_{i} = \min_{j:\rho{j}>\rho{i}}(d_{ij})
 \]`
