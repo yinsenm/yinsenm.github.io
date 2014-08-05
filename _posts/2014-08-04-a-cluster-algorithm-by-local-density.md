@@ -26,7 +26,7 @@ where
 
 `\(\delta_{i}\)` is measured by computing the minimum distance between the point `\(i\)` and other points with higher density than point `\(i\)`:
 `\[
-    \delta_{i} = \min_{j:\rho{j}>\rho{i}}(d_{ij})
+    \delta_{i} = \min_{j:\rho_{j}>\rho_{i}}(d_{ij})
 \]`
 For the point with highest density, we conventionally take `\( \delta_{i}=\max_{j}(d_{ij}) \)`
 
