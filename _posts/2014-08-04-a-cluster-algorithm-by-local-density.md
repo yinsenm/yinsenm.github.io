@@ -5,19 +5,18 @@ title: A Cluster Algorithm by Local Density
 ##Introduction##
 The approach bases on the idea that cluster centers are characterized by a higher density than their neighbors and by a relatively large distance from points with higher density. Clusters with an arbitrary shape are easily detected by approaches on local density of data points.
 
-# Contents
-{:.no_toc}
+{:toc}
 
 ###Assumption###
 Cluster centers are surrounded by neighbors with lower local density and that they are at a relative large distance from any points with a higher local density.
 
 ###Process [^1]###
-For each data point $i$, we compute two quantities: its local density $\rho_{i}$ and its distance $\delta_{i}$ from points of higher density. Both these quantities depend on the distance $d_{ij}$ between data points, which are assumed to satisfy the triangular inequality. 
+For each data point \\(i\\), we compute two quantities: its local density $\rho_{i}$ and its distance $\delta_{i}$ from points of higher density. Both these quantities depend on the distance $d_{ij}$ between data points, which are assumed to satisfy the triangular inequality. 
 
 The local density $\rho_{i}$ is defined as
-\\begin{equation*}
+\\[
 \rho_{i}=\sum_{j}\chi\(d_{ij}-d_{c}\)
-\\end{equation*}
+\\]
 where
 \\[
 \chi(x) = 
