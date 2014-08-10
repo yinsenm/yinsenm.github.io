@@ -24,7 +24,7 @@ Then we add a litte Javascript code to the `404.html` page which is in the root 
 Then add a `Javascript` line somewhere above the description such as [this](https://github.com/yinsenm/yinsenm.github.io/blob/master/404.html).
 
 {% highlight html %}
-<script>
-    document.write("<img src = \"/figure/404/fig (" + Math.floor(1 + Math.random()*8) + ").png\"/>");
-</script>
+	<script>
+	    document.write("<img src = \"/figure/404/fig (" + Math.floor(1 + Math.random()*8) + ").png\"/>");
+	</script>
 {% endhighlight %}
