@@ -11,7 +11,7 @@ tagline:          'Tech Blogs'
 description:      'Powered by <a href="http://jekyllrb.com" target="_blank">Jekyll</a> and <a href="https://twitter.com/mdo" target="_blank">@mdo</a>.'
 url:              http://yinsenm.github.io/
 baseurl:          '/'
-paginate:         5
+paginate:         1
 
 author:
   name:           'Yinsen Miao'
