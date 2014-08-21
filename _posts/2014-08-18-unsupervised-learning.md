@@ -1,92 +1,153 @@
 ---
 layout: post
-title: Unsupervised learning of the KDD99 dataset 
+title: Local Density versus k-means Performance on KDD 99 dataset
 ---
 
-Visualize the a normalized 10K subset of [KDD99](http://kdd.ics.uci.edu/databases/kddcup99/kddcup99.html) via PCoA.
+I did a comparison between two clustering methods. One method is from a recent science paper called [Clustering by fast search and find of density peaks](http://www.sciencemag.org/content/344/6191/1492.abstract) and the other is [k-means](http://en.wikipedia.org/wiki/K-means_clustering). Based on visual inspection and clustered result's summary, the local density wins. However, in terms of computation complexity and memory spending, k-means seems to be better at manipulating big data set than local density method.
 
-* Randomly subset 10K of $$\frac{1}{10}$$ of KDD as $$M_{1}$$. 
-* Normalize dataset $$M_{1}$$ by row as $$M_{2}$$.
-* Calculate pairwise distance matrix $$D$$ between columns in $$M_{2}$$.
-* Use PCoA to decompose $$D$$ into $$Y$$ and select the top $$2$$ columns.
-* Plot the dataset with original labels
+<!-- MarkdownTOC depth=0 -->
+
+- [Cluster by local density](#1)
+- [K-means](#2)
+- [Comparison on KDD99](#3)
+   - [Data Visualization](#3.1)
+   - [Local Density](#3.2)
+   - [K-means: K = 5](#3.3)
+   - [K-means: K = 3](#3.4)
+
+<!-- /MarkdownTOC -->
+
+
+## Cluster by local density[1]
+
+Rodriguez and Laio hypothesized that cluster centers are recognized as local density maxima that are far away from any points of higher density. Then they defined two metrics $$\rho$$ and $$\delta$$ to measure the cluster's above attributes (local density and distance to another cluster of higher density) and pick the observation that have both larger $$\rho$$ and $$\delta$$ as cluster center. Please refer to [the paper](http://www.sciencemag.org/content/344/6191/1492.abstract) or my previous summary [post](http://yinsenm.github.io/2014/08/04/a-cluster-algorithm-by-local-density/) for details.
+
+## K-means[2]
+
+K-means randomly initializes $$K$$ observations as the center cluster. Then it iterates the following assignment and update processes and stops when assignments no longer change or iteration number goes beyond predefined iteration threshold.
+
+Variable|Definition|Type
+---|---|---
+$$\underline{x}$$|Observation vector|Feature Vector
+$$S_{i}^{t}$$|Observations cluster $$i$$ contains at $$(t)$$th iteration|Set
+$$\underline{m}_{i}^{(t)}$$|$$i$$th cluster center at $$(t)$$th iteration|Feature Vector
+
+**Initial step:**  Randomly pick $$k$$ observations as cluster centers (or cluster means) $$\underline{m}_{1}^{(1)},\underline{m}_{2}^{(1)},\cdots,\underline{m}_{k}^{(1)}$$. Cluster mean is defined as the average of all observations in that cluster: 
+
+$$
+\begin{equation}
+\underline{m}_{i}=\frac{1}{\left\Vert S_{i} \right\Vert_{0}}\sum_{\underline{x}\in S_{i}}\underline{x}
+\end{equation}
+$$
+
+where $$\left\Vert S_{i} \right\Vert_{0}$$ counts the number of observations in set $$i$$. 
+
+
+**Assignment step:**
+
+$$
+\begin{equation}
+S_{i}^{(t)} = \left\{ \underline{x}\mid \lVert \underline{x} -\underline{m}_{i}^{(t-1)} \rVert^{2} \leq \lVert \underline{x} -\underline{m}_{j}^{(t-1)} \rVert^{2}\right\} 
+\end{equation}
+$$
+
+where $$S_{i}^{t}$$ is what cluster $$i$$ contains at $$(t)$$th iteration. The above formula tells us to assign observation $$\underline{x}$$ to its nearest cluster center $$i$$.
+
+**Update step:**
+Calculate new mean or update cluster center after the assignment step.
+
+$$
+\begin{equation}
+\underline{m}_{i}^{(t+1)}=\frac{1}{\left\Vert S_{i}^{(t)} \right\Vert_{0}}\sum_{\underline{x}\in S_{i}^{(t)}}\underline{x}
+\end{equation}
+$$
+
+The algorithm can only converge to a local minimum, since the optimization  problem k-mean tries to solve is NP hard. k-means tries to find the optimal sets $$\mathbb{S}=\{S_{1},{S_2},\cdots,S_{k}\}$$ that minimizes the within-cluster sum of squares. However, we can run k-means many times and pick the best one that minimize the following.
+
+------------
+
+$$
+\begin{equation}
+\underset{\mathbb{S}}{argmin} \sum_{i=1}^{k} \sum_{\underline{x}\in S_{i}}\left\Vert \underline{x} - \underline{m}_{i} \right\Vert^{2}
+\end{equation}
+$$
+
+------------
+
+## Comparison on KDD99[3]
+
+[KDD99](http://kdd.ics.uci.edu/databases/kddcup99/kddcup99.html) is a network security dataset. I used the [10 percent training subset](http://kdd.ics.uci.edu/databases/kddcup99/kddcup.data_10_percent.gz) which is of dimension $$494021 \times 42$$. I disregarded all categorical variables, since they bring some trouble in my following data visualization. 
+
+For the local density method, I minorly revised the matlab code provided in their paper since I didn't want to calculate the halo of cluster (I think the cluster halo or outliers are defined as the controversial points between clusters that can be assigned to two or more clusters. In their original code, they assign a point as cluster halo if its density $$\rho$$ is below the cluster center's neighborhood average density). Because the method needs to calculate observations' pairwise distance, it has to save at least $$N(N-1)/2$$ numbers for the distance matrix $$D$$. However, `matlab`'s maximum memory for storing a  vector is [677 MB](http://www.mathworks.com/help/matlab/ref/memory.html) in a 32-bit system. I have to give up by randomly sampling only 10K of that subset and my comparison is based on a subset with sampling seed `2014`. You can set the seed and reproduce my result exactly via:
+
 
 {% highlight matlab %}
->> M2 = normr(M1);
->> D = pdist(M2,'euclidean'); 
+rng(2014);
+idx = randsample(size(M,1), 10000);
+{% endhighlight %} 
+
+For the k-means part, I used `matlab`'s build-in [kmeans](http://www.mathworks.com/help/stats/kmeans.html) function and replicated the algorithm for 1000 times to select the best solution.
+
+### Data Visualization[3.1]
+
+I used [PCoA](http://en.wikipedia.org/wiki/PCoA) to reconstruct the spacial relationship between different points by their distance matrix $$D$$. In `matlab`, you can realize [PCoA](http://en.wikipedia.org/wiki/PCoA) using [cmdscale](http://www.mathworks.com/help/stats/cmdscale.html), pass the distance matrix $$D$$ to it and it will return a reduced dimension matrix $$Y$$ and $$Y^{T}Y$$'s eigen values. If the first 2 eigen values are comparable larger than the rest, we can safely preserve large information for visualization by the first 2 vectors in matrix $$Y$$ while discarding the minor one. You can also use [mdscale](http://www.mathworks.com/help/stats/mdscale.html) which preforms nonmetric multidimensional scaling on the dissimilarity matrix $$D_{n \times n}$$ (distance matrix is one type of dissimilarity matrix).
+
+
+{% highlight matlab %}
 >> [Y,eigvals] = cmdscale(D);
->> eigvals(1:6)
+>> eigvals(1:4)
+
 ans =
 
    1.0e+03 *
 
-   1.978672284362840
-   1.356004445388113
-   0.275720798037440
-   0.218854479696284
-   0.155187763185168
-   0.065183380944231
+    1.9623
+    1.3507
+    0.2575
+    0.1995
 {% endhighlight %} 
 
-Select the columns with the largest 2 eigen values and plot the 2D graph colored by the original labeling as shown below.
+Since $$1.9623$$ and $$1.3507$$ are much larger than the rest, we can visualize using the first two vectors in $$Y$$. All data points are colored by their ground truth and there are [five categories](http://cseweb.ucsd.edu/~elkan/tabulate.html) summarized in the table below.
 
-![kddraw](/assets/unsupervised/kddraw.png)
+![The ground truth picture](/figure/kdd99/groundtruth.png)
 
------------------
+Code|Type of attack|Number|Color
+---|---|---|---
+1|normal|1984|Blue
+2|probe|73|Green
+3|denial of service (DOS)|7941|Yellow
+4|user-to-root (U2R)|0|NA
+5|remote-to-local (R2L)|2|Red
 
-After regularizing labels by [five types](http://cseweb.ucsd.edu/~elkan/tabulate.html) by the following criteria, again we plot the their labels.
+![Cluster Result 1](/figure/kdd99/clusterR1.png)
 
-Code|Type of attack
----|---
-1|normal
-2|probe
-3|denial of service (DOS)
-4|user-to-root (U2R)
-5|remote-to-local (R2L)
+### Local Density[3.2]
 
-{% highlight matlab %}
-for i = 1:length(Y)
-	ic=int8(((Lc(i)+1)*64.)/(5*1.));
-	hold on;
-	plot(Y(i,1), Y(i,2), 'o', 'MarkerSize', 5, 'MarkerFaceColor', cmap(ic,:), 'MarkerEdgeColor',cmap(ic,:));
-end
-xlabel('X');
-ylabel('Y');
-{% endhighlight %} 
+Cluster|Color|Elements|C1|C2|C3|C4|C5|Purity
+---|---|---|---|---|---|---|---
+1|Blue|6107|289|1|5817|0|0|0.9525
+2|Yellow|2230|58|48|2124|0|0|0.9525
+3|Red|1663|1637|24|0|0|2|0.9844
+**Total**||10K|
 
-![grouped](/assets/unsupervised/grouped_labeled_color.png)
+### K-means: K = 5[3.3]
 
-----------------
+Cluster|Color|Elements|C1|C2|C3|C4|C5|Purity
+---|---|---|---|---|---|---|---
+1|Blue|644|617|24|3|0|0|0.9581
+2|Green|359|294|1|64|0|0|0.8189
+3|Yellow|2216|47|48|2121|0|0|0.9571
+4|Orange|5757|4|0|5753|0|0|0.9993
+5|Red|1024|1022|0|0|0|2|0.9998
+**Total**||10K|
 
-Perform the unsupervised learning with parameter $$dc = 0.039290$$ (actually I tried a lot of $$dc$$ selected by datapercentage such as 22, 25, 28. The following is the best result gained). The learned results are:
+![Cluster Result 2](/figure/kdd99/clusterR2.png)
 
-{% highlight matlab %}
-NUMBER OF CLUSTERS: 5 
-Performing assignation
-Calclate halo of the cluster
-CLUSTER: 1 CENTER: 3 ELEMENTS: 4905 CORE: 4905 HALO: 0 
-CLUSTER: 2 CENTER: 825 ELEMENTS: 1091 CORE: 1091 HALO: 0 
-CLUSTER: 3 CENTER: 4263 ELEMENTS: 1241 CORE: 1179 HALO: 62 
-CLUSTER: 4 CENTER: 8039 ELEMENTS: 1743 CORE: 1081 HALO: 662 
-CLUSTER: 5 CENTER: 9252 ELEMENTS: 1020 CORE: 1020 HALO: 0 
-{% endhighlight %} 
+### K-means: K = 3[3.4]
 
-### Sci Versus Kmeans
-![sci versus kmeans](/assets/unsupervised/kmeans-sc-label.png)
-
-Groundtruth Profile
-
-Code|Type of attack|Number
----|---|---
-1|normal|2041
-2|probe|82
-3|denial of service (DOS)|7874
-4|user-to-root (U2R)|2
-5|remote-to-local (R2L)|1
-
-
-### Sci histogram
-![sci performance](/assets/unsupervised/sci.png)
-
-### Kmeans histogram
-![kmeans performance](/assets/unsupervised/kmeans.png)
+Cluster|Color|Elements|C1|C2|C3|C4|C5|Purity
+---|---|---|---|---|---|---|---
+1|Blue|1543|1152|19|0|0|2|0.9863
+2|Yellow|2340|168|48|2124|0|0|0.9076
+3|Red|6117|294|6|5817|0|0|0.9510
+**Total**||10K|
