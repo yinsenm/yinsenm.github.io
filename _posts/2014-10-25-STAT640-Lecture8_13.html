@@ -1,0 +1,1827 @@
+---
+layout: post
+title: STAT 640 Lecture 8-13
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta name="generator" content="http://www.nongnu.org/elyxer/"/>
+<meta name="create-date" content="2014-10-26"/>
+<link rel="stylesheet" href="{{ site.baseurl }}public/css/lyx.css">
+<!-- <link rel="stylesheet" href="http://elyxer.nongnu.org/lyx.css" type="text/css" media="all"/> -->
+<title>Converted document</title>
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+</head>
+<body>
+<div id="globalWrapper">
+<script type="math/tex">
+\newcommand{\lyxlock}{}
+</script>
+<noscript>
+<div class="warning">
+Warning: <a href="http://www.mathjax.org/">MathJax</a> requires JavaScript to correctly process the mathematics on this page. Please enable JavaScript on your browser.
+</div><hr/>
+</noscript>
+<div class="fulltoc">
+<div class="tocheader">
+Table of Contents
+</div>
+<div class="tocindent">
+<div class="toc">
+<a class="Link" href="#toc-Section-1">Section 1: Lecture 08</a>
+</div>
+<div class="tocindent">
+<div class="toc">
+<a class="Link" href="#toc-Subsection-1.1">Subsection 1.1: LDA</a>
+</div>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Section-2">Section 2: Lecture 09</a>
+</div>
+<div class="tocindent">
+<div class="toc">
+<a class="Link" href="#toc-Subsection-2.1">Subsection 2.1: MLE</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsection-2.2">Subsection 2.2: Logistics Regression</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsection-2.3">Subsection 2.3: Inference</a>
+</div>
+<div class="tocindent">
+<div class="toc">
+<a class="Link" href="#toc-Subsubsection-2.3.1">Subsubsection 2.3.1: Wald test </a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsubsection-2.3.2">Subsubsection 2.3.2: LRT</a>
+</div>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsection-2.4">Subsection 2.4: Multiple classes</a>
+</div>
+<div class="tocindent">
+<div class="toc">
+<a class="Link" href="#toc-Subsubsection-2.4.1">Subsubsection 2.4.1: GLM</a>
+</div>
+</div>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Section-3">Section 3: Lecture 09</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Section-4">Section 4: Lecture 10</a>
+</div>
+<div class="tocindent">
+<div class="toc">
+<a class="Link" href="#toc-Subsection-4.1">Subsection 4.1: Duality Theory</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsection-4.2">Subsection 4.2: KKT condition</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsection-4.3">Subsection 4.3: Multiple Classification SVMs</a>
+</div>
+<div class="tocindent">
+<div class="toc">
+<a class="Link" href="#toc-Subsubsection-4.3.1">Subsubsection 4.3.1: One vs. One classifier</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsubsection-4.3.2">Subsubsection 4.3.2: One vs. all</a>
+</div>
+</div>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Section-5">Section 5: Lecture 12</a>
+</div>
+<div class="tocindent">
+<div class="toc">
+<a class="Link" href="#toc-Subsection-5.1">Subsection 5.1: Non  Linear SVM</a>
+</div>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Section-6">Section 6: Lecture 13</a>
+</div>
+<div class="tocindent">
+<div class="toc">
+<a class="Link" href="#toc-Subsection-6.1">Subsection 6.1: Prediction Error</a>
+</div>
+</div>
+</div>
+
+</div>
+<h1 class="Section">
+<a class="toc" name="toc-Section-1">1</a> Lecture 08
+</h1>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-1.1">1.1</a> LDA
+</h2>
+<div class="Standard">
+<span class="MathJax_Preview"><script type="math/tex">
+X\mid Y\sim N\left(\mu_{k},\Sigma\right)
+</script>
+</span> common covariance to all classes. 
+</div>
+<ol>
+<li>
+MLES for <span class="MathJax_Preview"><script type="math/tex">
+\mu_{k}
+</script>
+</span> <span class="MathJax_Preview"><script type="math/tex">
+\pi_{k}
+</script>
+</span> and <span class="MathJax_Preview"><script type="math/tex">
+\Sigma
+</script>
+</span> <span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{eqnarray*}
+\hat{\pi}_{k} & = & \dfrac{n_{k}}{n}\\
+\hat{\mu}_{k} & = & \dfrac{1}{n_{k}}\sum_{i\in C\left(k\right)}x_{i}\\
+\hat{\Sigma} & = & \dfrac{1}{n-k}\sum_{i\in C\left(x\right)}\left(x_{i}-\hat{\mu}_{k}\right)\left(x_{i}-\hat{\mu}_{k}\right)^{T}
+\end{eqnarray*}
+</script>
+
+</span>
+
+</li>
+<li>
+Discriminant Functions<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{eqnarray*}
+\log P\left(Y=k\mid X\right) & = & \log P\left(Y=k^{'}\mid X\right)\\
+ & = & \log\hat{\pi}_{k}-\log\hat{\pi}_{k^{'}}-\dfrac{1}{2}\hat{\mu}_{k}\hat{\Sigma}^{-1}\hat{\mu}_{k}^{T}+\dfrac{1}{2}\hat{\mu}_{k^{'}}\hat{\Sigma}^{-1}\hat{\mu}_{k^{'}}^{T}+X^{T}\hat{\Sigma}^{-1}\left(\hat{\mu}_{k}-\hat{\mu}_{k^{'}}\right)
+\end{eqnarray*}
+</script>
+
+</span>
+which is a linear. If<span class="MathJax_Preview"><script type="math/tex">
+DF>0
+</script>
+</span>, then class <span class="MathJax_Preview"><script type="math/tex">
+K
+</script>
+</span>. If <span class="MathJax_Preview"><script type="math/tex">
+DF<0
+</script>
+</span>, then class <span class="MathJax_Preview"><script type="math/tex">
+K^{'}
+</script>
+</span>. 
+</li>
+<li>
+Interpretation: <span class="MathJax_Preview"><script type="math/tex">
+X^{T}\Sigma^{-1}
+</script>
+</span> &ldquo;Sphering <span class="MathJax_Preview"><script type="math/tex">
+X
+</script>
+</span>&rdquo; <span class="MathJax_Preview"><script type="math/tex">
+\approx
+</script>
+</span> Sphering data using <span class="MathJax_Preview"><script type="math/tex">
+\hat{\Sigma}
+</script>
+</span> and apply the Naive Bayes rule.
+</li>
+<li>
+3 kinds of equivalent formulations of LDA.<ol>
+<li>
+Bayes Classifier with MVN covs
+</li>
+<li>
+Fisher’s Discriminant analysis<br/>
+Optimization problem: <span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+
+\max_{v_{j}}v_{j}^{T}\Sigma_{B}v_{j}\text{ sub to }v_{i}^{T}\Sigma_{w}v_{i}=1\text{ and }v_{i}^{T}\Sigma_{w}v_{j}=0
+
+</script>
+
+</span>
+<span class="MathJax_Preview"><script type="math/tex">
+\Sigma_{B}
+</script>
+</span>: between class covariance, <span class="MathJax_Preview"><script type="math/tex">
+\Sigma_{W}
+</script>
+</span> within class covariance.<span class="MathJax_Preview"><script type="math/tex">
+\Sigma_{T}=\Sigma_{B}+\Sigma_{W}
+</script>
+</span> and <span class="MathJax_Preview"><script type="math/tex">
+v_{j}
+</script>
+</span>: Fisher’s Discriminant vectors <br/>
+Generalized eigenvalues problem: FDA <span class="MathJax_Preview"><script type="math/tex">
+V_{p\times k}
+</script>
+</span> FD directions eigenvalues decomposition on the <span class="MathJax_Preview"><script type="math/tex">
+\Sigma_{W}^{-1}\Sigma_{B}
+</script>
+</span> . <span class="MathJax_Preview"><script type="math/tex">
+LDA\rightleftarrows NB\text{ to }Z=XV\rightleftarrows NB\text{ on sphering the data where Z is fisher discriminant score}
+</script>
+</span>.<br/>
+Interpretation:<ol>
+<li>
+major pattern in a supervised manner<ol>
+<li>
+Visualize Classification problem
+</li>
+
+</ol>
+
+</li>
+
+</ol>
+
+</li>
+<li>
+Generalized eigenvalues
+</li>
+<li>
+Optimal Scoring which relates <span class="MathJax_Preview"><script type="math/tex">
+LDA
+</script>
+</span> with linear regression.<ol>
+<li>
+<span class="MathJax_Preview"><script type="math/tex">
+Y_{n\times k}
+</script>
+</span> is an indicator matirx for class <span class="MathJax_Preview"><script type="math/tex">
+k
+</script>
+</span><span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+
+\min_{\theta,\beta}\left\Vert Y\theta-X\beta\right\Vert _{2}^{2}\text{ sub to }\theta_{j}^{T}Y^{T}Y\theta_{j}=1\text{ and }\theta_{j}^{T}Y^{T}Y\theta_{i}=0
+
+</script>
+
+</span>
+where <span class="MathJax_Preview"><script type="math/tex">
+\theta_{k\times1}
+</script>
+</span> (optimal numerical coding for each class) constraint to be orthogonal with respective to <span class="MathJax_Preview"><script type="math/tex">
+Y
+</script>
+</span> . And then use that coding for least square <span class="MathJax_Preview"><script type="math/tex">
+\beta_{p\times1}
+</script>
+</span> .
+</li>
+<li>
+equivalent to <span class="MathJax_Preview"><script type="math/tex">
+LDA
+</script>
+</span> and <span class="MathJax_Preview"><script type="math/tex">
+FDA
+</script>
+</span>.
+</li>
+<li>
+But often be used for we can add penalty on the loss function
+</li>
+
+</ol>
+
+</li>
+
+</ol>
+
+</li>
+<li>
+LDA assume common covariance for each class but it is not true always. <span class="MathJax_Preview"><script type="math/tex">
+QDA
+</script>
+</span> is <span class="MathJax_Preview"><script type="math/tex">
+X\mid Y=k\sim N\left(\mu_{k},\Sigma_{k}\right)
+</script>
+</span> then our DF is <span class="MathJax_Preview"><script type="math/tex">
+\propto\left(X-\mu_{k}\right)^{T}\Sigma^{-1}\left(X-\mu_{k}\right)
+</script>
+</span> which is equivalent to sphere each class with respective to its covariance <span class="MathJax_Preview"><script type="math/tex">
+\Sigma_{k}
+</script>
+</span> and do <span class="MathJax_Preview"><script type="math/tex">
+NB
+</script>
+</span> classifier Rule.<ol>
+<li>
+Bad: # number of parameters. We need to estimate <span class="MathJax_Preview"><script type="math/tex">
+k\binom{p}{2}+kp+k
+</script>
+</span> parameters.
+</li>
+<li>
+In between LDA and QDA (Shrinkage Cov. Estimator) (Regularized Discriminant Analysis, Flexible DA)<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+
+\hat{\Sigma}_{k}\left(\alpha\right)=\alpha\hat{\Sigma}_{k}+\left(1-\alpha\right)\hat{\Sigma}_{W}
+
+</script>
+
+</span>
+where <span class="MathJax_Preview"><script type="math/tex">
+\alpha\in\left[0,1\right]
+</script>
+</span>. When <span class="MathJax_Preview"><script type="math/tex">
+\alpha=0
+</script>
+</span>, it leads to <span class="MathJax_Preview"><script type="math/tex">
+LDA
+</script>
+</span>. Other leads to <span class="MathJax_Preview"><script type="math/tex">
+QDA
+</script>
+</span>. 
+</li>
+
+</ol>
+
+</li>
+<li>
+Advantages<ol>
+<li>
+Gaussian wins
+</li>
+<li>
+Simple <span class="MathJax_Preview"><script type="math/tex">
+\text{\rightarrow}
+</script>
+</span> Linear
+</li>
+<li>
+Visualize data
+</li>
+
+</ol>
+
+</li>
+<li>
+Disadvantages<ol>
+<li>
+Linear / Model Assumptions
+</li>
+<li>
+<span class="MathJax_Preview"><script type="math/tex">
+p\gg n
+</script>
+</span> can’t even compute the covariance matrix! Then we can use linear penalty.
+</li>
+
+</ol>
+
+</li>
+
+</ol>
+<h1 class="Section">
+<a class="toc" name="toc-Section-2">2</a> Lecture 09
+</h1>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-2.1">2.1</a> MLE
+</h2>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{eqnarray*}
+\min_{\beta}\dfrac{1}{2}\left\Vert y-X\beta\right\Vert _{2}^{2} &  & y\in\mathbb{R},X_{n\times p},\underline{\beta}\in R^{p}\\
+\hat{\beta}_{ols} & = & \left(XX\right)^{-1}Xy
+\end{eqnarray*}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+Assume <span class="MathJax_Preview"><script type="math/tex">
+y_{i}\overset{iid}{\sim}N\left(\mu,\theta^{2}\right)
+</script>
+</span> <span class="MathJax_Preview"><script type="math/tex">
+\mu=X_{i}\beta
+</script>
+</span>
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{eqnarray*}
+\max_{\beta,\theta^{2}}L\left(\beta,\theta^{2}\right) & = & \prod_{i=1}^{n}f\left(y_{i}\right)\\
+ & = & \prod_{i=1}^{n}\dfrac{1}{\sqrt{2\pi}\theta}\exp-\dfrac{\left(y_{i}-X_{i}\beta\right)^{2}}{2\theta}\\
+\hat{\beta}_{MLE} & = & \hat{\beta}_{OLS}
+\end{eqnarray*}
+</script>
+
+</span>
+
+</div>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-2.2">2.2</a> Logistics Regression
+</h2>
+<div class="Standard">
+Assume <span class="MathJax_Preview"><script type="math/tex">
+y_{i}\sim Bernolli\left(p\right)
+</script>
+</span>
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{eqnarray*}
+f\left(y_{i}\right) & = & p_{i}^{y_{i}}\left(1-p_{i}\right)^{1-y_{i}}\text{ where }y_{i}\in\left\{ 0,1\right\} \\
+E\left[y_{i}\right] & = & p_{i}\in\left[0,1\right]\overset{set}{\ne}X_{i}^{T}\beta\in\left(-\infty,\infty\right)
+\end{eqnarray*}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+We want to define a link function <span class="MathJax_Preview"><script type="math/tex">
+g:\left[0,1\right]\rightarrow\mathbb{R}
+</script>
+</span> to match the domain above. One such <span class="MathJax_Preview"><script type="math/tex">
+g
+</script>
+</span> is the logit function
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{eqnarray*}
+g\left(z\right) & = & \log\left(\dfrac{z}{1-z}\right)\text{ where }z\in\left(0,1\right)\\
+g\left[E\left[y_{i}\right]\right] & \overset{set}{=} & X_{i}^{T}\beta\\
+g\left(p_{i}\right) & = & X_{i}^{T}\beta\text{ or }\\
+logit\left(p_{i}\right) & = & X_{i}^{T}\beta\\
+\log\left(\dfrac{p_{i}}{1-p_{i}}\right) & = & X_{i}^{T}\beta\\
+\dfrac{p_{i}}{1-p_{i}} & = & \exp\left(X_{i}^{T}\beta\right)\\
+p_{i} & = & \dfrac{e^{X_{i}^{T}\beta}}{1+e^{X_{i}^{T}\beta}}\\
+g^{-1}\left(z\right) & = & \dfrac{e^{z}}{1+e^{z}}\text{ logistic function}
+\end{eqnarray*}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+The Likelihood function is <span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{eqnarray*}
+L\left(\beta\right) & = & \prod_{i=1}^{n}f\left(y_{i}\right)\\
+ & = & \prod_{i=1}^{n}p_{i}^{y_{i}}\left(1-p_{i}\right)^{1-y_{i}}\\
+ & = & \prod_{i=1}^{n}\left[\dfrac{e^{X_{i}^{T}\beta}}{1+e^{X_{i}^{T}\beta}}\right]^{y_{i}}\left[1-\dfrac{e^{X_{i}^{T}\beta}}{1+e^{X_{i}^{T}\beta}}\right]^{\left(1-y_{i}\right)}
+\end{eqnarray*}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+Take log then:
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{eqnarray}
+l\left(\beta\right)=\log\left(L\left(\beta\right)\right) & = & \sum_{i=1}^{n}y_{i}\log\left(\dfrac{e^{X_{i}^{T}\beta}}{1+e^{X_{i}^{T}\beta}}\right)+\left(1-y_{i}\right)\log\left(1-\dfrac{e^{X_{i}^{T}\beta}}{1+e^{X_{i}^{T}\beta}}\right)\nonumber \\
+ & = & \sum_{i}y_{i}X_{i}^{T}\beta-\log\left(1+\exp\left(X_{i}\beta\right)\right)\nonumber \\
+\max_{\beta}l\left(\beta\right) & = & \min_{\beta}-l\left(\beta\right)\nonumber \\
+ & := & \min_{\beta}-l\left(\beta\right)+\lambda P\left(\beta\right)\label{eq:2}
+\end{eqnarray}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+Loss function plus penalty. If without penalty, we take partial derivative of Eq <a class="Reference" href="#eq:2">(↓)</a>.
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+
+\dfrac{\partial l}{\partial\beta}=\sum_{i}x_{i}\left(y_{i}-\dfrac{e^{X_{i}^{T}\beta}}{1+e^{X_{i}^{T}\beta}}\right)\overset{set}{=}0
+
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+Use newton’s method iteratively solve <span class="MathJax_Preview"><script type="math/tex">
+\beta
+</script>
+</span>
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+
+\beta^{new}=\beta^{old}-\left[\dfrac{\partial^{2}l}{\partial\beta^{2}}\left(\beta^{old}\right)\right]^{-1}\dfrac{\partial l}{\partial\beta}\left(\beta^{old}\right)
+
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+Proximate solution
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+
+prox_{h}\left(x\right)\overset{def}{=}\underset{u}{argmin}\left(h\left(u\right)+\dfrac{1}{2}\left\Vert u-x\right\Vert _{2}^{2}\right)
+
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{eqnarray*}
+h\left(x\right) & = & I_{C}\left(x\right)=\begin{cases}
+0 & x\in C\\
+\infty & x\notin C
+\end{cases}\\
+prox_{h}\left(x\right) & = & P_{C}\left(x\right)\\
+ & = & \underset{u\in C}{argmin}\left\Vert x^{T}x\le1\right\Vert \\
+C & = & \left\{ x\mid x^{T}x\le1\right\} \\
+h\left(x\right) & = & \lambda\left\Vert x\right\Vert _{1}\\
+prox_{h}\left(x\right) & = & \begin{cases}
+x_{i}-\lambda & x_{i}>\lambda\\
+0 & \left|x_{1}\right|\le\lambda\\
+-x_{i}+\lambda & x_{i}<-\lambda
+\end{cases}
+\end{eqnarray*}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+
+\beta^{new}=prox\left[\beta^{old}+\nabla l\left(\beta^{old}\right)\right]
+
+</script>
+
+</span>
+
+</div>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-2.3">2.3</a> Inference
+</h2>
+<h3 class="Subsubsection">
+<a class="toc" name="toc-Subsubsection-2.3.1">2.3.1</a> Wald test 
+</h3>
+<div class="Standard">
+<span class="MathJax_Preview"><script type="math/tex">
+H_{0}:\beta_{j}=0
+</script>
+</span>
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+
+z=\dfrac{\hat{\beta}_{j}}{SE\left(\hat{\beta}_{j}\right)}\sim AN\left(0,1\right)
+
+</script>
+
+</span>
+
+</div>
+<h3 class="Subsubsection">
+<a class="toc" name="toc-Subsubsection-2.3.2">2.3.2</a> LRT
+</h3>
+<div class="Standard">
+Likelihood ratio test <span class="MathJax_Preview"><script type="math/tex">
+H_{0}:\beta_{q}=\beta_{q+1}=\cdots=\beta_{p}=0
+</script>
+</span>. can be used in model comparison.
+</div>
+<div class="Standard">
+Test goodness of fit between reduced model and full model.
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{eqnarray*}
+\lambda & = & \dfrac{L\left(R\right)}{L\left(F\right)}\\
+-2\log\lambda & \sim & A\chi_{\text{param \# of full - \# of reduced}}^{2}
+\end{eqnarray*}
+</script>
+
+</span>
+
+</div>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-2.4">2.4</a> Multiple classes
+</h2>
+<div class="Standard">
+Extended to <span class="MathJax_Preview"><script type="math/tex">
+y_{i}\in\left\{ 1,\cdots,K\right\} 
+</script>
+</span>. Pick basis class <span class="MathJax_Preview"><script type="math/tex">
+K
+</script>
+</span>.
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{eqnarray*}
+log\left[\dfrac{P\left(Y=1\mid X=x\right)}{P\left(Y=K]\mid X=x\right)}\right] & = & \beta_{1}^{T}X\\
+log\left[\dfrac{P\left(Y=2\mid X=x\right)}{P\left(Y=K]\mid X=x\right)}\right] & = & \beta_{2}^{T}X\\
+ & \vdots\\
+log\left[\dfrac{P\left(Y=K-1\mid X=x\right)}{P\left(Y=K]\mid X=x\right)}\right] & = & \beta_{k-1}^{T}X
+\end{eqnarray*}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+Then we know
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{eqnarray*}
+P\left(Y=1\mid X=x\right) & = & P\left(Y=k\mid X=x\right)e^{\beta_{1}^{T}X}\\
+ & \vdots\\
+P\left(Y=K-1\mid X=x\right) & = & P\left(Y=k\mid X=x\right)e^{\beta_{K-1}^{T}X}
+\end{eqnarray*}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{eqnarray*}
+\sum_{i=1}^{K}P\left(Y=i\mid X=x\right) & = & 1\\
+ & = & P\left(Y=K\mid X=x\right)+P\left(Y=i\mid X=x\right)\left(\sum_{i=1}^{K-1}\exp\left(\beta_{i}^{T}X\right)\right)\\
+P\left(Y=K\mid X=x\right) & = & \dfrac{1}{1+\sum_{i=1}^{k-1}e^{\beta_{i}^{T}X}}\\
+P\left(Y=K\mid X=x\right) & = & \dfrac{e^{\beta_{K}^{T}X}}{1+\sum_{i=1}^{k-1}e^{\beta_{i}^{T}X}}
+\end{eqnarray*}
+</script>
+
+</span>
+
+</div>
+<h3 class="Subsubsection">
+<a class="toc" name="toc-Subsubsection-2.4.1">2.4.1</a> GLM
+</h3>
+<ol>
+<li>
+<span class="MathJax_Preview"><script type="math/tex">
+y
+</script>
+</span> has some data type
+</li>
+<li>
+Find parameter distribution for <span class="MathJax_Preview"><script type="math/tex">
+y
+</script>
+</span>
+</li>
+<li>
+<span class="MathJax_Preview"><script type="math/tex">
+E\left[y\right]
+</script>
+</span>
+</li>
+<li>
+find link function
+</li>
+
+</ol>
+<h1 class="Section">
+<a class="toc" name="toc-Section-3">3</a> Lecture 09
+</h1>
+<div class="Standard">
+Sparse Logistics reference <span class="FootOuter"><span class="SupFootMarker"> [A] </span><span class="HoverFoot"><span class="SupFootMarker"> [A] </span>http://web.stanford.edu/~hastie/glmnet/glmnet_alpha.html</span></span>. Andrew Moore VC dimension <span class="FootOuter"><span class="SupFootMarker"> [B] </span><span class="HoverFoot"><span class="SupFootMarker"> [B] </span>http://www.cs.cmu.edu/~awm/</span></span>.
+</div>
+<div class="Standard">
+Optimal separating Hyperplane. (Linearly Sep Classes) is the Maximum margin classifier. 
+</div>
+<div class="Standard">
+Idea: maximum margin in width between two classes.
+</div>
+<div class="Standard">
+<span class="MathJax_Preview"><script type="math/tex">
+Y_{n\times1}\in\left\{ -1,1\right\} 
+</script>
+</span> Data matrix <span class="MathJax_Preview"><script type="math/tex">
+X_{n\times p}
+</script>
+</span>
+</div>
+<div class="Standard">
+My hyperplane: <span class="MathJax_Preview"><script type="math/tex">
+f\left(x\right)=x^{T}\beta+\beta_{0}=0
+</script>
+</span>
+</div>
+<div class="Standard">
+Plus plane <span class="MathJax_Preview"><script type="math/tex">
+f^{+}\left(x\right)=x^{T}\beta+\beta_{0}=1
+</script>
+</span> and minus plan <span class="MathJax_Preview"><script type="math/tex">
+f^{-}\left(x\right)=x^{T}\beta+\beta_{0}=-1
+</script>
+</span>.
+</div>
+<div class="Standard">
+How do we find the margin <span class="MathJax_Preview"><script type="math/tex">
+M=margin
+</script>
+</span>. 
+</div>
+<div class="Standard">
+We want the normal vector to <span class="MathJax_Preview"><script type="math/tex">
+f\left(x\right)
+</script>
+</span>: <span class="MathJax_Preview"><script type="math/tex">
+\nabla f\left(x\right)=\beta
+</script>
+</span> then the normal vector is <span class="MathJax_Preview"><script type="math/tex">
+\beta/\left\Vert \beta\right\Vert _{2}
+</script>
+</span>
+</div>
+<div class="Standard">
+<span class="MathJax_Preview"><script type="math/tex">
+x^{+}:
+</script>
+</span> <span class="MathJax_Preview"><script type="math/tex">
+x^{+T}\beta+\beta_{0}=1
+</script>
+</span> and <span class="MathJax_Preview"><script type="math/tex">
+x^{-}:
+</script>
+</span> <span class="MathJax_Preview"><script type="math/tex">
+x^{-T}\beta+\beta_{0}=-1
+</script>
+</span> are nearest pionts on +/- plane
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{eqnarray*}
+\left(x^{+}-x^{-}\right)^{T}\beta & = & -2\\
+x^{+} & = & x^{-}+2M\beta/\left\Vert \beta\right\Vert _{2}\\
+M & = & 1/\left\Vert \beta\right\Vert _{2}\\
+\max_{\beta\beta_{0}}M & = & \dfrac{1}{\left\Vert \beta\right\Vert _{2}}\\
+ & \text{sub to}\\
+\text{+ plane} &  & x^{+T}\beta+\beta_{0}\ge1\\
+\text{- plane} &  & x^{-T}\beta+\beta_{0}\le-1
+\end{eqnarray*}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+Or our optimization problem is
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{eqnarray*}
+\min_{\beta\beta_{0}}\left\Vert \beta\right\Vert _{2} & \text{sub to} & y_{i}\left(x_{i}^{T}\beta+\beta_{0}\right)\ge1
+\end{eqnarray*}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+Support vectors points are exactly on the +/- plane <span class="MathJax_Preview"><script type="math/tex">
+\left\{ x\mid y_{i}\left(x_{i}^{T}\beta+\beta_{0}\right)=1\right\} 
+</script>
+</span> (depends on three points on 2 dimension space when <span class="MathJax_Preview"><script type="math/tex">
+p=2
+</script>
+</span>)
+</div>
+<ol>
+<li>
+Could be outlier?
+</li>
+<li>
+Overlapping classes?<ol>
+<li>
+Ideal Take concept of optimal separating hyperplane and all points that don’t satisfies the +/- plane constraints and project them onto the correct hyperplane.
+</li>
+<li>
+slack variable: <span class="MathJax_Preview"><script type="math/tex">
+\xi_{i}=\text{distance to corret +/- plane}
+</script>
+</span>. <span class="MathJax_Preview"><script type="math/tex">
+\xi_{i}=0
+</script>
+</span> <span class="MathJax_Preview"><script type="math/tex">
+\forall i
+</script>
+</span> outside the correct +/- plane. The optimal problem becomes<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+
+\min_{\beta\beta_{0}\xi}\left\Vert \beta\right\Vert _{2}+\gamma\sum_{i}\left(\xi_{i}\right)\text{ sub to }y_{i}\left(x_{i}^{T}\beta+\beta_{0}\right)\ge1-\xi_{i}\text{ where }\xi_{i}>0
+
+</script>
+
+</span>
+When <span class="MathJax_Preview"><script type="math/tex">
+\gamma
+</script>
+</span> small, the margin is large. When <span class="MathJax_Preview"><script type="math/tex">
+\gamma
+</script>
+</span> large, the margin is small. <span class="MathJax_Preview"><script type="math/tex">
+\gamma
+</script>
+</span> can’t be too big.
+</li>
+<li>
+Support vectors (+/- plane)<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+
+\left\{ x_{i}\mid y_{i}\left(x_{i}^{T}\beta+\beta_{0}\right)=1\right\} \rightarrow\xi_{i}=0
+
+</script>
+
+</span>
+<ol>
+<li>
+Inside margins <span class="MathJax_Preview"><script type="math/tex">
+\xi_{i}>0
+</script>
+</span> 
+</li>
+<li>
+Correctly classified <span class="MathJax_Preview"><script type="math/tex">
+0<\xi_{i}\le1
+</script>
+</span>
+</li>
+<li>
+miss classify <span class="MathJax_Preview"><script type="math/tex">
+\xi_{i}>1
+</script>
+</span>
+</li>
+
+</ol>
+
+</li>
+<li>
+Dual SVM problem<ol>
+<li>
+QCQP
+</li>
+<li>
+Claim SVM can be reformulated into Loss function + PenaltyL Hinge Loss<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+
+\min_{\beta\beta_{0}}\sum_{i}\left(1-y_{i}\left(x_{i}^{T}\beta+\beta_{0}\right)\right)_{+}+\lambda\left\Vert \beta\right\Vert _{2}^{2}
+
+</script>
+
+</span>
+
+</li>
+
+</ol>
+
+</li>
+
+</ol>
+
+</li>
+
+</ol>
+<h1 class="Section">
+<a class="toc" name="toc-Section-4">4</a> Lecture 10
+</h1>
+<div class="Standard">
+Linear SVM (2 classes)
+</div>
+<div class="Standard">
+Optimal Separating Hyperplanes: Linearly Sep Classes. Maximum Margin classifier.
+</div>
+<div class="Standard">
+Slack Vars allow points within the margin. <span class="MathJax_Preview"><script type="math/tex">
+M=\dfrac{1}{\left\Vert \beta\right\Vert _{2}}
+</script>
+</span>
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{eqnarray*}
+\min_{\beta\beta_{0}}\dfrac{1}{2}\left\Vert \beta\right\Vert _{2}^{2}+\gamma\left\Vert \xi\right\Vert _{1} & \text{sub to} & y_{i}\left(X_{i}^{T}\beta+\beta_{0}\right)\ge1-\xi_{i}\text{ and }\xi_{i}\ge0,i=1\cdots n
+\end{eqnarray*}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+<span class="MathJax_Preview"><script type="math/tex">
+\gamma\downarrow0
+</script>
+</span> then <span class="MathJax_Preview"><script type="math/tex">
+M\uparrow
+</script>
+</span> or <span class="MathJax_Preview"><script type="math/tex">
+\gamma\uparrow
+</script>
+</span> then <span class="MathJax_Preview"><script type="math/tex">
+M\downarrow
+</script>
+</span>.
+</div>
+<div class="Standard">
+Predicting new points. 
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+
+sign\left(f\left(x_{new}\right)\right)=sign\left(x_{new}^{T}\hat{\beta}+\hat{\beta}_{0}\right)
+
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+Tell how well a point is classified? Just look at value of <span class="MathJax_Preview"><script type="math/tex">
+\left|f\left(x_{new}\right)\right|
+</script>
+</span>.
+</div>
+<div class="Standard">
+SVMs = Loss + Penalty
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+
+\min_{\beta\beta_{0}}\sum_{i=1}^{n}\left[1-y_{i}\left(x_{i}^{T}\beta+\beta_{0}\right)\right]+\lambda\left\Vert \beta\right\Vert _{2}^{2}
+
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+Hinge Loss 
+</div>
+<div class="Standard">
+Logistics Regression
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{eqnarray*}
+-l\left(y,x\beta\right)+\lambda\left\Vert \beta\right\Vert _{2}^{2}\text{ where }y & \in & \left\{ -1,1\right\} \\
+\rightarrow-\log\left(1+e^{-yf\left(x\right)}\right) &  & \text{binomal loss}
+\end{eqnarray*}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+Smooth approximation to the hinge loss (easy to computation, we can take gradient).
+</div>
+<div class="Standard">
+0 errors for well classified points. Give some notion of the sparsity.
+</div>
+<div class="Standard">
+Extension:
+</div>
+<div class="Standard">
+<span class="MathJax_Preview"><script type="math/tex">
+p\gg n
+</script>
+</span> many features. We want to use L1 for sparsity or for variable selection. We can event plot regularization paths.
+</div>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-4.1">4.1</a> Duality Theory
+</h2>
+<div class="Standard">
+Characterize Solution.
+</div>
+<div class="Standard">
+Primal form 
+</div>
+<div class="Standard">
+Lagrange function <span class="MathJax_Preview"><script type="math/tex">
+\rightarrow
+</script>
+</span> wgts on the constraints
+</div>
+<div class="Standard">
+Lagrange dual function, Dual Problem (Lower bound on optimum)
+</div>
+<div class="Standard">
+Optimal Condition: KTT condition
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{eqnarray*}
+L\left(\beta,\beta_{0},\xi,\alpha,\mu\right) & = & \dfrac{1}{2}\left\Vert \beta\right\Vert _{2}^{2}+\gamma\left\Vert \xi\right\Vert _{1}-\\
+ &  & \sum_{i}\alpha_{i}\left[y_{i}\left(x_{i}^{T}\beta+\beta_{0}\right)-\left(1-\xi_{i}\right)\right]-\sum_{i}\mu_{i}\xi_{i}
+\end{eqnarray*}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+where <span class="MathJax_Preview"><script type="math/tex">
+\beta_{0},\beta,\xi
+</script>
+</span> are primary variable and the others are dual variables. We want by taking gradient
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+
+\inf L\left(\beta,\beta_{0},\xi\right)
+
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{eqnarray*}
+\dfrac{\partial L}{\partial\beta} & = & \beta-\sum_{i}\alpha_{i}y_{i}x_{i}=0\\
+\dfrac{\partial L}{\partial\beta_{0}} & = & \sum_{i}\alpha_{i}y_{i}=0\\
+\dfrac{\partial L}{\partial\xi_{i}} & = & \gamma-\alpha_{i}-\mu_{i}=0
+\end{eqnarray*}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+Plug in all parameter functions to the Lagrange function. Notice <span class="MathJax_Preview"><script type="math/tex">
+\mu_{i}
+</script>
+</span>s fall out.
+</div>
+<div class="Standard">
+Dual Problem
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+
+\max_{\alpha}\sum_{i}\alpha_{i}-\dfrac{1}{2}\sum_{i}\sum_{j}\alpha_{i}\alpha_{j}y_{i}y_{j}x_{i}^{T}x_{j}\text{ sub to }\sum_{i}\alpha_{i}y_{i}=0;0\le\alpha_{i}\le\gamma
+
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+<span class="MathJax_Preview"><script type="math/tex">
+\alpha_{n\times1}^{*}\rightleftarrows\beta^{*},\beta_{0}^{*},\xi^{*}
+</script>
+</span>
+</div>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-4.2">4.2</a> KKT condition
+</h2>
+<div class="Standard">
+Primal, dual, complementation, Gradient condition.
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{eqnarray*}
+\text{gradient: } &  & \begin{cases}
+\beta=\sum_{i}\alpha_{i}y_{i}x_{i}\\
+\sum_{i}\alpha_{i}y_{i}=0\\
+\gamma-\alpha_{i}-\mu_{i}=0
+\end{cases}\\
+\text{comp} &  & \mu_{i}\xi_{i}=0\\
+ &  & \alpha_{i}\left[y_{i}\left(x_{i}^{T}\beta+\beta_{0}\right)-\left(1-\xi_{i}\right)\right]=0\\
+\text{primary} &  & \left[y_{i}\left(x_{i}^{T}\beta+\beta_{0}\right)-\left(1-\xi_{i}\right)\right]\ge0;\xi_{i}\ge0\\
+\text{dual} &  & 0\le\alpha_{i}\le\gamma
+\end{eqnarray*}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+<span class="MathJax_Preview"><script type="math/tex">
+\alpha
+</script>
+</span> dual variables
+</div>
+<div class="Standard">
+<span class="MathJax_Preview"><script type="math/tex">
+\alpha_{i}=0
+</script>
+</span> not on or in margin or correctly classified
+</div>
+<div class="Standard">
+<span class="MathJax_Preview"><script type="math/tex">
+\alpha_{i}\ne0
+</script>
+</span> support vectors
+</div>
+<div class="Standard">
+where sparse in observation space or a subset of samples
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{eqnarray*}
+\hat{\beta} & = & \sum_{i\in SV}\hat{\alpha_{i}y_{i}x_{i}}\\
+\hat{\beta}_{0} & = & \dfrac{1}{\left|SV\right|}\left(\sum_{i\in SV}\alpha_{i}-\sum_{i\in SV}\sum_{j\in SV}x_{i}^{T}x_{j}\alpha_{i}y_{i}\right)
+\end{eqnarray*}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+retain a subset or retain only a part of training data.
+</div>
+<div class="Standard">
+Advantage
+</div>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-4.3">4.3</a> Multiple Classification SVMs
+</h2>
+<h3 class="Subsubsection">
+<a class="toc" name="toc-Subsubsection-4.3.1">4.3.1</a> One vs. One classifier
+</h3>
+<div class="Standard">
+<span class="MathJax_Preview"><script type="math/tex">
+\forall i,j\le K
+</script>
+</span>, <span class="MathJax_Preview"><script type="math/tex">
+y_{i}
+</script>
+</span> versus <span class="MathJax_Preview"><script type="math/tex">
+y_{j}
+</script>
+</span> a subset of the data. We need to build <span class="MathJax_Preview"><script type="math/tex">
+\binom{K}{2}
+</script>
+</span> classifiers.
+</div>
+<div class="Standard">
+How to classify a new observation <span class="MathJax_Preview"><script type="math/tex">
+x_{new}
+</script>
+</span>? USE majority voting.
+</div>
+<h3 class="Subsubsection">
+<a class="toc" name="toc-Subsubsection-4.3.2">4.3.2</a> One vs. all
+</h3>
+<div class="Standard">
+Classify <span class="MathJax_Preview"><script type="math/tex">
+Y_{k}
+</script>
+</span> versus <span class="MathJax_Preview"><script type="math/tex">
+Y_{/k}
+</script>
+</span>. K total classifiers.
+</div>
+<div class="Standard">
+Classify based on margin or choose <span class="MathJax_Preview"><script type="math/tex">
+k
+</script>
+</span> <span class="MathJax_Preview"><script type="math/tex">
+\max_{k}\left|f_{k}\left(x_{new}\right)\right|
+</script>
+</span>.
+</div>
+<h1 class="Section">
+<a class="toc" name="toc-Section-5">5</a> Lecture 12
+</h1>
+<div class="Standard">
+SVM Regression
+</div>
+<div class="Standard">
+<span class="MathJax_Preview"><script type="math/tex">
+\epsilon
+</script>
+</span> intensive loss function, less sensitive to outliers and more robust regression.
+</div>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-5.1">5.1</a> Non  Linear SVM
+</h2>
+<div class="Standard">
+SVM Dual <span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{eqnarray*}
+\max_{\alpha_{i}} &  & \sum_{i}\alpha_{i}-\dfrac{1}{\alpha_{i}}\sum_{i}\sum_{j}\alpha_{i}\alpha_{j}y_{i}y_{j}x_{i}^{T}x_{j}\\
+\text{sub to} &  & \sum_{i}\alpha_{i}y_{i}=0;0\le\alpha\le\gamma
+\end{eqnarray*}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+Inner Product: <span class="MathJax_Preview"><script type="math/tex">
+x_{i}^{T}x_{j}
+</script>
+</span> 
+</div>
+<div class="Standard">
+Idea: replace all <span class="MathJax_Preview"><script type="math/tex">
+x_{i}^{T}x_{j}
+</script>
+</span> with some non linear kernel transform: <span class="MathJax_Preview"><script type="math/tex">
+k\left(x_{i},x_{j}\right)
+</script>
+</span> <span class="MathJax_Preview"><script type="math/tex">
+K:X^{p}\times X^{P}\rightarrow\mathbb{R}
+</script>
+</span>.
+</div>
+<div class="Standard">
+Example of Kernels:
+</div>
+<ol>
+<li>
+Inner Product <span class="MathJax_Preview"><script type="math/tex">
+K\left(x,y\right)=x^{T}y
+</script>
+</span>
+</li>
+<li>
+Polynomial <span class="MathJax_Preview"><script type="math/tex">
+K\left(x,y\right)=\left(x^{T}y+1\right)^{d}
+</script>
+</span>
+</li>
+<li>
+Radial Gaussian <span class="MathJax_Preview"><script type="math/tex">
+K\left(x,y\right)=\exp\left(-\left\Vert x-y\right\Vert _{2}^{2}/\sigma\right)
+</script>
+</span> 
+</li>
+<li>
+Sigmodial: <span class="MathJax_Preview"><script type="math/tex">
+K\left(x,y\right)=\tanh\left(x^{T}y+C\right)
+</script>
+</span> 
+</li>
+
+</ol>
+<div class="Standard">
+Where does <span class="MathJax_Preview"><script type="math/tex">
+K\left(x,y\right)
+</script>
+</span> comes from? (Functional Analysis)
+</div>
+<div class="Standard">
+Define kernel <span class="MathJax_Preview"><script type="math/tex">
+K:X^{p}\times X^{p}\rightarrow\mathbb{R}
+</script>
+</span> 
+</div>
+<div class="Standard">
+<span class="MathJax_Preview"><script type="math/tex">
+\phi:\mathcal{X}\rightarrow\mathcal{F}
+</script>
+</span> mapping from domain of data to the function space.
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{eqnarray*}
+K\left(x,y\right) & = & \left\langle \phi\left(x\right),\phi\left(y\right)\right\rangle _{\mathcal{F}}\\
+ & = & \sum_{i}\gamma_{i}\phi_{i}\left(x\right)\phi_{i}\left(y\right)
+\end{eqnarray*}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+<span class="MathJax_Preview"><script type="math/tex">
+\gamma_{i}\ge0
+</script>
+</span> <span class="MathJax_Preview"><script type="math/tex">
+\phi_{i}\left(\right)
+</script>
+</span>s are orthonormal basis functions.
+</div>
+<div class="Standard">
+Intuition: Infinite dimensional inner product.
+</div>
+<div class="Standard">
+Define Reproducing Kernel (Rep Kernel Hilbert Space)
+</div>
+<div class="Standard">
+<span class="MathJax_Preview"><script type="math/tex">
+\forall x\in\mathcal{X}^{p}
+</script>
+</span> and <span class="MathJax_Preview"><script type="math/tex">
+\forall f\in\mathcal{H}_{k}
+</script>
+</span>
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{eqnarray*}
+f\left(x\right) & = & \left\langle f,K\left(\cdot,x\right)\right\rangle _{\mathcal{H}_{k}}\\
+ & = & \sum_{i}c_{i}\phi_{i}\left(x\right)\\
+K\left(x,x^{'}\right) & = & \left\langle K\left(\cdot,x\right),K\left(\cdot,x^{'}\right)\right\rangle _{\mathcal{H}_{k}}\\
+ & = & \sum_{i}\sum_{j}\gamma_{i}\gamma_{j}\phi_{i}\left(x\right)\phi_{i}\left(y\right)^{T}\phi_{j}\left(y\right)\phi_{i}\left(x^{'}\right)\\
+ & = & K\left(x,x^{'}\right)
+\end{eqnarray*}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+Reproduce Kernel Property. Intuition: We can represent infinite dimension as linear product with kernels.
+</div>
+<div class="Standard">
+Back to learning and By Macer’s Represent Thm:
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+
+\min_{f\in\mathcal{H}_{k}}\sum_{i}L\left(y_{i},f\left(x_{i}\right)\right)+\lambda\left\Vert f\right\Vert _{\mathcal{H}_{k}}^{2}
+
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+
+\min_{\alpha_{n\times1}}\sum_{i}L\left(y_{i},\sum_{i}\alpha_{i}K\left(x_{i},x_{i^{'}}\right)\right)+\lambda\sum_{i}\sum_{i^{'}}\alpha_{i}\alpha_{j}K\left(x_{i},x_{i^{'}}\right)
+
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+which is a mapping from <span class="MathJax_Preview"><script type="math/tex">
+\infty
+</script>
+</span>to <span class="MathJax_Preview"><script type="math/tex">
+n
+</script>
+</span> and evaluating function over training data.
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{eqnarray*}
+f\left(x\right) & = & \sum_{i}\alpha_{i}K\left(x,x_{i}\right)\\
+f\left(x^{new}\right) & = & \sum_{i}\alpha_{i}K\left(x^{new},x_{i}\right)
+\end{eqnarray*}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+How do we choose kernel?
+</div>
+<div class="Standard">
+Property: 
+</div>
+<ol>
+<li>
+Symmetric <span class="MathJax_Preview"><script type="math/tex">
+K\left(x,y\right)=K\left(y,x\right)
+</script>
+</span>
+</li>
+<li>
+Positive Definite function <span class="MathJax_Preview"><script type="math/tex">
+\sum_{i}\sum_{j}\alpha_{i}\alpha_{j}K\left(x_{i},x_{j}\right)>0
+</script>
+</span> <span class="MathJax_Preview"><script type="math/tex">
+\forall\alpha\in\mathbb{R}_{+}^{n}
+</script>
+</span>
+</li>
+
+</ol>
+<div class="Standard">
+Thm Every RKHS <span class="MathJax_Preview"><script type="math/tex">
+\mathcal{H}_{k}
+</script>
+</span> is associated with a Kernel <span class="MathJax_Preview"><script type="math/tex">
+K
+</script>
+</span> and every kernel <span class="MathJax_Preview"><script type="math/tex">
+K
+</script>
+</span> is uniquely associated with a RKHS.
+</div>
+<div class="Standard">
+Kernel in Matrix Notation
+</div>
+<div class="Standard">
+<span class="MathJax_Preview"><script type="math/tex">
+K_{n\times n}
+</script>
+</span> kernel Matrix where <span class="MathJax_Preview"><script type="math/tex">
+\left(K\right)_{ij}
+</script>
+</span> is <span class="MathJax_Preview"><script type="math/tex">
+K\left(x_{i},x_{j}\right)
+</script>
+</span> and <span class="MathJax_Preview"><script type="math/tex">
+K=XX^{T}
+</script>
+</span> elements are inner products pf feature vectors.
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+
+\min_{\alpha}L\left(Y,K\alpha\right)+\lambda\alpha^{T}K\alpha
+
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+Positive define <span class="MathJax_Preview"><script type="math/tex">
+\alpha^{T}K\alpha>0
+</script>
+</span> <span class="MathJax_Preview"><script type="math/tex">
+\forall\alpha\ne0
+</script>
+</span> and then <span class="MathJax_Preview"><script type="math/tex">
+K\succ0
+</script>
+</span> positive definite.
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{eqnarray*}
+\min_{\alpha} &  & \left\Vert Y-K\alpha\right\Vert _{2}^{2}+\dfrac{\lambda}{2}\alpha^{T}K\alpha\\
+\dfrac{\partial}{\partial\alpha} & = & -Y+\left(K+\lambda I\right)\alpha=0\\
+\hat{\alpha} & = & \left(K+\lambda I\right)^{-1}Y
+\end{eqnarray*}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+Relation to Ridge (Linear Kernel) Transform form <span class="MathJax_Preview"><script type="math/tex">
+p
+</script>
+</span> dim to <span class="MathJax_Preview"><script type="math/tex">
+n
+</script>
+</span> dim
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+
+\left\Vert Y-XX^{T}\alpha\right\Vert _{2}^{2}+\dfrac{\lambda}{2}\alpha^{T}XX^{T}\alpha
+
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+In all of stat learning, we can replace inner prods <span class="MathJax_Preview"><script type="math/tex">
+x_{i}^{T}x_{j}
+</script>
+</span> with kernels to create a new non-linear methods.
+</div>
+<h1 class="Section">
+<a class="toc" name="toc-Section-6">6</a> Lecture 13
+</h1>
+<div class="Standard">
+What is our goal? 
+</div>
+<ol>
+<li>
+Prediction
+</li>
+<li>
+Interpretation
+</li>
+<li>
+Feature selection
+</li>
+
+</ol>
+<div class="Standard">
+Which model do I use?
+</div>
+<ol>
+<li>
+Contest specific
+</li>
+<li>
+Goal specific: data visualization
+</li>
+
+</ol>
+<div class="Standard">
+Which tuning parameter to use?
+</div>
+<ol>
+<li>
+Penalized Regression <span class="MathJax_Preview"><script type="math/tex">
+\lambda
+</script>
+</span>
+</li>
+<li>
+SVM <span class="MathJax_Preview"><script type="math/tex">
+C/\lambda
+</script>
+</span> tuning parameter margin. Kernel tuning parameter <span class="MathJax_Preview"><script type="math/tex">
+\gamma
+</script>
+</span>, <span class="MathJax_Preview"><script type="math/tex">
+p
+</script>
+</span>
+</li>
+
+</ol>
+<div class="Standard">
+Model selection: Out of a class of models, choose best specific model paramerized by <span class="MathJax_Preview"><script type="math/tex">
+\lambda
+</script>
+</span>.
+</div>
+<div class="Standard">
+How good is my model? How do we expect my model to perform? (Model assessment)
+</div>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-6.1">6.1</a> Prediction Error
+</h2>
+<div class="Standard">
+Prediction error:<span class="MathJax_Preview"><script type="math/tex">
+E\left[L\left(y;\hat{f\left(x\right)}\right)\mid X=x^{test}\right]
+</script>
+</span>
+</div>
+<ol>
+<li>
+Squared error loss: <span class="MathJax_Preview"><script type="math/tex">
+E\left[\left(y-\hat{y}\right)^{2}\right]=Bias^{2}+Var
+</script>
+</span> conditioned on a particular model class. <ol>
+<li>
+Variance comes from estimators <span class="MathJax_Preview"><script type="math/tex">
+\hat{\beta}
+</script>
+</span> and irreducible errors.
+</li>
+<li>
+Bias comes from bias of our estimators and model bias.
+</li>
+
+</ol>
+
+</li>
+<li>
+Training error is always optimistic for prediction error. <span class="MathJax_Preview"><script type="math/tex">
+TrErr<PredErr
+</script>
+</span><ol>
+<li>
+Classical Stat approach (Originally used to measure How much the training error underestimates the prediction error, but later used in model selection if the shape of model complexity curve reflex that test error (implies they share the same minimal) ) <ol>
+<li>
+Mallows Cps: Training Error + <span class="MathJax_Preview"><script type="math/tex">
+2\dfrac{\hat{df}}{n}\hat{\sigma}_{\epsilon}^{2}
+</script>
+</span>
+</li>
+<li>
+AIC: Training Error + <span class="MathJax_Preview"><script type="math/tex">
+2\dfrac{\hat{df}}{n}\hat{\sigma}_{\epsilon}^{\alpha}
+</script>
+</span>
+</li>
+<li>
+BIC: Training Error + <span class="MathJax_Preview"><script type="math/tex">
+\dfrac{\log n}{n}\hat{df}\hat{\sigma}_{\epsilon}^{\alpha}
+</script>
+</span>
+</li>
+
+</ol>
+
+</li>
+<li>
+Estimate of the degree of freedom<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+
+\hat{df}=\sum_{i=1}^{n}\dfrac{Cov\left(y_{i},\hat{y}_{i}\right)}{\sigma}
+
+</script>
+
+</span>
+<ol>
+<li>
+Ridge: <span class="MathJax_Preview"><script type="math/tex">
+\hat{df}=tr\left(H\right)=tr\left(X^{T}\left(X^{T}X\right)^{-1}X\right)
+</script>
+</span>
+</li>
+<li>
+Lasso: <span class="MathJax_Preview"><script type="math/tex">
+\hat{df}=\left|\left\{ \hat{\beta}\right\} \right|_{0}
+</script>
+</span> number of non-zero <span class="MathJax_Preview"><script type="math/tex">
+\beta
+</script>
+</span>s
+</li>
+<li>
+No <span class="MathJax_Preview"><script type="math/tex">
+df
+</script>
+</span> estimate for SVM
+</li>
+
+</ol>
+
+</li>
+<li>
+Idea setting: if degree of freedom can not be estimated we use Cross validation.
+</li>
+
+</ol>
+
+</li>
+<li>
+Idea setting<br/>
+Goal: Unbiased estimate prediction error for model selection and model assessment. <ol>
+<li>
+Infinite Data<ol>
+<li>
+Divide the data set into 3 trunks each for model fitting, model selection and model assessment.
+</li>
+<li>
+Fit on <span class="MathJax_Preview"><script type="math/tex">
+X^{\left(1\right)}
+</script>
+</span> to get <span class="MathJax_Preview"><script type="math/tex">
+\hat{\beta}\left(X^{\left(1\right)},\lambda\right)
+</script>
+</span> where <span class="MathJax_Preview"><script type="math/tex">
+\lambda=1\cdots\lambda_{\max}
+</script>
+</span>
+</li>
+<li>
+Prediction error <span class="MathJax_Preview"><script type="math/tex">
+\hat{y}_{\left(\lambda\right)}^{\left(2\right)}=X^{\left(2\right)}\hat{\beta}\left(X^{\left(1\right)},\lambda\right)
+</script>
+</span><span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+
+\lambda^{*}=\underset{\lambda}{argmin}\left\{ \lambda\mid\left\Vert y^{\left(2\right)}-\hat{y}^{\left(2\right)}\right\Vert _{2}^{2}\right\} 
+
+</script>
+
+</span>
+
+</li>
+<li>
+Prediction error to report:<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+
+\left\Vert y^{\left(3\right)}-\hat{y}^{\left(3\right)}\right\Vert _{2}^{2}
+
+</script>
+
+</span>
+where <span class="MathJax_Preview"><script type="math/tex">
+\hat{y}_{\left(\lambda\right)}^{\left(3\right)}=X^{\left(3\right)}\hat{\beta}\left(X^{\left(1\right)},\lambda^{*}\right)
+</script>
+</span>. (Do model selection and assessment separately!)
+</li>
+
+</ol>
+
+</li>
+<li>
+Finite Data (fixed <span class="MathJax_Preview"><script type="math/tex">
+n
+</script>
+</span>) Cross Validation <span class="MathJax_Preview"><script type="math/tex">
+K
+</script>
+</span> folds<ol>
+<li>
+Randomly Chunk our data set into <span class="MathJax_Preview"><script type="math/tex">
+K
+</script>
+</span> equal groups.
+</li>
+<li>
+For <span class="MathJax_Preview"><script type="math/tex">
+k=1\cdots K
+</script>
+</span><span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{eqnarray*}
+\left(Y^{ts},X^{ts}\right) & = & \left(Y\left[k\right],X\left[k\right]\right)\\
+\left(Y^{tr},X^{tr}\right) & = & \left(Y\left[k\right],X\left[k\right]\right)
+\end{eqnarray*}
+</script>
+
+</span>
+For <span class="MathJax_Preview"><script type="math/tex">
+\lambda=\lambda_{1}\cdots\lambda_{\max}
+</script>
+</span>. Fit model <span class="MathJax_Preview"><script type="math/tex">
+\hat{\beta}\left(X^{tr},\lambda\right)
+</script>
+</span> and <span class="MathJax_Preview"><script type="math/tex">
+\hat{CV_{err}}\left(\lambda\right)=L\left(Y^{ts},X^{ts}\hat{\beta}\left(X^{tr},\lambda\right)\right)
+</script>
+</span> and average all the CVs<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+
+\lambda^{*}=\underset{\lambda}{argmin}\left[\dfrac{1}{K}\sum_{K=1}^{K}\hat{CV}_{err}^{R}\left(\lambda\right)\right]
+
+</script>
+
+</span>
+
+</li>
+<li>
+1 SE rule for CV. largest <span class="MathJax_Preview"><script type="math/tex">
+\lambda
+</script>
+</span>within 1 SE of <span class="MathJax_Preview"><script type="math/tex">
+\min CV
+</script>
+</span>
+</li>
+<li>
+Idea: Randomly reuse our data in <span class="MathJax_Preview"><script type="math/tex">
+K
+</script>
+</span> chunks for model selection and assessment.
+</li>
+
+</ol>
+
+</li>
+<li>
+Q: Can we use the same prediction error for model select and model assessment.<br/>
+No. We will get biased estimands for model assessment.
+</li>
+
+</ol>
+
+</li>
+
+</ol>
+
+<hr class="footer"/>
+<div class="footer" id="generated-by">
+Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2014-10-26T14:20:36.583000</span>
+</div>
+</div>
+</body>
+</html>
