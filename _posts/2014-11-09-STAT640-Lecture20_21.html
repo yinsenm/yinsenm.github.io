@@ -1,0 +1,557 @@
+---
+layout: post
+title: STAT 640 Lecture 20-21
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta name="generator" content="http://www.nongnu.org/elyxer/"/>
+<meta name="create-date" content="2014-11-09"/>
+<title>Converted document</title>
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+</head>
+<body>
+<div id="globalWrapper">
+<script type="math/tex">
+\newcommand{\lyxlock}{}
+</script>
+<noscript>
+<div class="warning">
+Warning: <a href="http://www.mathjax.org/">MathJax</a> requires JavaScript to correctly process the mathematics on this page. Please enable JavaScript on your browser.
+</div><hr/>
+</noscript>
+<div class="fulltoc">
+<div class="tocheader">
+List of Tables
+</div>
+
+</div>
+<h1 class="Section">
+<a class="toc" name="toc-Section-1">1</a> Lecture 20
+</h1>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-1.1">1.1</a> K means Review
+</h2>
+<div class="Standard">
+<span class="MathJax_Preview"><script type="math/tex">
+W\left(C\right)
+</script>
+</span> minimize within cluster distance using Euclidean distance.
+</div>
+<ol>
+<li>
+Under downhill to local minimum. (dependent on initial value)
+</li>
+<li>
+Difficulty in choosing <span class="MathJax_Preview"><script type="math/tex">
+K
+</script>
+</span>.
+</li>
+
+</ol>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-1.2">1.2</a> Hierarchical Clustering
+</h2>
+<div class="Standard">
+A complete algorithmic process (Agglomeration)
+</div>
+<div class="Standard">
+Finds groups by binary joins b/w items.
+</div>
+<div class="Standard">
+Dendogram (Nested Tree)
+</div>
+<div class="Standard">
+Denote <span class="MathJax_Preview"><script type="math/tex">
+d\left(x_{i},x_{i}^{'}\right)
+</script>
+</span> as the dissimilarity between <span class="MathJax_Preview"><script type="math/tex">
+x_{i}
+</script>
+</span> and <span class="MathJax_Preview"><script type="math/tex">
+x_{i}^{'}
+</script>
+</span>.
+</div>
+<div class="Standard">
+The algorithm is 
+</div>
+<ol>
+<li>
+Calculate the dissimilarity matrix <span class="MathJax_Preview"><script type="math/tex">
+D
+</script>
+</span><span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+
+\min_{i,i^{'}}d\left(x_{i},x_{i^{'}}\right)
+
+</script>
+
+</span>
+then join <span class="MathJax_Preview"><script type="math/tex">
+\left(i,i^{'}\right)\in S_{1}
+</script>
+</span>
+</li>
+<li>
+Step <span class="MathJax_Preview"><script type="math/tex">
+k
+</script>
+</span> where <span class="MathJax_Preview"><script type="math/tex">
+k
+</script>
+</span> from <span class="MathJax_Preview"><script type="math/tex">
+2
+</script>
+</span> to <span class="MathJax_Preview"><script type="math/tex">
+n-1
+</script>
+</span> <span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+
+\min_{\left\{ S_{1},S_{n-k}\right\} }linkage\left(d\left(S_{j},S_{j^{'}}\right)\right)
+
+</script>
+
+</span>
+<ol>
+<li>
+Single Linkage <span class="MathJax_Preview"><script type="math/tex">
+O\left(n\log n\right)
+</script>
+</span><span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+
+d_{SL}\left(S_{j},S_{j^{'}}\right)=\min_{i\in S_{i},i^{'}\in S_{i^{'}}}d\left(x_{i},x_{i^{'}}\right)
+
+</script>
+
+</span>
+can cause <b>chaining</b> in the higher dimension data set.
+</li>
+<li>
+Average Linkage <span class="MathJax_Preview"><script type="math/tex">
+O\left(n^{2}\log n\right)
+</script>
+</span><span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+
+d_{Ave}\left(S_{j},S_{j^{'}}\right)=\dfrac{1}{n_{j}n_{j^{'}}}\sum_{i\in S_{j}}\sum_{i^{'}\in S_{j^{'}}}d\left(x_{i},x_{i^{'}}\right)
+
+</script>
+
+</span>
+
+</li>
+<li>
+Central Linkage
+</li>
+<li>
+Complete Linkage (minmax linkage)<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+
+d_{COM}\left(S_{j},S_{j^{'}}\right)=\max_{i\in S_{i},i^{'}\in S_{i^{'}}}d\left(x_{i},x_{i^{'}}\right)
+
+</script>
+
+</span>
+
+</li>
+<li>
+Wards Linkage
+</li>
+
+</ol>
+
+</li>
+
+</ol>
+<div class="Standard">
+Note the height of the tree is proportion to euclidean distance in the dissimilar matrix.
+</div>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-1.3">1.3</a> Biclustering
+</h2>
+<div class="Standard">
+Group both in observation space and feature spaces.
+</div>
+<div class="Standard">
+Overlaping
+</div>
+<div class="Standard">
+Non-Overlaping (check board type)
+</div>
+<div class="Standard">
+Cluster Dendogram: apply hierarchy model independently on rows and columns.
+</div>
+<div class="Standard">
+Better way such as Sparse PCA, Sparse SVD or etc.
+</div>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-1.4">1.4</a> Convex Clustering
+</h2>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+
+X_{n\times p}=U_{n\times p}
+
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+where each row of <span class="MathJax_Preview"><script type="math/tex">
+U_{n\times p}
+</script>
+</span> represent class centroids. We want to join the rows of <span class="MathJax_Preview"><script type="math/tex">
+U
+</script>
+</span> together or want to squeeze <span class="MathJax_Preview"><script type="math/tex">
+u_{i}
+</script>
+</span> and <span class="MathJax_Preview"><script type="math/tex">
+u_{i^{'}}
+</script>
+</span> together.
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+
+\min_{U}\left\Vert X-U\right\Vert _{F}^{2}+\gamma\sum_{i<j}^{n}w_{ij}\left\Vert u_{i}-u_{j}\right\Vert _{1}
+
+</script>
+
+</span>
+
+</div>
+<h1 class="Section">
+<a class="toc" name="toc-Section-2">2</a> Lecture 21 (Graphic Models)
+</h1>
+<div class="Standard">
+Learn the relationship between pairs of variables.
+</div>
+<div class="Standard">
+features: nodes/ verticies in the graph. We want to try a graph that pairwise connection between features. 
+</div>
+<div class="Standard">
+Learn network structure from data.
+</div>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-2.1">2.1</a> Markov Network
+</h2>
+<div class="Standard">
+Undirected Graphics Models
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{eqnarray*}
+G & = & \left(V,E\right)\\
+V & = & \left\{ 1,\cdots,p\right\} \text{ vertices}\\
+E & = & V\times V\text{ edge}
+\end{eqnarray*}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+Edges are based on conditionally dependent.
+</div>
+<div class="Standard">
+non-edges are conditionally independent.
+</div>
+<div class="Standard">
+For example, <span class="MathJax_Preview"><script type="math/tex">
+A
+</script>
+</span> and <span class="MathJax_Preview"><script type="math/tex">
+B
+</script>
+</span> conditioned on <span class="MathJax_Preview"><script type="math/tex">
+C
+</script>
+</span>. <span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{eqnarray*}
+P\left(A\mid C\right)\times P\left(B\mid C\right) & = & P\left(A,B\mid C\right)\\
+P\left(A,B,C\right) & = & P\left(A\mid C\right)P\left(B\mid C\right)P\left(C\right)
+\end{eqnarray*}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+Markov Properies
+</div>
+<ol>
+<li>
+Pair-wise MP<ol>
+<li>
+Edge between <span class="MathJax_Preview"><script type="math/tex">
+1
+</script>
+</span> and <span class="MathJax_Preview"><script type="math/tex">
+2
+</script>
+</span> if <span class="MathJax_Preview"><script type="math/tex">
+X_{1}\perp X_{2}\mid X_{3},\cdots,X_{p}
+</script>
+</span>
+</li>
+
+</ol>
+
+</li>
+<li>
+Local MP<ol>
+<li>
+No Edge between <span class="MathJax_Preview"><script type="math/tex">
+1
+</script>
+</span> and <span class="MathJax_Preview"><script type="math/tex">
+2
+</script>
+</span> if <span class="MathJax_Preview"><script type="math/tex">
+X_{1}\perp X_{2}\mid N\left(1\right)
+</script>
+</span>neighbor of <span class="MathJax_Preview"><script type="math/tex">
+X_{1}
+</script>
+</span> (If <span class="MathJax_Preview"><script type="math/tex">
+X_{2}\notin N\left(1\right)
+</script>
+</span> then <span class="MathJax_Preview"><script type="math/tex">
+X_{1}\notin N\left(2\right)
+</script>
+</span>)
+</li>
+<li>
+You just need to consider neighbor.
+</li>
+
+</ol>
+
+</li>
+<li>
+Global MP<ol>
+<li>
+Define global probability density.
+</li>
+
+</ol>
+
+</li>
+
+</ol>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-2.2">2.2</a> Gaussian Graphical Model (GGM)
+</h2>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+
+X\sim N\left(0,\Sigma\right)
+
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+
+\Theta=\Sigma^{-1}\text{precision matrix}
+
+</script>
+
+</span>
+
+</div>
+<ol>
+<li>
+Zeros in <span class="MathJax_Preview"><script type="math/tex">
+\Theta
+</script>
+</span> <span class="MathJax_Preview"><script type="math/tex">
+\rightarrow
+</script>
+</span>conditional <span class="MathJax_Preview"><script type="math/tex">
+\perp
+</script>
+</span>
+</li>
+<li>
+Zeroes in multi linear regression <span class="MathJax_Preview"><script type="math/tex">
+\rightarrow
+</script>
+</span> conditional <span class="MathJax_Preview"><script type="math/tex">
+\perp
+</script>
+</span>
+</li>
+<li>
+Zeroes in partial correlation <span class="MathJax_Preview"><script type="math/tex">
+\rightarrow
+</script>
+</span> conditional <span class="MathJax_Preview"><script type="math/tex">
+\perp
+</script>
+</span>
+</li>
+
+</ol>
+<div class="Standard">
+Suppose <span class="MathJax_Preview"><script type="math/tex">
+X\sim N\left(\mu,\Sigma\right)
+</script>
+</span>and <span class="MathJax_Preview"><script type="math/tex">
+X=\left(Y,Z\right)
+</script>
+</span> then
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+
+Y\mid Z\sim N\left(\mu_{x}-\Sigma_{yz}\Sigma_{zz}^{-1}\left(z-\mu_{z}\right),\Sigma_{yy}-\Sigma_{yz}\Sigma_{zz}^{-1}\Sigma_{zy}\right)
+
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+
+X\sim N\left(\mu,\Sigma\right)
+
+</script>
+
+</span>
+ <span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+
+\begin{bmatrix}Y\\
+Z
+\end{bmatrix}\sim N\left(\begin{bmatrix}\mu_{y}\\
+\mu_{z}
+\end{bmatrix},\begin{bmatrix}\Sigma_{xx} & \Sigma_{xz}\\
+\Sigma_{zx} & \Sigma_{zz}
+\end{bmatrix}\right)
+
+</script>
+
+</span>
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+
+Y\mid X\sim N\left(\mu_{y},\Sigma_{yy}\right)
+
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+
+\Sigma_{zz}^{-1}\Sigma_{zy}=-\Theta_{zy}/\Theta_{yy}
+
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+Partition matrix inverse formula
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+
+\Theta_{zy}=\begin{bmatrix}0\end{bmatrix}\rightarrow\text{cond. independent}
+
+</script>
+
+</span>
+
+</div>
+<ol>
+<li>
+Precision matrix <span class="MathJax_Preview"><script type="math/tex">
+\rightarrow
+</script>
+</span> any zero: In off diag, <span class="MathJax_Preview"><script type="math/tex">
+\Theta_{lk}=0\rightarrow X_{l}\perp X_{k}\mid X_{k},X_{l}
+</script>
+</span>
+</li>
+<li>
+<span class="MathJax_Preview"><script type="math/tex">
+\left\Vert Y-Z\beta\right\Vert _{2}^{2}
+</script>
+</span> then <span class="MathJax_Preview"><script type="math/tex">
+\hat{\beta}=\left(Z^{T}Z\right)^{-1}Z^{T}Y=\hat{\Sigma}_{zz}^{-1}\hat{\Sigma_{zy}}
+</script>
+</span>
+</li>
+
+</ol>
+<div class="Standard">
+Learning Network Structure
+</div>
+<div class="Standard">
+Learn Edges <span class="MathJax_Preview"><script type="math/tex">
+\rightarrow
+</script>
+</span> conditional <span class="MathJax_Preview"><script type="math/tex">
+\perp
+</script>
+</span> relationship.
+</div>
+<ol>
+<li>
+Precision <span class="MathJax_Preview"><script type="math/tex">
+\Theta
+</script>
+</span> <span class="MathJax_Preview"><script type="math/tex">
+\rightarrow
+</script>
+</span> Find zeros in <span class="MathJax_Preview"><script type="math/tex">
+\Theta
+</script>
+</span>. (Sparse inverse covariance estimation) <br/>
+Penalize MLE (Graphical Lasso):<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+
+\max_{\Theta}\log\left|\Theta\right|-\dfrac{1}{2}tr\left(X^{T}X\Theta\right)-\lambda\left\Vert \Theta\right\Vert _{1}(\text{sparse penalty})
+
+</script>
+
+</span>
+
+</li>
+
+</ol>
+
+<hr class="footer"/>
+<div class="footer" id="generated-by">
+Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2014-11-09T20:18:20.528000</span>
+</div>
+</div>
+</body>
+</html>
