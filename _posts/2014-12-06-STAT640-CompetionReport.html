@@ -6,14 +6,8 @@ title: STAT640 Data Mining Competition Report
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-<meta name="generator" content="http://www.nongnu.org/elyxer/"/>
-<meta name="create-date" content="2014-12-06"/>
-<link rel="stylesheet" href="{{ site.baseurl }}public/css/lyx.css">
-<!-- <title>STAT 640 Final Project ReportTeam Name: bigR</title> -->
-<script type="text/javascript"
-  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
+
+
 </head>
 <body>
 <div id="globalWrapper">
@@ -25,17 +19,6 @@ title: STAT640 Data Mining Competition Report
 Warning: <a href="http://www.mathjax.org/">MathJax</a> requires JavaScript to correctly process the mathematics on this page. Please enable JavaScript on your browser.
 </div><hr/>
 </noscript>
-<!-- <h1 class="title">
-STAT 640 Final Project Report<br/>
-Team Name: bigR
-</h1>
-<h2 class="author">
-Yinsen <span class="versalitas">Miao</span> <br/>
-<span class="versalitas">Alan Chen</span>
-</h2>
-<h2 class="Date">
-December 05, 2014
-</h2> -->
 <div class="Standard">
 <p><br/>
 </p>
@@ -223,7 +206,7 @@ N_{s}\ll N
 <div class="float">
 <a class="Label" name="fig:2-1"> </a><div class="figure">
 <div class="center">
-<img class="embedded" src="../figure/640/elm.png" alt="../figure/640/elm.png" style="width: 16cm; max-width: 294px; height: auto; max-height: 240px;"/>
+<img class="embedded" src="{{ site.baseurl }}figure/640/elm.png" alt="{{ site.baseurl }}figure/640/elm.png" style="width: 16cm; max-width: 294px; height: auto; max-height: 240px;"/>
 
 </div>
 <div class="caption">
@@ -284,7 +267,7 @@ p
 \underline{y}_{i}
 </script>
 </span> is one while the others are zeros. ELM is to optimize the training error as well as the norm of the output weights <span class="MathJax_Preview"><script type="math/tex">
-\text{\underline{\beta}}
+\underline{\beta}
 </script>
 </span>.<span class="MathJax_Preview">
 <script type="math/tex;mode=display">
@@ -330,7 +313,7 @@ g_{1}\left(\underline{x}_{N}\right) & \cdots & g_{L}\left(\underline{x}_{N}\righ
 Formulate Eq <a class="Reference" href="#eq:2-4">(↓)</a> as optimization problem <span class="MathJax_Preview">
 <script type="math/tex;mode=display">
 \begin{eqnarray*}
-\text{\text{minimize:} }L_{ELM} & = & \dfrac{1}{2}\left\Vert \underline{\beta}\right\Vert ^{2}+C\dfrac{1}{2}\sum_{i=1}^{N}\left\Vert \underline{\xi}_{i}\right\Vert ^{2}\\
+\text{minimize:} L_{ELM} & = & \dfrac{1}{2}\left\Vert \underline{\beta}\right\Vert ^{2}+C\dfrac{1}{2}\sum_{i=1}^{N}\left\Vert \underline{\xi}_{i}\right\Vert ^{2}\\
 \text{subject to: }\underline{h}\left(\underline{x}_{i}\right)\underline{\beta} & = & y_{i}^{T}-\underline{\xi}_{i}^{T}
 \end{eqnarray*}
 </script>
@@ -896,7 +879,7 @@ Those changes not only save computational time (exponential term in Eq <a class=
 <span class="float">
 <div class="figure">
 <div class="center">
-<img class="embedded" src="../figure/640/pca640.png" alt="../figure/640/pca640.png" style="width: 8cm; max-width: 341px; height: auto; max-height: 265px;"/>
+<img class="embedded" src="{{ site.baseurl }}figure/640/pca640.png" alt="{{ site.baseurl }}figure/640/pca640.png" style="width: 8cm; max-width: 341px; height: auto; max-height: 265px;"/>
 
 </div>
 <div class="caption">
@@ -909,7 +892,7 @@ Those changes not only save computational time (exponential term in Eq <a class=
 <span class="float">
 <div class="figure">
 <div class="center">
-<img class="embedded" src="../figure/640/tSNE640.png" alt="../figure/640/tSNE640.png" style="width: 8cm; max-width: 353px; height: auto; max-height: 265px;"/>
+<img class="embedded" src="{{ site.baseurl }}figure/640/tSNE640.png" alt="{{ site.baseurl }}figure/640/tSNE640.png" style="width: 8cm; max-width: 353px; height: auto; max-height: 265px;"/>
 
 </div>
 <div class="caption">
@@ -1227,7 +1210,7 @@ Table 2 Parameter Selected using Cross Validation and Out of Bag errors.
 <span class="float">
 <div class="figure">
 <div class="center">
-<img class="embedded" src="../figure/640/cvERR.png" alt="../figure/640/cvERR.png" style="width: 8cm; max-width: 402px; height: auto; max-height: 332px;"/>
+<img class="embedded" src="{{ site.baseurl }}figure/640/cvERR.png" alt="{{ site.baseurl }}figure/640/cvERR.png" style="width: 8cm; max-width: 402px; height: auto; max-height: 332px;"/>
 
 </div>
 <div class="caption">
@@ -1240,7 +1223,7 @@ Table 2 Parameter Selected using Cross Validation and Out of Bag errors.
 <span class="float">
 <div class="figure">
 <div class="center">
-<img class="embedded" src="../figure/640/cvSVMerr.png" alt="../figure/640/cvSVMerr.png" style="width: 8cm; max-width: 412px; height: auto; max-height: 337px;"/>
+<img class="embedded" src="{{ site.baseurl }}figure/640/cvSVMerr.png" alt="{{ site.baseurl }}figure/640/cvSVMerr.png" style="width: 8cm; max-width: 412px; height: auto; max-height: 337px;"/>
 
 </div>
 <div class="caption">
@@ -1266,7 +1249,7 @@ Figure 3 Kernel SVM (5 folds) and ELM (10 folds)’s Cross Validation
 <div class="float">
 <a class="Label" name="fig:4-2"> </a><div class="figure">
 <div class="center">
-<img class="embedded" src="../figure/640/tuneLinear.png" alt="../figure/640/tuneLinear.png" style="width: 16cm; max-width: 1008px; height: auto; max-height: 576px;"/>
+<img class="embedded" src="{{ site.baseurl }}figure/640/tuneLinear.png" alt="{{ site.baseurl }}figure/640/tuneLinear.png" style="width: 16cm; max-width: 1008px; height: auto; max-height: 576px;"/>
 
 </div>
 <div class="caption">
@@ -1285,7 +1268,7 @@ Figure 4 10 Folds Cross Validation for 6 linear ELM models.
 <div class="float">
 <a class="Label" name="fig:4-3"> </a><div class="figure">
 <div class="center">
-<img class="embedded" src="../figure/640/BagELM.png" alt="../figure/640/BagELM.png" style="width: 16cm; max-width: 864px; height: auto; max-height: 360px;"/>
+<img class="embedded" src="{{ site.baseurl }}figure/640/BagELM.png" alt="{{ site.baseurl }}figure/640/BagELM.png" style="width: 16cm; max-width: 864px; height: auto; max-height: 360px;"/>
 
 </div>
 <div class="caption">
@@ -1565,7 +1548,7 @@ We would like to thank glass and water server at Rice University for providing f
 <div class="float">
 <a class="Label" name="fig:6-1"> </a><div class="figure">
 <div class="center">
-<img class="embedded" src="../figure/640/No_13.png" alt="../figure/640/No_13.png" style="width: 12cm; max-width: 510px; height: auto; max-height: 428px;"/>
+<img class="embedded" src="{{ site.baseurl }}figure/640/No_13.png" alt="{{ site.baseurl }}figure/640/No_13.png" style="width: 12cm; max-width: 510px; height: auto; max-height: 428px;"/>
 
 </div>
 <div class="caption">
@@ -1584,10 +1567,5 @@ References
 
 </div>
 
-<hr class="footer"/>
-<div class="footer" id="generated-by">
-Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2014-12-06T18:23:11.312000</span>
-</div>
-</div>
 </body>
 </html>
