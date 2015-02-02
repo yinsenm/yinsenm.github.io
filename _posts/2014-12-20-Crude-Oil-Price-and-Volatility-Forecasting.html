@@ -1,0 +1,1598 @@
+---
+layout: post
+title: Crude Oil Price and Volatility Forecasting
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta name="generator" content="http://www.nongnu.org/elyxer/"/>
+<meta name="create-date" content="2015-02-01"/>
+<!-- <link rel="stylesheet" href="http://elyxer.nongnu.org/lyx.css" type="text/css" media="all"/> -->
+<!-- <title>Crude Oil Price and Volatility Forecasting</title> -->
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+</head>
+<body>
+<div id="globalWrapper">
+<script type="math/tex">
+\newcommand{\lyxlock}{}
+</script>
+<noscript>
+<div class="warning">
+Warning: <a href="http://www.mathjax.org/">MathJax</a> requires JavaScript to correctly process the mathematics on this page. Please enable JavaScript on your browser.
+</div><hr/>
+</noscript>
+<!-- <h1 class="title">
+Crude Oil Price and Volatility Forecasting
+</h1> -->
+<h2 class="Date">
+<p><br/>
+</p>
+
+</h2>
+<div class="fulltoc">
+<div class="tocheader">
+Table of Contents
+</div>
+<div class="tocindent">
+<div class="toc">
+<a class="Link" href="#toc-Section-1">Section 1: Introduction</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Section-2">Section 2: Oil Price Forecasting</a>
+</div>
+<div class="tocindent">
+<div class="toc">
+<a class="Link" href="#toc-Subsection-2.1">Subsection 2.1: Linear Models</a>
+</div>
+<div class="tocindent">
+<div class="toc">
+<a class="Link" href="#toc-Subsubsection-2.1.1">Subsubsection 2.1.1: Random Walk </a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsubsection-2.1.2">Subsubsection 2.1.2: ARIMA</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsubsection-2.1.3">Subsubsection 2.1.3: VAR</a>
+</div>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsection-2.2">Subsection 2.2: Non Linear Models</a>
+</div>
+<div class="tocindent">
+<div class="toc">
+<a class="Link" href="#toc-Subsubsection-2.2.1">Subsubsection 2.2.1: SVR</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsubsection-2.2.2">Subsubsection 2.2.2: MLP and ELM</a>
+</div>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsection-2.3">Subsection 2.3: Performance Comparison</a>
+</div>
+<div class="tocindent">
+<div class="toc">
+<a class="Link" href="#toc-Subsubsection-2.3.1">Subsubsection 2.3.1: Error metrics </a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsubsection-2.3.2">Subsubsection 2.3.2: Forecasting Accuracy Comparison</a>
+</div>
+</div>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Section-3">Section 3: Oil Volatility Forecasting</a>
+</div>
+<div class="tocindent">
+<div class="toc">
+<a class="Link" href="#toc-Subsection-3.1">Subsection 3.1: Model Selection</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsection-3.2">Subsection 3.2: Model Diagnostics</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsection-3.3">Subsection 3.3: Model Forecasting Comparison</a>
+</div>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Section-4">Section 4: Conclusion</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Section-5">Section 5: Appendix </a>
+</div>
+</div>
+
+</div>
+<div class="Standard">
+<p><br/>
+</p>
+
+</div>
+<h1 class="Section">
+<a class="toc" name="toc-Section-1">1</a> Introduction
+</h1>
+<div class="Standard">
+Nowadays oil price, gold price, currency exchange rates and other macro economic indicators play crucial roles as measures or signals in the world economy. Especially the oil price is always treated most seriously since oil is the blood in the vessels of the economy. Therefore, forecasting the oil price and its volatility has attracted a great amount of attentions from researchers, policy makers and investors. Not mentioning about professionals, people can literately feel the changes caused by fluctuations of oil price in daily lives because of its huge impact. In such sense, we were of most interest and curiosity to investigate the oil price, oil price volatility and dynamic between oil price and other macro economic indicators.
+</div>
+<div class="Standard">
+At the same time, the dynamic relationship between these economic indicators are somehow interwound. Besides forecasting the oil price and its volatility we are also interested to discover the dynamic relationship among gold price,currency exchange rate and oil price. We stepped our discovering into three stages. First, we download the data of oil price, gold price and currency exchange rates from Federal Reserve Economic Data (FRED)<span class="FootOuter"><span class="SupFootMarker"> [A] </span><span class="HoverFoot"><span class="SupFootMarker"> [A] </span>http://research.stlouisfed.org/fred2</span></span>, St. Louise Bank in terms of 
+</div>
+<ul>
+<li>
+Crude Oil Prices: West Texas Intermediate (WTI) - Cushing, Oklahoma; 
+</li>
+<li>
+Gold Fixing Price London Bullion Market; 
+</li>
+<li>
+Dow Jones Industrial Average; 
+</li>
+<li>
+Trade Weighted U.S. Dollar Index: Major Currencies and EU/US Exchange Rate;
+</li>
+<li>
+S&amp;P 500 Index;
+</li>
+<li>
+Mining Oil and Gas Extraction Employees in Texas;
+</li>
+<li>
+Consumer Price Index for All Urban Consumers: Energy;
+</li>
+<li>
+Civilian Unemployment Rate.
+</li>
+
+</ul>
+<div class="Standard">
+We took a general look at all the data sets along time axis to have a basic picture intuitively. In addition, we employed Vector Autoregressive (VAR) and constructed pairwise regression between crude oil price and another factor such as gold price, the benchmark index and so on to detect a pool of variables which significantly correlate with the oil price. 
+</div>
+<div class="Standard">
+On the second stage, we focused on oil price forecasting. We first explored the basic linear time series models such as Random Walk, ARIMA and VAR. We performed routine diagnostics tests to those linear models and made sure they followed their specific assumption. Further we were considering to enhance our forecasting on crude oil price by machine learning techniques. We hence decided to employ non-linear models such as Support Vector Regression (SVR), Multiple Layer Perception (MLP) and Extreme Learning Machine (ELM). Then extensive comparison of forecasting accuracy among those models was conducted based on several error metrics. Our best model for forecasting the oil price is the ELM model.
+</div>
+<div class="Standard">
+As for the oil price volatility forecasting, we explored a large range models from <span class="MathJax_Preview"><script type="math/tex">
+ARCH
+</script>
+</span> and <span class="MathJax_Preview"><script type="math/tex">
+GARCH
+</script>
+</span> family. For <span class="MathJax_Preview"><script type="math/tex">
+ARCH
+</script>
+</span> model, we selected the optimal <span class="MathJax_Preview"><script type="math/tex">
+ARCH
+</script>
+</span> model with the lowest AIC value. So as we did <span class="MathJax_Preview"><script type="math/tex">
+GARCH
+</script>
+</span> model selection. Finally, we nailed down to <span class="MathJax_Preview"><script type="math/tex">
+GARCH(1,1)
+</script>
+</span> as our best choice in oil price volatility forecasting.
+</div>
+<h1 class="Section">
+<a class="toc" name="toc-Section-2">2</a> Oil Price Forecasting
+</h1>
+<div class="Standard">
+<div class="float">
+<a class="Label" name="fig:2-1"> </a><div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT621/OilPrice.png" alt="figure OilPrice.png" style="width: 18cm; max-width: 1080px; height: auto; max-height: 576px;"/>
+
+</div>
+<div class="caption">
+Figure 1 Daily Crude Oil Price from FRED (Unit: Dollars per Barrel)
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="Standard">
+It is an important step to observe the actual oil price time series before building any model. As shown Figure <a class="Reference" href="#fig:2-1">1↑</a>, the oil price exhibits much variation throughout the history. Especially for those economic regression periods shadowed, the oil price dropped dramatically. For example during the 2008 Financial crisis, the oil price felled off rapidly from 145.31 dollars per barrel, the highest price, to around 30.28. Those extreme fluctuations caused by the financial crisis are unpredictable from our data available, and have seriously bad effect on our models. Therefore we used the observations from 2010-01-01 to 2014-10-28 for building models and 2014-10-29 to 2014-11-11 (10 ahead) for prediction. Since we used some monthly data sets such as Energy Consumer Price Index (ECPI), and Civilian Unemployment Rate (CUR), we shrunk the daily data sets by taking monthly average and separately built another monthly models. The splitting can also be expressed as Training and Testing subset in the Statistical Learning contexts as the below:
+</div>
+<div class="Standard">
+Daily Forecasting Models
+</div>
+<ul>
+<li>
+Training Range: 2010-01-01 to 2014-10-28 (1258 Observations).
+</li>
+<li>
+Testing Range: 2014-10-29 to 2014-11-11 (10 Observations).
+</li>
+
+</ul>
+<div class="Standard">
+Monthly Forecasting Models
+</div>
+<ul>
+<li>
+Training Range: 2009-01 to 2014-01 (71 Observations).
+</li>
+<li>
+Testing Range: 2014-02 to 2014-11 (10 Observations).
+</li>
+
+</ul>
+<div class="Standard">
+In the following section, we denoted Daily oil price as <span class="MathJax_Preview"><script type="math/tex">
+p_{t}
+</script>
+</span> and Monthly as <span class="MathJax_Preview"><script type="math/tex">
+P_{t}
+</script>
+</span> and introduced two types of models to forecast Oil Price. We considered the random walk, ARIMA and Vector Autoregressive (VAR) models as the group of linear time series models and Support Vector Regression (SVR), Multiple Layer Perception (MLP) and Extreme Learning Machine (ELM) as anther group of non-linear models. Then we did extensive comparison of their forecasting power by several important error metrics. Because of space limits, we put all the diagnostics plots of this section to the Appendix. 
+</div>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-2.1">2.1</a> Linear Models
+</h2>
+<div class="Standard">
+The ACF plot of the original oil price time series in Figure <a class="Reference" href="#fig:a-1">6↓</a> indicates that the oil price has strong serial correlation and shows the pattern of a unit-root nonstationary time series. We should take a first order difference of <span class="MathJax_Preview"><script type="math/tex">
+p_{t}
+</script>
+</span> shown in Figure <a class="Reference" href="#fig:a-2">7↓</a>. Notice that there is almost none significant spike in ACF and PACF of Figure <a class="Reference" href="#fig:a-2">7↓</a> and then we gave the result of following time series models.
+</div>
+<h3 class="Subsubsection">
+<a class="toc" name="toc-Subsubsection-2.1.1">2.1.1</a> Random Walk 
+</h3>
+<div class="Standard">
+Because the best known example of unit-root nonstationary time series is the random walk model, our first linear model is random walk without drift (the mean constant). The point forecasts of a random-walk model are simply the value of the series at the forecast origin adding with the expectation of the error term (0 in this case). Our models for daily and monthly oil price are in Eq <a class="Reference" href="#eq:2-1">(↓)</a> and <a class="Reference" href="#eq:2-2">(↓)</a>. The diagnostic plots can be referred by Figures <a class="Reference" href="#fig:a-3-1">a↓</a> and <a class="Reference" href="#fig:a-3-2">b↓</a> where we can see that the residuals of the fitted models are centered around <span class="MathJax_Preview"><script type="math/tex">
+x
+</script>
+</span> axis horizontal line, that they are uncorrelated with each others except some minor spikes in the ACF plots and that all the lags of the residuals pass the <b>Box-Ljung</b> test. Since the residuals are iid and satisfy the normality assumption, our random walk model here is valid and reasonable.
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{equation}
+p_{t}=p_{t-1}+a_{t}\text{ where }\hat{\sigma}_{a}=2.253\label{eq:2-1}
+\end{equation}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{equation}
+P_{t}=P_{t-1}+a_{t}\text{ where }\hat{\sigma}_{a}=48.59\label{eq:2-2}
+\end{equation}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+A second random walk model is to take the drift term into consideration or <span class="MathJax_Preview"><script type="math/tex">
+\mu\ne0
+</script>
+</span> and our fitted models for Daily and Monthly are in Eq <a class="Reference" href="#eq:2-3">(↓)</a> and <a class="Reference" href="#eq:2-4">(↓)</a>. The diagnostics plots can be referred by Figures <a class="Reference" href="#fig:a-4-1">a↓</a> and <a class="Reference" href="#fig:a-4-2">b↓</a> where we can verify the model is valid using the similar argument as the above.
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{equation}
+p_{t}=p_{t-1}-0.0001+a_{t}\text{ where }\hat{\sigma}_{a}=2.253\label{eq:2-3}
+\end{equation}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{equation}
+P_{t}=P_{t-1}+0.4657+a_{t}\text{ where }\hat{\sigma}_{a}=49.07\label{eq:2-4}
+\end{equation}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+Since our fitting function <b>arima </b>use maximum likelihood for parameter estimations, the coefficients are asymptotically normal. Thus dividing the coefficients by their standard errors will give the <span class="MathJax_Preview"><script type="math/tex">
+z
+</script>
+</span> statistics. Then we can use the <span class="MathJax_Preview"><script type="math/tex">
+z
+</script>
+</span> statistics to calculate the drift’s significance. However both the drifts here are not significance. We can confirm that insignificance by almost identical diagnostic plots and forecasting values between the two models.
+</div>
+<h3 class="Subsubsection">
+<a class="toc" name="toc-Subsubsection-2.1.2">2.1.2</a> ARIMA
+</h3>
+<div class="Standard">
+The second type of linear model is ARIMA. We tried many arima models such as <span class="MathJax_Preview"><script type="math/tex">
+ARIMA\left(1,1,0\right)
+</script>
+</span>, <span class="MathJax_Preview"><script type="math/tex">
+ARIMA\left(0,1,1\right)
+</script>
+</span>, <span class="MathJax_Preview"><script type="math/tex">
+ARIMA\left(1,1,1\right)
+</script>
+</span>, <span class="MathJax_Preview"><script type="math/tex">
+ARIMA\left(1,1,2\right)
+</script>
+</span> etc. according to the ACF and PCAF of Figure <a class="Reference" href="#fig:a-2">7↓</a>, but nailed down to <span class="MathJax_Preview"><script type="math/tex">
+ARIMA\left(1,1,0\right)
+</script>
+</span> because it passes all the diagnostics test shown in Figure <a class="Reference" href="#fig:a-5">(10↓)</a> and has the smallest AIC. The models for Daily and Monthly are Eq <a class="Reference" href="#eq:2-5">(↓)</a> and <a class="Reference" href="#eq:2-6">(↓)</a> respectively.
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{equation}
+p_{t}=-0.0123p_{t-1}+a_{t}\text{ where }\hat{\sigma}_{a}=2.252\label{eq:2-5}
+\end{equation}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{equation}
+P_{t}=0.0078P_{t-1}+a_{t}\text{ where }\hat{\sigma}_{a}=48.59\label{eq:2-6}
+\end{equation}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+Again using <span class="MathJax_Preview"><script type="math/tex">
+z
+</script>
+</span> test statistics, the auto regressive parameters are not significant which is confirmed by the almost identical forecasting result and the diagnostics plots. 
+</div>
+<h3 class="Subsubsection">
+<a class="toc" name="toc-Subsubsection-2.1.3">2.1.3</a> VAR
+</h3>
+<div class="Standard">
+When building multiple linear regression models, one needs to take the collinearity issues into consideration where two or more predictor variables in the model are highly correlated. We tried to alleviate the problem by pairwise regressing the oil price with another explanatory variable such as gold price, SP500 index. After detecting the pool of significant variables, we then include them step by step and use smallest AIC to select the optimal models. The Table <a class="Reference" href="#tab:2-1">1↓</a> and <a class="Reference" href="#tab:2-2">2↓</a> show the significant levels for the explanatory variables. We can see that the weighted exchange rate (WEXC) and European and US exchange rate (EU-US EXC) are significant to the daily oil price and the order of significance from the least to the most for monthly oil price are gold price (Gold), unemployment rate (UNEMPR), weighted exchange rate (WEXC), total employment in oil mining (EMP), CPI energy index (CPIE). The optimal daily VAR model is regression of the oil price on weighted exchange rate but the model doesn’t pass the diagnostic test. The optimal monthly VAR model is regression of the oil price on WEXC, EMP, CPIE, and UEMPR whose diagnostics plot is shown in Figure <a class="Reference" href="#fig:a-6">11↓</a>.
+</div>
+<div class="Standard">
+<div class="float">
+<a class="Label" name="tab:2-1"> </a><div class="table">
+<div class="center">
+<table>
+<tr>
+<td align="center" valign="top">
+
+</td>
+<td align="center" valign="top">
+Gold
+</td>
+<td align="center" valign="top">
+SP500
+</td>
+<td align="center" valign="top">
+WEXC
+</td>
+<td align="center" valign="top">
+EU-US EXC
+</td>
+
+</tr>
+<tr>
+<td align="center" valign="top">
+Significant
+</td>
+<td align="center" valign="top">
+<span class="MathJax_Preview"><script type="math/tex">
+\times
+</script>
+</span>
+</td>
+<td align="center" valign="top">
+<span class="MathJax_Preview"><script type="math/tex">
+\times
+</script>
+</span>
+</td>
+<td align="center" valign="top">
+<span class="MathJax_Preview"><script type="math/tex">
+\checkmark
+</script>
+</span>
+</td>
+<td align="center" valign="top">
+<span class="MathJax_Preview"><script type="math/tex">
+\checkmark
+</script>
+</span>
+</td>
+
+</tr>
+<tr>
+<td align="center" valign="top">
+Diagnostic
+</td>
+<td align="center" valign="top">
+<span class="MathJax_Preview"><script type="math/tex">
+\times
+</script>
+</span>
+</td>
+<td align="center" valign="top">
+<span class="MathJax_Preview"><script type="math/tex">
+\times
+</script>
+</span>
+</td>
+<td align="center" valign="top">
+<span class="MathJax_Preview"><script type="math/tex">
+\times
+</script>
+</span>
+</td>
+<td align="center" valign="top">
+<span class="MathJax_Preview"><script type="math/tex">
+\times
+</script>
+</span>
+</td>
+
+</tr>
+
+</table>
+
+</div>
+<div class="caption">
+Table 1 Daily Model where Oil Price is pairwise regressed.
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="Standard">
+<div class="float">
+<a class="Label" name="tab:2-2"> </a><div class="table">
+<div class="center">
+<table>
+<tr>
+<td align="center" valign="top">
+
+</td>
+<td align="center" valign="top">
+WEXC
+</td>
+<td align="center" valign="top">
+EMP
+</td>
+<td align="center" valign="top">
+Gold
+</td>
+<td align="center" valign="top">
+SP500
+</td>
+<td align="center" valign="top">
+CPIE
+</td>
+<td align="center" valign="top">
+UNEMPR
+</td>
+
+</tr>
+<tr>
+<td align="center" valign="top">
+Sig Level
+</td>
+<td align="center" valign="top">
+**
+</td>
+<td align="center" valign="top">
+**
+</td>
+<td align="center" valign="top">
+.
+</td>
+<td align="center" valign="top">
+<span class="MathJax_Preview"><script type="math/tex">
+\times
+</script>
+</span>
+</td>
+<td align="center" valign="top">
+***
+</td>
+<td align="center" valign="top">
+*
+</td>
+
+</tr>
+<tr>
+<td align="center" valign="top">
+Diagnostic
+</td>
+<td align="center" valign="top">
+<span class="MathJax_Preview"><script type="math/tex">
+\checkmark
+</script>
+</span>
+</td>
+<td align="center" valign="top">
+<span class="MathJax_Preview"><script type="math/tex">
+\checkmark
+</script>
+</span>
+</td>
+<td align="center" valign="top">
+<span class="MathJax_Preview"><script type="math/tex">
+\checkmark
+</script>
+</span>
+</td>
+<td align="center" valign="top">
+<span class="MathJax_Preview"><script type="math/tex">
+\checkmark
+</script>
+</span>
+</td>
+<td align="center" valign="top">
+<span class="MathJax_Preview"><script type="math/tex">
+\checkmark
+</script>
+</span>
+</td>
+<td align="center" valign="top">
+<span class="MathJax_Preview"><script type="math/tex">
+\checkmark
+</script>
+</span>
+</td>
+
+</tr>
+
+</table>
+
+</div>
+<div class="caption">
+Table 2 Monthly Model where Oil Price is pairwise regressed.
+</div>
+
+</div>
+
+</div>
+
+</div>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-2.2">2.2</a> Non Linear Models
+</h2>
+<div class="Standard">
+The goal of time series prediction is to estimate some future value based on current and past data samples. We want to find a function <span class="MathJax_Preview"><script type="math/tex">
+f\left(\underline{x}\right)
+</script>
+</span> such that its estimation of the future point is <span class="red">unbiased</span> and <span class="red">consistent</span>. How about considering <span class="MathJax_Preview"><script type="math/tex">
+f\left(\underline{x}\right)
+</script>
+</span> as a non linear function? In this section, we introduced three famous types of non-linear models namely Support Vector Regression (SVR), Multiple Layer Perception (MLP) and Extreme Learning Machine (ELM).<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+
+\hat{x}\left(t+\Delta_{t}\right)=f\left(x\left(t-a\right),x\left(t-b\right),x\left(t-c\right),\cdots\right)
+
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+The basic idea of SVR, MLP and ELM are the same. They all want to map the data <span class="MathJax_Preview"><script type="math/tex">
+\underline{x}\left(t\right)\in\mathbb{R}^{d}
+</script>
+</span> to a much higher dimension &ldquo;feature&rdquo; space by some activation function <span class="MathJax_Preview"><script type="math/tex">
+\underline{\phi}\left(\underline{x}\right):\mathbb{R}^{d}\rightarrow\mathbb{R}^{L}
+</script>
+</span> where <span class="MathJax_Preview"><script type="math/tex">
+L\gg d
+</script>
+</span>. 
+</div>
+<h3 class="Subsubsection">
+<a class="toc" name="toc-Subsubsection-2.2.1">2.2.1</a> SVR
+</h3>
+<div class="Standard">
+The SVM is originally purposed for classification problem and it maps the data from the input space to some feature space <span class="MathJax_Preview"><script type="math/tex">
+Z
+</script>
+</span> through some nonlinear Prior mapping function <span class="MathJax_Preview"><script type="math/tex">
+\underline{\phi}\left(\underline{x}\right)
+</script>
+</span>. In this feature space, constraint optimization is used to find the &ldquo;optimal&rdquo; separating hyperplane that maximize the separating margins of two classifies in the feature space. Given a set of training data points <span class="MathJax_Preview"><script type="math/tex">
+\left(\underline{x}_{i},y_{i}\right)
+</script>
+</span> where <span class="MathJax_Preview"><script type="math/tex">
+\underline{x}_{i}\in\mathbb{R}^{d}
+</script>
+</span>, <span class="MathJax_Preview"><script type="math/tex">
+y_{i}\in\left\{ -1,+1\right\} 
+</script>
+</span> and <span class="MathJax_Preview"><script type="math/tex">
+i=1,\cdots,N
+</script>
+</span>. We can mapped the training data point in the input space to some feature space <span class="MathJax_Preview"><script type="math/tex">
+\mathbb{R}^{L}
+</script>
+</span> via a nonlinear function <span class="MathJax_Preview"><script type="math/tex">
+\underline{\phi}:\mathbb{R}^{d}\rightarrow\mathbb{R}^{L}
+</script>
+</span>. Then the distance between two hyperplane in the feature space <span class="MathJax_Preview"><script type="math/tex">
+Z
+</script>
+</span> is <span class="MathJax_Preview"><script type="math/tex">
+2/\left\Vert \underline{\beta}\right\Vert 
+</script>
+</span>. We maximize the distance by minimizing its inverse or<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{eqnarray}
+\min_{\underline{\beta},\beta_{0},\underline{\xi}} &  & \dfrac{\left\Vert \beta\right\Vert _{2}}{2}+C\sum_{i=1}^{N}\underbrace{\max\left\{ 1-y_{i}\left(\underline{x}_{i}^{T}\underline{\beta}+\beta_{0}\right),0\right\} }_{L\left(y_{i},\underline{\beta},\beta_{0},\underline{x}_{i}^{T}\right)\text{Hinge Loss}}\label{eq:2-7}
+\end{eqnarray}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+After changing the Hinge loss function to Vapnik’s <span class="MathJax_Preview"><script type="math/tex">
+ε
+</script>
+</span>-insensitive loss function in Eq <a class="Reference" href="#eq:2-8">(↓)</a>, SVM becomes SVR. <span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{equation}
+L\left(y_{i},\underline{\beta},\beta_{0},\underline{x}_{i}^{T}\right)=\begin{cases}
+\left|y_{i}-x_{i}^{T}\underline{\beta}-\beta_{0}\right|-\epsilon & \left|y_{i}-x_{i}^{T}\underline{\beta}-\beta_{0}\right|\ge\epsilon\\
+0 & \text{otherwise}
+\end{cases}\label{eq:2-8}
+\end{equation}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+By Lagrange dual form and Mercer’s representation, SVR’s kernel form is <span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{eqnarray*}
+\max &  & -\dfrac{1}{2}\sum_{i,j=1}^{N}\left(\alpha_{i}-\alpha_{i}^{*}\right)\left(\alpha_{j}-\alpha_{j}^{*}\right)\underbrace{\left\langle \phi\left(\underline{x}_{i}\right),\phi\left(\underline{x}_{j}\right)\right\rangle }_{K\left(\underline{x}_{i},\underline{x}_{j}\right)\text{ kernel }}-\epsilon\sum_{i=1}^{N}\left(\alpha_{i}-\alpha_{i}^{*}\right)+\sum_{i=1}^{N}y_{i}\left(\alpha_{i}-\alpha_{i}^{*}\right)\\
+\text{subject to} &  & \sum_{i=1}^{N}\left(\alpha_{i}-\alpha^{*}\right)=0\text{ where }\alpha_{i},\alpha_{i}^{*}\in\left[0,C\right]
+\end{eqnarray*}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+We used the Gaussian Kernel with the parameters selected by 10 folds cross validation.
+</div>
+<h3 class="Subsubsection">
+<a class="toc" name="toc-Subsubsection-2.2.2">2.2.2</a> MLP and ELM
+</h3>
+<div class="Standard">
+The MLP and ELM are both neural network (In our case we constraint hidden layer of MLP to 1 for comparison purpose.) and the architecture of the networks are shown in Figure <a class="Reference" href="#fig:2-2">2↓</a>. The activation function <span class="MathJax_Preview"><script type="math/tex">
+\underline{\phi}\left(\underline{x}\right)
+</script>
+</span> used here is the sigmoid function. The only difference between ELM and MLP is that ELM doesn’t iteratively tune the activation functions’ parameters in the first layer and fixes those parameters once randomly generated. Or ELM randomly maps <span class="MathJax_Preview"><script type="math/tex">
+\underline{x}\left(t\right)
+</script>
+</span> to higher dimension space <span class="MathJax_Preview"><script type="math/tex">
+\mathbb{R}^{L}
+</script>
+</span> as Eq <a class="Reference" href="#eq:2-9">(↓)</a> and do a linear regression in the 2nd layer. <span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{eqnarray}
+\text{minimize:}L_{ELM} & = & \dfrac{1}{2}\left\Vert \underline{\beta}\right\Vert _{L2}^{2}+C\dfrac{1}{2}\sum_{i=1}^{N}\left\Vert \xi_{i}\right\Vert ^{2}\nonumber \\
+\text{subject to: }\underline{\phi}\left(\underline{x}_{i}\right)\underline{\beta} & = & Y_{i}^{T}-\xi_{i}^{T}\label{eq:2-9}
+\end{eqnarray}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+Its analytical solution is <span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{eqnarray*}
+f\left(\underline{x}\right) & = & \underline{\phi}\left(\underline{x}\right)\underline{\Phi}^{T}\left(\dfrac{\underline{I}}{C}+\underline{\Phi}\underline{\Phi}^{T}\right)^{-1}\underline{Y}\\
+\underline{\Phi}^{T} & = & \begin{bmatrix}\phi\left(\underline{x}_{1}\right) & \phi\left(\underline{x}_{2}\right) & \cdots & \phi\left(\underline{x}_{n}\right)\end{bmatrix}\in\mathbb{R}^{L\times N}
+\end{eqnarray*}
+</script>
+
+</span>
+where <span class="MathJax_Preview"><script type="math/tex">
+C
+</script>
+</span> and mapped space dimension <span class="MathJax_Preview"><script type="math/tex">
+L
+</script>
+</span> are user specified. Again by Mercer’s representation, we can map the original data to the kernel space whose dimension is equal to the training size. In our case, we used Gaussian kernel and the kernel parameters <span class="MathJax_Preview"><script type="math/tex">
+C
+</script>
+</span> and <span class="MathJax_Preview"><script type="math/tex">
+\gamma
+</script>
+</span> are tuned using 10 folds cross validation. 
+</div>
+<div class="Standard">
+MLP uses forward and backward propagation to tune the parameters in the first and second layers. Here we used <b>caret</b> package’s train function to build the MLP model.
+</div>
+<div class="Standard">
+<div class="float">
+<a class="Label" name="fig:2-2"> </a><div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT621/NNwork.png" alt="figure NNwork.png" style="width: 15cm; max-width: 500px; height: auto; max-height: 500px;"/>
+<div class="caption">
+Figure 2 A typical architecture of Neutral Network. 
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-2.3">2.3</a> Performance Comparison
+</h2>
+<h3 class="Subsubsection">
+<a class="toc" name="toc-Subsubsection-2.3.1">2.3.1</a> Error metrics 
+</h3>
+<div class="Standard">
+The following <span class="MathJax_Preview"><script type="math/tex">
+l
+</script>
+</span> step ahead forecasting errors metrics where <span class="MathJax_Preview"><script type="math/tex">
+l=1,\cdots,N
+</script>
+</span> are considered:
+</div>
+<div class="Standard">
+Root Mean Square Error (RMSE)<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+
+RMSE=\dfrac{1}{N}\sqrt{\sum_{l=1}^{N}\left(x_{T+l}-x_{T}\left(l\right)\right)^{2}}
+
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+Mean Absolute Deviation (MAD)
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+
+MAD=\dfrac{1}{N}\sum_{l=1}^{N}\left|x_{T+l}-x_{T}\left(l\right)\right|
+
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+Mean Absolute Percentage Error (MAPE) 
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+
+MAPE=\dfrac{1}{N}\sum_{l=1}^{N}\left|\dfrac{X_{T}\left(l\right)}{X_{T+l}}-1\right|
+
+</script>
+
+</span>
+
+</div>
+<h3 class="Subsubsection">
+<a class="toc" name="toc-Subsubsection-2.3.2">2.3.2</a> Forecasting Accuracy Comparison
+</h3>
+<div class="Standard">
+From Table <a class="Reference" href="#tab:2-1">1↑</a> and <a class="Reference" href="#tab:2-2">2↑</a>, we can see that non-linear models performs better than linear models with different error metrics and ELM has the smallest prediction error compared to other methods. Please refer to Figure <a class="Reference" href="#fig:a-7">12↓</a> and Figure <a class="Reference" href="#fig:a-8">13↓</a> to see how accurate those models forecast compared to the true oil prices.
+</div>
+<div class="Standard">
+<div class="float">
+<a class="Label" name="Table-3"> </a><div class="table">
+span class="align-center" <table>
+<tr>
+<td align="right" valign="top">
+
+</td>
+<td align="right" valign="top">
+RMSE 
+</td>
+<td align="right" valign="top">
+MAD 
+</td>
+<td align="right" valign="top">
+MAPE 
+</td>
+
+</tr>
+<tr>
+<td align="right" valign="top">
+RW 
+</td>
+<td align="right" valign="top">
+2.8283 
+</td>
+<td align="right" valign="top">
+2.5050 
+</td>
+<td align="right" valign="top">
+0.0320 
+</td>
+
+</tr>
+<tr>
+<td align="right" valign="top">
+RWD 
+</td>
+<td align="right" valign="top">
+2.8275 
+</td>
+<td align="right" valign="top">
+2.5043 
+</td>
+<td align="right" valign="top">
+0.0320 
+</td>
+
+</tr>
+<tr>
+<td align="right" valign="top">
+ARIMA 
+</td>
+<td align="right" valign="top">
+2.8273 
+</td>
+<td align="right" valign="top">
+2.5040 
+</td>
+<td align="right" valign="top">
+0.0320 
+</td>
+
+</tr>
+<tr>
+<td align="right" valign="top">
+VAR 
+</td>
+<td align="right" valign="top">
+3.9733 
+</td>
+<td align="right" valign="top">
+3.5262 
+</td>
+<td align="right" valign="top">
+0.0451 
+</td>
+
+</tr>
+<tr>
+<td align="right" valign="top">
+SVR Kernel 
+</td>
+<td align="right" valign="top">
+1.2433 
+</td>
+<td align="right" valign="top">
+0.9921 
+</td>
+<td align="right" valign="top">
+0.0125 
+</td>
+
+</tr>
+<tr>
+<td align="right" valign="top">
+MLPE 
+</td>
+<td align="right" valign="top">
+2.4619 
+</td>
+<td align="right" valign="top">
+2.1701 
+</td>
+<td align="right" valign="top">
+0.0277 
+</td>
+
+</tr>
+<tr>
+<td align="right" valign="top">
+ELM Kernel 
+</td>
+<td align="right" valign="top">
+0.9978 
+</td>
+<td align="right" valign="top">
+0.7568 
+</td>
+<td align="right" valign="top">
+0.0096 
+</td>
+
+</tr>
+
+</table>
+<div class="caption">
+Table 3 Oil Price Forecasting Error Matrix (Daily)
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="Standard">
+<div class="float">
+<a class="Label" name="Table-4"> </a><div class="table">
+span class="align-center" <table>
+<tr>
+<td align="right" valign="top">
+
+</td>
+<td align="right" valign="top">
+RMSE 
+</td>
+<td align="right" valign="top">
+MAD 
+</td>
+<td align="right" valign="top">
+MAPE 
+</td>
+
+</tr>
+<tr>
+<td align="right" valign="top">
+RW 
+</td>
+<td align="right" valign="top">
+19.8410 
+</td>
+<td align="right" valign="top">
+18.2880 
+</td>
+<td align="right" valign="top">
+0.1827 
+</td>
+
+</tr>
+<tr>
+<td align="right" valign="top">
+RWD 
+</td>
+<td align="right" valign="top">
+17.9496 
+</td>
+<td align="right" valign="top">
+16.6580 
+</td>
+<td align="right" valign="top">
+0.1672 
+</td>
+
+</tr>
+<tr>
+<td align="right" valign="top">
+ARIMA 
+</td>
+<td align="right" valign="top">
+19.9282 
+</td>
+<td align="right" valign="top">
+18.3825 
+</td>
+<td align="right" valign="top">
+0.1837 
+</td>
+
+</tr>
+<tr>
+<td align="right" valign="top">
+VAR 
+</td>
+<td align="right" valign="top">
+13.4465 
+</td>
+<td align="right" valign="top">
+11.9121 
+</td>
+<td align="right" valign="top">
+0.1217 
+</td>
+
+</tr>
+<tr>
+<td align="right" valign="top">
+SVR Kernel
+</td>
+<td align="right" valign="top">
+9.4295 
+</td>
+<td align="right" valign="top">
+8.2248 
+</td>
+<td align="right" valign="top">
+0.0857 
+</td>
+
+</tr>
+<tr>
+<td align="right" valign="top">
+MLPE 
+</td>
+<td align="right" valign="top">
+10.7280 
+</td>
+<td align="right" valign="top">
+8.8615 
+</td>
+<td align="right" valign="top">
+0.0935 
+</td>
+
+</tr>
+<tr>
+<td align="right" valign="top">
+ELM Kernel
+</td>
+<td align="right" valign="top">
+7.2213 
+</td>
+<td align="right" valign="top">
+5.7265 
+</td>
+<td align="right" valign="top">
+0.0619 
+</td>
+
+</tr>
+
+</table>
+<div class="caption">
+Table 4 Oil Price Forecasting Error Matrix (Monthly)
+</div>
+
+</div>
+
+</div>
+
+</div>
+<h1 class="Section">
+<a class="toc" name="toc-Section-3">3</a> Oil Volatility Forecasting
+</h1>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-3.1">3.1</a> Model Selection
+</h2>
+<div class="Standard">
+In this section we analyzed the volatility of oil price through ARCH and GARCH models. We used daily oil spot prices from 2010-01-01 to 2014-10-28. The price series were converted to logarithmic returns: <span class="MathJax_Preview"><script type="math/tex">
+r_{t}=\ln\frac{P_{t}}{P_{t-1}}
+</script>
+</span> for <span class="MathJax_Preview"><script type="math/tex">
+t=1,2...T
+</script>
+</span> where <span class="MathJax_Preview"><script type="math/tex">
+r_{t}
+</script>
+</span> denotes as the log returns for each crude oil price at time <span class="MathJax_Preview"><script type="math/tex">
+t
+</script>
+</span> and <span class="MathJax_Preview"><script type="math/tex">
+P_{t}
+</script>
+</span> as the oil price. Figure <a class="Reference" href="#fig:3-1">3↓</a> below shows the dynamics of log returns and its ACF plot.
+</div>
+<div class="Standard">
+<div class="float">
+<a class="Label" name="fig:3-1"> </a><div class="multifigure">
+<span class="float">
+<a class="Label" name="fig:3-1-1"> </a><div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT621/logoil.png" alt="figure logoil.png" style="width: 8cm; max-width: 432px; height: auto; max-height: 432px;"/>
+
+</div>
+<div class="caption">
+(a) Log Return
+</div>
+
+</div>
+
+</span>
+<span class="float">
+<a class="Label" name="fig:3-1-2"> </a><div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT621/squared centered.png" alt="figure squared centered.png" style="width: 8cm; max-width: 432px; height: auto; max-height: 432px;"/>
+
+</div>
+<div class="caption">
+(b) Squared Centered Log
+</div>
+
+</div>
+
+</span>
+<div class="caption">
+Figure 3 Log Returns of Oil Price and its ACF and PCAF plots. 
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="Standard">
+From the ACF plot of Figure <a class="Reference" href="#fig:3-1-1">a↑</a>, there is no significant serial correlations except some minor ones. Therefore we can apply the mean equation:<span class="MathJax_Preview"><script type="math/tex">
+r_{t}=\mu+a_{t}
+</script>
+</span>. Then we performed a <b>Ljung-Box</b> test on squared centered returns <span class="MathJax_Preview"><script type="math/tex">
+a_{t}^{2}
+</script>
+</span> where <span class="MathJax_Preview"><script type="math/tex">
+a_{t}^{2}=(r_{t}-\bar{r_{t}})^{2}
+</script>
+</span> on lags 6 and 10. The P values are 1.348e-11 and 8.715e-12, which are less than the 0.05 significant level. Therefore we can conclude that there exists strong ARCH effects. 
+</div>
+<div class="Standard">
+We used the PACF of the squared centered returns <span class="MathJax_Preview"><script type="math/tex">
+a_{t}^{2}
+</script>
+</span> in Figure <a class="Reference" href="#fig:3-1-2">b↑</a> to determine the ARCH order. Since the lags cut off at 2 and 6, we tried the <span class="MathJax_Preview"><script type="math/tex">
+ARCH(2)
+</script>
+</span> and <span class="MathJax_Preview"><script type="math/tex">
+ARCH(6)
+</script>
+</span>. We also applied <span class="MathJax_Preview"><script type="math/tex">
+GARCH(1,1)
+</script>
+</span> and <span class="MathJax_Preview"><script type="math/tex">
+GARCH(1,2)
+</script>
+</span> models. Finally we chose <span class="MathJax_Preview"><script type="math/tex">
+GARCH(1,1)
+</script>
+</span> because it is not only the simplest model but also has smaller AIC than <span class="MathJax_Preview"><script type="math/tex">
+ARCH(6)
+</script>
+</span>.
+</div>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-3.2">3.2</a> Model Diagnostics
+</h2>
+<div class="Standard">
+To check the adequacy of our model <span class="MathJax_Preview"><script type="math/tex">
+GARCH(1,1)
+</script>
+</span>, we took a look at the standardized residual test. Because the <b>Ljung-Box</b> test of standardized residuals gives p-values larger than 0.05 for both standardized residuals and squared standardized residuals, therefore both the mean equation and volatility equation are adequate. In Figure <a class="Reference" href="#fig:3-2">4↓</a>, the standardized residuals spread randomly and symmetric over x-axis. For ACF and PACF plots there are not significant serial correlations. However, the residuals are slightly skewed to the left in the density plot.
+</div>
+<div class="Standard">
+<div class="float">
+<a class="Label" name="fig:3-2"> </a><div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT621/diagnostic plot.png" alt="figure diagnostic plot.png" style="width: 12cm; max-width: 576px; height: auto; max-height: 576px;"/>
+
+</div>
+<div class="caption">
+Figure 4 The diagnostic plots for standardized residuals. 
+</div>
+
+</div>
+
+</div>
+
+</div>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-3.3">3.3</a> Model Forecasting Comparison
+</h2>
+<div class="Standard">
+Finally we analyzed the volatility forecasting accuracy of GARCH-type models. In the order (1,1), we applied GARCH family models with student-t distribution and normal distribution, exponential GARCH model, integrated GARCH model and Threshold GARCH model. We utilized these models to predict the volatility from 2014-10-29 to 2014-11-17 (14 steps ahead). We used a time window of 30 days to compute the true volatility from 2010-01-01 to 2014-11-17.
+</div>
+<div class="Standard">
+<div class="float">
+<a class="Label" name="tab:3-1"> </a><div class="table">
+<div class="center">
+<span class="small"><table>
+<tr>
+<td align="right" valign="top">
+
+</td>
+<td align="right" valign="top">
+<span class="small">RMSE </span>
+</td>
+<td align="right" valign="top">
+<span class="small">MAD </span>
+</td>
+<td align="right" valign="top">
+<span class="small">MAPE </span>
+</td>
+
+</tr>
+<tr>
+<td align="right" valign="top">
+<span class="small">GARCH(<span class="MathJax_Preview"><script type="math/tex">
+t
+</script>
+</span> dist) </span>
+</td>
+<td align="right" valign="top">
+<span class="small"><span class="red">0.00075 </span></span>
+</td>
+<td align="right" valign="top">
+<span class="small"><span class="red">0.00064 </span></span>
+</td>
+<td align="right" valign="top">
+<span class="small"><span class="red">0.03884 </span></span>
+</td>
+
+</tr>
+<tr>
+<td align="right" valign="top">
+<span class="small">GARCH(<span class="MathJax_Preview"><script type="math/tex">
+z
+</script>
+</span> dist) </span>
+</td>
+<td align="right" valign="top">
+<span class="small">0.00107 </span>
+</td>
+<td align="right" valign="top">
+<span class="small">0.00096 </span>
+</td>
+<td align="right" valign="top">
+<span class="small">0.05865 </span>
+</td>
+
+</tr>
+<tr>
+<td align="right" valign="top">
+<span class="small">EGARCH </span>
+</td>
+<td align="right" valign="top">
+<span class="small">0.00262 </span>
+</td>
+<td align="right" valign="top">
+<span class="small">0.00257 </span>
+</td>
+<td align="right" valign="top">
+<span class="small">0.15530 </span>
+</td>
+
+</tr>
+<tr>
+<td align="right" valign="top">
+<span class="small">iGARCH </span>
+</td>
+<td align="right" valign="top">
+<span class="small">0.00190 </span>
+</td>
+<td align="right" valign="top">
+<span class="small">0.00183 </span>
+</td>
+<td align="right" valign="top">
+<span class="small">0.11078 </span>
+</td>
+
+</tr>
+<tr>
+<td align="right" valign="top">
+<span class="small">TGARCH </span>
+</td>
+<td align="right" valign="top">
+<span class="small">0.00280 </span>
+</td>
+<td align="right" valign="top">
+<span class="small">0.00275 </span>
+</td>
+<td align="right" valign="top">
+<span class="small">0.16595 </span>
+</td>
+
+</tr>
+
+</table>
+</span><span class="default"><div class="caption">
+Table 5 Oil Price Volatility Forecasting Error Matrix 
+</div>
+</span>
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="Standard">
+From Table <a class="Reference" href="#tab:3-1">5↑</a>, it is obvious that the <span class="MathJax_Preview"><script type="math/tex">
+GARCH(1,1)
+</script>
+</span> with student-t distribution has the best forecasting accuracy with the smallest errors. In Figure 4, we compared the forecasting performance of these GARCH-type models in term of accuracy. The black line indicates the true sigma. It is interesting to note that at the last day of the prediction period (2014-11-17), the forecasting from GARCH(1,1) with normal distribution (the gray line) approximates well to the real sigma. However, the red line (GARCH with student-t distribution) is the closest approach to the real volatility. According to the error matrix Table <a class="Reference" href="#tab:3-1">5↑</a>, we can come out with the conclusion that among these models, GARCH(1,1) with student-t distribution is the best in oil price volatility forecasting. 
+</div>
+<div class="Standard">
+<div class="float">
+<a class="Label" name="Figure-5"> </a><div class="multifigure">
+<span class="float">
+<div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT621/prediction.png" alt="figure prediction.png" style="width: 8cm; max-width: 576px; height: auto; max-height: 432px;"/>
+<div class="caption">
+(a) <span class="small">Volatility</span>
+</div>
+
+</div>
+
+</div>
+
+</span>
+<span class="float">
+<div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT621/pred03.png" alt="figure pred03.png" style="width: 8cm; max-width: 576px; height: auto; max-height: 432px;"/>
+<div class="caption">
+(b) <span class="small">14-step-ahead</span>
+</div>
+
+</div>
+
+</div>
+
+</span>
+<div class="caption">
+Figure 5 Forecasting Volatility Performance Comparison
+</div>
+
+</div>
+
+</div>
+
+</div>
+<h1 class="Section">
+<a class="toc" name="toc-Section-4">4</a> Conclusion
+</h1>
+<div class="Standard">
+In this project, we analyzed various time series models on the oil price and volatility forecasting. For the price prediction part, we grouped our forecasting methods into the two major categories: linear and non-linear. The linear models we applied are random walk with and without drift, <span class="MathJax_Preview"><script type="math/tex">
+ARIMA(1,1,0)
+</script>
+</span> and VAR. According to our VAR models, the oil price has significant correlation with CPIE, exchange currency, unemployment rate but little correlation with the gold price. We further utilized the 3 non-linear models SVR, MLP and ELM for oil price forecasting. In term of forecasting accuracy, all non-linear models win over the linear ones and ELM is the best model. For the volatility forecasting part, we first explored the <span class="MathJax_Preview"><script type="math/tex">
+ARCH
+</script>
+</span> and <span class="MathJax_Preview"><script type="math/tex">
+GARCH
+</script>
+</span> family and selected their optimal models using minimum AIC. We finally picked <span class="MathJax_Preview"><script type="math/tex">
+GARCH(1,1)
+</script>
+</span> with <span class="MathJax_Preview"><script type="math/tex">
+t
+</script>
+</span> innovations as the best model for its smallest forecasting errors among the other models.
+</div>
+<div class="Standard">
+<span class="unknown">\newpage</span>
+</div>
+<h1 class="Section">
+<a class="toc" name="toc-Section-5">5</a> Appendix 
+</h1>
+<div class="Standard">
+<div class="float">
+<a class="Label" name="fig:a-1"> </a><div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT621/Oilacfpcaf.png" alt="figure Oilacfpcaf.png" style="width: auto; max-width: 720px; height: 9.5cm; max-height: 576px;"/>
+<div class="caption">
+Figure 6 the Daily Oil Price, ACF and PACF from 2010-01-01 to 2014-10-28.
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="Standard">
+<div class="float">
+<a class="Label" name="fig:a-2"> </a><div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT621/DOilacfpcaf.png" alt="figure DOilacfpcaf.png" style="width: auto; max-width: 720px; height: 9.5cm; max-height: 576px;"/>
+<div class="caption">
+Figure 7 One Step difference of the Daily Oil Price, ACF and PACF from 2010-01-01 to 2014-10-28.
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="Standard">
+<div class="float">
+<a class="Label" name="fig:a-3"> </a><div class="multifigure">
+<div class="center">
+<span class="float">
+<a class="Label" name="fig:a-3-1"> </a><div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT621/Dm1.png" alt="figure Dm1.png" style="width: auto; max-width: 288px; height: auto; max-height: 432px;"/>
+
+</div>
+<div class="caption">
+(a) Daily
+</div>
+
+</div>
+
+</span>
+<span class="float">
+<a class="Label" name="fig:a-3-2"> </a><div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT621/Mm1.png" alt="figure Mm1.png" style="width: auto; max-width: 288px; height: auto; max-height: 432px;"/>
+
+</div>
+<div class="caption">
+(b) Monthly
+</div>
+
+</div>
+
+</span>
+<div class="caption">
+Figure 8 Diagnostic Plots for Random Walk without drift.
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="Standard">
+<div class="float">
+<a class="Label" name="fig:a-4"> </a><div class="multifigure">
+<div class="center">
+<span class="float">
+<a class="Label" name="fig:a-4-1"> </a><div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT621/Dm2.png" alt="figure Dm2.png" style="width: auto; max-width: 288px; height: auto; max-height: 432px;"/>
+
+</div>
+<div class="caption">
+(a) Daily
+</div>
+
+</div>
+
+</span>
+<span class="float">
+<a class="Label" name="fig:a-4-2"> </a><div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT621/Mm2.png" alt="figure Mm2.png" style="width: auto; max-width: 288px; height: auto; max-height: 432px;"/>
+
+</div>
+<div class="caption">
+(b) Monthly
+</div>
+
+</div>
+
+</span>
+<div class="caption">
+Figure 9 Diagnostic Plots for Random Walk with a drift.
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="Standard">
+<div class="float">
+<a class="Label" name="fig:a-5"> </a><div class="multifigure">
+<div class="center">
+<span class="float">
+<a class="Label" name="fig:a-5-1"> </a><div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT621/Dm3.png" alt="figure Dm3.png" style="width: auto; max-width: 288px; height: auto; max-height: 432px;"/>
+
+</div>
+<div class="caption">
+(a) Daily
+</div>
+
+</div>
+
+</span>
+<span class="float">
+<a class="Label" name="fig:a-5-2"> </a><div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT621/Mm3.png" alt="figure Mm3.png" style="width: auto; max-width: 288px; height: auto; max-height: 432px;"/>
+
+</div>
+<div class="caption">
+(b) Monthly
+</div>
+
+</div>
+
+</span>
+<div class="caption">
+Figure 10 Diagnostic Plots for <span class="MathJax_Preview"><script type="math/tex">
+ARIMA\left(1,1,0\right)
+</script>
+</span>.
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="Standard">
+<div class="float">
+<a class="Label" name="fig:a-6"> </a><div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT621/VARDiag.png" alt="figure VARDiag.png" style="width: auto; max-width: 720px; height: 9.5cm; max-height: 576px;"/>
+<div class="caption">
+Figure 11 Diagnostic Plots for Monthly VAR.
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="Standard">
+<div class="float">
+<a class="Label" name="fig:a-7"> </a><div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT621/DailyAcc.png" alt="figure DailyAcc.png" style="width: auto; max-width: 720px; height: auto; max-height: 432px;"/>
+<div class="caption">
+Figure 12 Daily Forecasting (Blue lines are the linear models while red are the non-linear.).
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="Standard">
+<div class="float">
+<a class="Label" name="fig:a-8"> </a><div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT621/MonthlyAcc.png" alt="figure MonthlyAcc.png" style="width: auto; max-width: 720px; height: auto; max-height: 432px;"/>
+<div class="caption">
+Figure 13 Monthly Forecasting (Blue lines are the linear models while red are the non-linear.).
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+</body>
+</html>

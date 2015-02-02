@@ -1,0 +1,1600 @@
+---
+layout: post
+title: Human Activity Recognition Using Smartphones
+---
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta name="generator" content="http://www.nongnu.org/elyxer/"/>
+<meta name="create-date" content="2015-02-01"/>
+<!-- <link rel="stylesheet" href="http://elyxer.nongnu.org/lyx.css" type="text/css" media="all"/> -->
+<!-- <title>Human Activity Recognition Using Smartphones</title> -->
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+</head>
+<body>
+<div id="globalWrapper">
+<script type="math/tex">
+\newcommand{\lyxlock}{}
+</script>
+<noscript>
+<div class="warning">
+Warning: <a href="http://www.mathjax.org/">MathJax</a> requires JavaScript to correctly process the mathematics on this page. Please enable JavaScript on your browser.
+</div><hr/>
+</noscript>
+<!-- <h1 class="title">
+Human Activity Recognition Using Smartphones
+</h1> -->
+<div class="Standard">
+<p><br/>
+</p>
+
+</div>
+<div class="fulltoc">
+<div class="tocheader">
+Table of Contents
+</div>
+<div class="tocindent">
+<div class="toc">
+<a class="Link" href="#toc-Section-1">Section 1: Introduction</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Section-2">Section 2: SVM and ELM</a>
+</div>
+<div class="tocindent">
+<div class="toc">
+<a class="Link" href="#toc-Subsection-2.1">Subsection 2.1: SVM </a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsection-2.2">Subsection 2.2: ELM</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsection-2.3">Subsection 2.3: Constraint ELM</a>
+</div>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Section-3">Section 3: Ensemble ELM</a>
+</div>
+<div class="tocindent">
+<div class="toc">
+<a class="Link" href="#toc-Subsection-3.1">Subsection 3.1: Random Forest</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsection-3.2">Subsection 3.2: Adaboost</a>
+</div>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Section-4">Section 4: Visualization by tSNE</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Section-5">Section 5: Experiment Result</a>
+</div>
+<div class="tocindent">
+<div class="toc">
+<a class="Link" href="#toc-Subsection-5.1">Subsection 5.1: Tuning Parameters</a>
+</div>
+<div class="tocindent">
+<div class="toc">
+<a class="Link" href="#toc-Subsubsection-5.1.1">Subsubsection 5.1.1: Kernel Form</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsubsection-5.1.2">Subsubsection 5.1.2: Linear Form</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsubsection-5.1.3">Subsubsection 5.1.3: Random Forest Form</a>
+</div>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsection-5.2">Subsection 5.2: Accuracy Comparison</a>
+</div>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Section-6">Section 6: Conclusion</a>
+</div>
+</div>
+
+</div>
+<div class="Standard">
+<p><br/>
+</p>
+
+</div>
+<h1 class="Section">
+<a class="toc" name="toc-Section-1">1</a> Introduction
+</h1>
+<div class="Standard">
+With the wide spread of smartphone popularity and the substantial increase in their functionality, there is much effort in attempting to incorporate all of the features to assist in predicting human activities. With all the additional features to basic telephony, the variety of sensors installed in smartphones can be a powerful tool in Activity Recognition. In this project, we will employ smartphone censors data for human activities recognition, with potential applications in the healthcare industry. 
+</div>
+<div class="Standard">
+The aim of Activity Recognition is to identify actions carried out by any person, given a set of observations of themselves and the surroundings. Data retrieved from embedded inertial sensors within the smartphone, such as accelerometers, can be exploited for such task. By processing these data through different supervised machine learning algorithm, we will be able classify physical activities, such as standing, walking, laying and etc. 
+</div>
+<div class="Standard">
+This report is structured in the following way. Section 2 entails the methodologies we have employed. In particular, we will examine the theoretical and logic behind SVM, ELM and ELM’s constraint variants. Section 3 contains two ensemble implementation of ELM namely Random Forest and multiclass Adaboost. Section 4 gives a brief introduction to multidimensional scaling technique called tSNE. Section 5 begins with model selection by cross validation or out of bag errors and then compares testing accuracies among different models. Finally, we give the conclusion and our approach to the <a class="URL" href="https://inclass.kaggle.com/c/stat-444-640-smart-phone-activity/leaderboard">data mining</a> competition in Section 6.
+</div>
+<h1 class="Section">
+<a class="toc" name="toc-Section-2">2</a> SVM and ELM
+</h1>
+<div class="Standard">
+In this section, we first briefly introduce the theoretical background of SVM and ELM and their optimization problems respectively. Then we extended the basic ELM models to several variants which impose some constraint on the parameters in the first layer. More comparison among SVM, ELM and Constraint ELM and their performance on the testing data set can be found in Section 5.
+</div>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-2.1">2.1</a> SVM 
+</h2>
+<div class="Standard">
+In 1995 Cortes and Vapnik <span class="bibcites">[<a class="bibliocite" name="cite-1" href="#biblio-1"><span class="bib-index">1</span></a>]</span> proposed the Support Vector Machine (SVM) which maps the data from the input space to some feature space <span class="MathJax_Preview"><script type="math/tex">
+Z
+</script>
+</span> through some nonlinear Prior mapping function <span class="MathJax_Preview"><script type="math/tex">
+\phi\left(x\right)
+</script>
+</span>. In this feature space, constraint optimization is used to find the &ldquo;optimal&rdquo; separating hyperplane that maximize the separating margins of two classifies in the feature space. Given a set of training data points <span class="MathJax_Preview"><script type="math/tex">
+\left(\underline{x}_{i},y_{i}\right)
+</script>
+</span> where <span class="MathJax_Preview"><script type="math/tex">
+\underline{x}_{i}\in\mathbb{R}^{d}
+</script>
+</span>, <span class="MathJax_Preview"><script type="math/tex">
+y_{i}\in\left\{ -1,+1\right\} 
+</script>
+</span> and <span class="MathJax_Preview"><script type="math/tex">
+i=1,\cdots,N
+</script>
+</span>. We can mapped the training data point in the input space to some feature space <span class="MathJax_Preview"><script type="math/tex">
+\mathbb{R}^{L}
+</script>
+</span> via a nonlinear function <span class="MathJax_Preview"><script type="math/tex">
+\underline{\phi}:\mathbb{R}^{d}\rightarrow\mathbb{R}^{L}
+</script>
+</span>. Then the distance between two hyperplane in the feature space <span class="MathJax_Preview"><script type="math/tex">
+Z
+</script>
+</span> is <span class="MathJax_Preview"><script type="math/tex">
+2/\left\Vert \underline{\omega}\right\Vert 
+</script>
+</span>. We maximize the distance by<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{eqnarray}
+\text{minimize: }L_{SVM} & = & \dfrac{1}{2}\left\Vert \underline{\omega}\right\Vert ^{2}+C\sum_{i=1}^{N}\xi_{i}\nonumber \\
+\text{subject to: }y_{i}\left(\underline{\omega}\cdot\underline{\phi}\left(\underline{x}_{i}\right)+b\right) & \ge & 1-\xi_{i}\label{eq:2-1}\\
+\xi_{i} & \ge & 0\nonumber 
+\end{eqnarray}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+where <span class="MathJax_Preview"><script type="math/tex">
+\xi_{i}
+</script>
+</span> is a slack variables introduced to make data points within the margins satisfies the first constraint in Eq <a class="Reference" href="#eq:2-1">(↓)</a> and <span class="MathJax_Preview"><script type="math/tex">
+C
+</script>
+</span> is non-negative user-specified penalty term which controls the trade off between training error and the margin distance. Using Karush-Kuhn-Tuchker (KTT) theorem, the above optimization is equivalent to the following<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{eqnarray}
+\text{minimize: }L_{KSVM} & = & \dfrac{1}{2}\sum_{i=1}^{N}\sum_{j=1}^{N}y_{i}y_{j}\alpha_{i}\alpha_{j}K\left(\underline{x}_{i},\underline{x}_{j}\right)-\sum_{i=1}^{N}\alpha_{i}\nonumber \\
+\text{subject to: }\sum_{i=1}^{N}y_{i}\alpha_{i} & = & 0\label{eq:2-2}\\
+0\le\alpha_{i} & \le & C\nonumber 
+\end{eqnarray}
+</script>
+
+</span>
+ provided that the kernel functions <span class="MathJax_Preview"><script type="math/tex">
+K\left(\underline{x}_{i},\underline{x}_{j}\right)=\underline{\phi}\left(\underline{x}_{i}\right)\underline{\phi}\left(\underline{x}_{j}\right)
+</script>
+</span> satisfies Mercer’s condition. Then the decision function of SVM is <span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{equation}
+f\left(\underline{x}\right)=sign\left(\sum_{s=1}^{N_{s}}\alpha_{s}y_{s}K\left(\underline{x},\underline{x}_{s}\right)+b\right)\label{eq:2-3}
+\end{equation}
+</script>
+
+</span>
+where <span class="MathJax_Preview"><script type="math/tex">
+N_{s}
+</script>
+</span> is the number of support vector and <span class="MathJax_Preview"><script type="math/tex">
+\underline{X}_{N_{S}\times p}
+</script>
+</span>is a sparse representation of the original data matrix <span class="MathJax_Preview"><script type="math/tex">
+\underline{X}_{N\times p}
+</script>
+</span> or <b><span class="MathJax_Preview"><script type="math/tex">
+N_{s}\ll N
+</script>
+</span></b>. The SVM can be consider a similar type of Single Layer Feedback Network as illustrate in Figure <a class="Reference" href="#fig:2-1">1↓</a>.
+</div>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-2.2">2.2</a> ELM
+</h2>
+<div class="Standard">
+<div class="float">
+<a class="Label" name="fig:2-1"> </a><div class="figure">
+
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT640/elm.png" alt="figure elm.png" style="width: 16cm; max-width: 1000px; height: auto; max-height: 570px;"/>
+</div>
+
+<div class="caption">
+Figure 1 ELM Neural Network structure.  
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="Standard">
+Guang-Bin Huang and his colleges introduced the extreme learning machine as an SLFN with fast learning speed and good generalization ability (ELM can approximate any target function <span class="bibcites">[<a class="bibliocite" name="cite-3" href="#biblio-3"><span class="bib-index">3</span></a>]</span>). Unlike traditional SLFN, the parameters in the hidden layer need not be tuned or fixed once randomly uniform generated. The input data <span class="MathJax_Preview"><script type="math/tex">
+\underline{x}\in\mathbb{R}^{d}
+</script>
+</span> is mapped to the feature space <span class="MathJax_Preview"><script type="math/tex">
+\mathbb{R}^{L}
+</script>
+</span> by mapping <span class="MathJax_Preview"><script type="math/tex">
+\underline{h}:\mathbb{R}^{d}\rightarrow\mathbb{R}^{L}
+</script>
+</span> or <span class="MathJax_Preview"><script type="math/tex">
+\underline{h}\left(\underline{x}\right)=\left[g_{1}\left(\underline{x}\right),g_{2}\left(\underline{x}\right),\cdots,g_{L}\left(\underline{x}\right)\right]
+</script>
+</span> where <span class="MathJax_Preview"><script type="math/tex">
+g_{i}
+</script>
+</span> is the activation function for the hidden node <span class="MathJax_Preview"><script type="math/tex">
+i
+</script>
+</span> as illustrated in Figure <a class="Reference" href="#fig:2-1">1↑</a>. In Eq <a class="Reference" href="#eq:2-3">(↓)</a>, we know SVM can solve bi-classification and SVM is extended to <span class="MathJax_Preview"><script type="math/tex">
+m
+</script>
+</span> classes classification by One verse One (OVO) or One verse All (OVA). For OVO <span class="MathJax_Preview"><script type="math/tex">
+\binom{m}{2}
+</script>
+</span> SVMs are needed and <span class="MathJax_Preview"><script type="math/tex">
+m-1
+</script>
+</span> in OVA. However, ELM solves the problem in one model by having <span class="MathJax_Preview"><script type="math/tex">
+m
+</script>
+</span> output nodes. Then for class <span class="MathJax_Preview"><script type="math/tex">
+p
+</script>
+</span> the expected output vector is <span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+
+\underline{y}_{i}=\begin{bmatrix}0 & \cdots & 0 & \overbrace{1}^{p} & 0 & \cdots & 0\end{bmatrix}_{m\times1}
+
+</script>
+
+</span>
+or only the <span class="MathJax_Preview"><script type="math/tex">
+p
+</script>
+</span>th element of <span class="MathJax_Preview"><script type="math/tex">
+\underline{y}_{i}
+</script>
+</span> is one while the others are zeros. ELM is to optimize the training error as well as the norm of the output weights <span class="MathJax_Preview"><script type="math/tex">
+\underline{\beta}
+</script>
+</span>.<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{eqnarray}
+\text{minmize: }\left\Vert \underline{H}\underline{\beta}-\underline{Y}\right\Vert _{F}^{2} & \text{and} & \left\Vert \underline{\beta}\right\Vert _{F}\label{eq:2-4}
+\end{eqnarray}
+</script>
+
+</span>
+where <span class="MathJax_Preview"><script type="math/tex">
+\underline{H}_{N\times L}
+</script>
+</span> is the hidden-layer output matrix, <span class="MathJax_Preview"><script type="math/tex">
+\underline{\beta}_{L\times m}
+</script>
+</span> is the output weights between the hidden layer <span class="MathJax_Preview"><script type="math/tex">
+L
+</script>
+</span> nodes and the output layer <span class="MathJax_Preview"><script type="math/tex">
+m
+</script>
+</span> nodes and <span class="MathJax_Preview"><script type="math/tex">
+\underline{Y}_{N\times m}
+</script>
+</span> is the expected output coded as above. <span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{eqnarray*}
+\underline{H}_{N\times L} & = & \begin{bmatrix}\underline{h}\left(\underline{x}_{1}\right)\\
+\vdots\\
+\underline{h}\left(\underline{x}_{N}\right)
+\end{bmatrix}=\begin{bmatrix}g_{1}\left(\underline{x}_{1}\right) & \cdots & g_{L}\left(\underline{x}_{2}\right)\\
+\vdots & \vdots & \vdots\\
+g_{1}\left(\underline{x}_{N}\right) & \cdots & g_{L}\left(\underline{x}_{N}\right)
+\end{bmatrix}_{N\times L}\\
+\underline{Y}_{N\times m} & = & \begin{bmatrix}\underline{y}_{1} & \cdots & \underline{y}_{N}\end{bmatrix}^{T}
+\end{eqnarray*}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+Formulate Eq <a class="Reference" href="#eq:2-4">(↓)</a> as optimization problem <span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{eqnarray*}
+\text{minimize:}L_{ELM} & = & \dfrac{1}{2}\left\Vert \underline{\beta}\right\Vert ^{2}+C\dfrac{1}{2}\sum_{i=1}^{N}\left\Vert \underline{\xi}_{i}\right\Vert ^{2}\\
+\text{subject to: }\underline{h}\left(\underline{x}_{i}\right)\underline{\beta} & = & y_{i}^{T}-\underline{\xi}_{i}^{T}
+\end{eqnarray*}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+based on KTT theorem whose dual form is <span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{equation}
+L_{DELM}=\dfrac{1}{2}\left\Vert \underline{\beta}\right\Vert ^{2}+C\dfrac{1}{2}\sum_{i=1}^{N}\left\Vert \underline{\xi}_{i}\right\Vert ^{2}-\sum_{i=1}^{N}\sum_{j=1}^{m}\underline{\alpha}_{ij}\left(\underline{h}\left(\underline{x}_{i}\right)\underline{\beta}_{j}-\underline{y}_{ij}+\underline{\xi}_{ij}\right)\label{eq:2-5}
+\end{equation}
+</script>
+
+</span>
+Set the derivative of <span class="MathJax_Preview"><script type="math/tex">
+L_{DELM}
+</script>
+</span> with respective to <span class="MathJax_Preview"><script type="math/tex">
+\underline{\beta}_{j}
+</script>
+</span>, <span class="MathJax_Preview"><script type="math/tex">
+\underline{\xi}_{i}
+</script>
+</span> and <span class="MathJax_Preview"><script type="math/tex">
+\underline{\alpha}_{i}
+</script>
+</span> to zeros. We have <span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{eqnarray}
+\underline{\beta} & = & \underline{H}^{T}\left(\dfrac{\underline{I}}{C}+\underline{H}\underline{H}^{T}\right)^{-1}\underline{Y}\label{eq:2-6-1}\\
+\underline{f}\left(\underline{x}\right) & = & \underline{h}\left(\underline{x}\right)\underline{H}^{T}\left(\dfrac{\underline{I}}{C}+\underline{H}\underline{H}^{T}\right)^{-1}\underline{Y}\label{eq:2-6}
+\end{eqnarray}
+</script>
+
+</span>
+The predicted class label for sample <span class="MathJax_Preview"><script type="math/tex">
+\underline{x}
+</script>
+</span> is <span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{equation}
+label\left(x\right)=\arg\max_{i\in\left\{ 1,\cdots m\right\} }f_{i}\left(\underline{x}\right)\label{eq:2-7}
+\end{equation}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+Also if the kernel function <span class="MathJax_Preview"><script type="math/tex">
+K\left(\cdot,\cdot\right)
+</script>
+</span> satisfies Mercer’s condition, we can define the kernel matrix <span class="MathJax_Preview"><script type="math/tex">
+\underline{\Omega}=\underline{H}\underline{H}^{T}
+</script>
+</span> with element <span class="MathJax_Preview"><script type="math/tex">
+\underline{\Omega}_{ij}=\underline{h}\left(\underline{x}_{i}\right)\cdot\underline{h}\left(\underline{x}_{j}\right)=K\left(\underline{x}_{i},\underline{x}_{j}\right)
+</script>
+</span>. Then Eq <a class="Reference" href="#eq:2-6">(↓)</a> can be reformulated as <span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{equation}
+\underline{f}\left(\underline{x}\right)=\begin{bmatrix}K\left(\underline{x},\underline{x}_{1}\right)\\
+\vdots\\
+K\left(\underline{x},\underline{x}_{N}\right)
+\end{bmatrix}\left(\dfrac{\underline{I}}{C}+\underline{H}\underline{H}^{T}\right)^{-1}\underline{Y}\label{eq:2-8}
+\end{equation}
+</script>
+
+</span>
+and the prediction formula for the Kernel form is the same as Eq <a class="Reference" href="#eq:2-7">(↓)</a>.
+</div>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-2.3">2.3</a> Constraint ELM
+</h2>
+<div class="Standard">
+In previous section, we introduced ELM which maps the original data into the feature space by some activation function (e.g. sigmoid function) whose parameters are randomly generated and then solves essentially a linear system in the second layer. However, it is interesting to investigate whether prediction accuracy on the assessment data set will increase or not, if we add some constraints to the random parameters. The constraints added to the random weights are one of actively research areas in the ELM literature <span class="bibcites">[<a class="bibliocite" name="cite-4" href="#biblio-4"><span class="bib-index">4</span></a>, <a class="bibliocite" name="cite-6" href="#biblio-6"><span class="bib-index">6</span></a>]</span>. Since Constraint ELM is claimed to be robust to outliers, here we only present several easily implemented methods for time and space limit.
+</div>
+<div class="Standard">
+The constraint difference (CDELM) method utilizes prior &ldquo;distribution&rdquo; of two classes. The aim is to constraint the weights to map two classes into positive and negative hyper planes. For observation <span class="MathJax_Preview"><script type="math/tex">
+\underline{x}\in\mathbb{R}^{p}
+</script>
+</span>, it is mapped to <span class="MathJax_Preview"><script type="math/tex">
++
+</script>
+</span> and <span class="MathJax_Preview"><script type="math/tex">
+-
+</script>
+</span> planes by<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{eqnarray*}
+\alpha\underline{x}_{c1}^{T}\left(\underline{x}_{c1}-\underline{x}_{c2}\right)+b & = & -1\\
+\alpha\underline{x}_{c2}^{T}\left(\underline{x}_{c1}-\underline{x}_{c2}\right)+b & = & +1
+\end{eqnarray*}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+solve for <span class="MathJax_Preview"><script type="math/tex">
+\alpha
+</script>
+</span> and <span class="MathJax_Preview"><script type="math/tex">
+b
+</script>
+</span>, we obtains <span class="MathJax_Preview"><script type="math/tex">
+\alpha=2/\left\Vert \underline{x}_{c1}-\underline{x}_{c2}\right\Vert _{L_{2}}^{2}
+</script>
+</span> and <span class="MathJax_Preview"><script type="math/tex">
+b=\left(\underline{x}_{c1}+\underline{x}_{c2}\right)^{T}\left(\underline{x}_{c1}-\underline{x}_{c2}\right)/\left\Vert \underline{x}_{c1}-\underline{x}_{c2}\right\Vert _{L_{2}}^{2}
+</script>
+</span> where <span class="MathJax_Preview"><script type="math/tex">
+c1
+</script>
+</span> and <span class="MathJax_Preview"><script type="math/tex">
+c2
+</script>
+</span> represent observations from two different classes. 
+</div>
+<div class="Standard">
+We can generate weight <span class="MathJax_Preview"><script type="math/tex">
+\underline{\omega}
+</script>
+</span> by randomly sample <span class="MathJax_Preview"><script type="math/tex">
+\underline{x}_{i}
+</script>
+</span> from data matrix <span class="MathJax_Preview"><script type="math/tex">
+\underline{X}
+</script>
+</span> and then normalize it (SELM) or sample two data points of different classes and normalize their sum (CSELM). We even can relax the different class constraint and directly normalize the sum of two random sampling (RSELM). There is little statistical support for those constraints but for the competition we tried to believe those will alleviate the possible outliers. However extensive comparison of all the constraint models will be evaluated in Section 5. For a brief reference, the weights and bias are defined in Table <a class="Reference" href="#tab:2-1">1↓</a>.
+</div>
+<div class="Standard">
+<div class="float">
+<a class="Label" name="tab:2-1"> </a><div class="table">
+<div class="center">
+<table>
+<tr>
+<td align="center" valign="top">
+Name
+</td>
+<td align="center" valign="top">
+Weights
+</td>
+<td align="center" valign="top">
+Bias
+</td>
+
+</tr>
+<tr>
+<td align="center" valign="top">
+CDELM
+</td>
+<td align="center" valign="top">
+<span class="MathJax_Preview"><script type="math/tex">
+\underline{\omega}=\dfrac{2\left(\underline{x}_{c1}-\underline{x}_{c2}\right)}{\left\Vert \underline{x}_{c1}-\underline{x}_{c2}\right\Vert _{L_{2}}^{2}}
+</script>
+</span>
+</td>
+<td align="center" valign="top">
+<span class="MathJax_Preview"><script type="math/tex">
+b=\dfrac{\left(\underline{x}_{c1}+\underline{x}_{c2}\right)^{T}\left(\underline{x}_{c1}-\underline{x}_{c2}\right)}{\left\Vert \underline{x}_{c1}-\underline{x}_{c2}\right\Vert _{L_{2}}^{2}}
+</script>
+</span>
+</td>
+
+</tr>
+<tr>
+<td align="center" valign="top">
+SELM
+</td>
+<td align="center" valign="top">
+<span class="MathJax_Preview"><script type="math/tex">
+\underline{\omega}=\dfrac{\underline{x}_{i}}{\left\Vert \underline{x}_{i}\right\Vert _{L_{2}}^{2}}
+</script>
+</span>
+</td>
+<td align="center" valign="top">
+uniformly generated
+</td>
+
+</tr>
+<tr>
+<td align="center" valign="top">
+CSELM
+</td>
+<td align="center" valign="top">
+<span class="MathJax_Preview"><script type="math/tex">
+\underline{\omega}=\dfrac{\underline{x}_{c1}+\underline{x}_{c2}}{\left\Vert \underline{x}_{c1}+\underline{x}_{c2}\right\Vert _{L_{2}}^{2}}
+</script>
+</span>
+</td>
+<td align="center" valign="top">
+uniformly generated
+</td>
+
+</tr>
+<tr>
+<td align="center" valign="top">
+RSELM
+</td>
+<td align="center" valign="top">
+<span class="MathJax_Preview"><script type="math/tex">
+\underline{\omega}=\dfrac{\underline{x}_{i}+\underline{x}_{i^{'}}}{\left\Vert \underline{x}_{i}+\underline{x}_{i^{'}}\right\Vert _{L_{2}}^{2}}
+</script>
+</span>
+</td>
+<td align="center" valign="top">
+uniformly generated
+</td>
+
+</tr>
+<tr>
+<td align="center" valign="top">
+CMELM
+</td>
+<td align="center" valign="top">
+a mixture of the above
+</td>
+<td align="center" valign="top">
+a mixture of the above
+</td>
+
+</tr>
+
+</table>
+
+</div>
+<div class="caption">
+Table 1 Constraint ELM methods
+</div>
+
+</div>
+
+</div>
+
+</div>
+<h1 class="Section">
+<a class="toc" name="toc-Section-3">3</a> Ensemble ELM
+</h1>
+<div class="Standard">
+Since ensemble is very useful in dealing with overfitting problem and can possibly generate a better model for the testing data set, here we present two ensemble implementations for ELM. Our Random Forest here utilize ELM as week learner. Following Freund et al. <span class="bibcites">[<a class="bibliocite" name="cite-2" href="#biblio-2"><span class="bib-index">2</span></a>]</span>, we extended the original AdaBoost to multiclass condition. The experiment results of this section is shown in Section 5.
+</div>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-3.1">3.1</a> Random Forest
+</h2>
+<div class="Standard">
+Let <span class="MathJax_Preview"><script type="math/tex">
+ELM_{i}\left(x\right)
+</script>
+</span> denotes as the <span class="MathJax_Preview"><script type="math/tex">
+i
+</script>
+</span>th ELM week learner. Random Forest version of ELM is defined as:
+</div>
+<ol>
+<li>
+For <span class="MathJax_Preview"><script type="math/tex">
+m=1:M
+</script>
+</span><ol>
+<li>
+Bootstrap training subset <span class="MathJax_Preview"><script type="math/tex">
+\underline{X}_{N\times p}^{b_{m}}
+</script>
+</span> from training data matrix <span class="MathJax_Preview"><script type="math/tex">
+\underline{X}_{N\times p}
+</script>
+</span>. 
+</li>
+<li>
+Randomly select <span class="MathJax_Preview"><script type="math/tex">
+q\le p
+</script>
+</span> variables from the bootstrap and fit ELM model <span class="MathJax_Preview"><script type="math/tex">
+ELM_{m}\left(x\mid\underline{X}_{N\times q}^{b_{m}}\right)
+</script>
+</span> 
+</li>
+
+</ol>
+
+</li>
+<li>
+Output:<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+
+C\left(x\right)=\arg\max_{k}\sum_{m=1}^{M}I\left(ELM_{m}\left(x\mid\underline{X}_{N\times p}^{b_{m}}\right)=k\right)
+
+</script>
+
+</span>
+where <span class="MathJax_Preview"><script type="math/tex">
+k\in\left\{ 1,\cdots,K\right\} 
+</script>
+</span> denotes the class label.
+</li>
+
+</ol>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-3.2">3.2</a> Adaboost
+</h2>
+<div class="Standard">
+Our Multiclass AdaBoost ELM algorithm is following:
+</div>
+<ol>
+<li>
+Initialize the observation weights <span class="MathJax_Preview"><script type="math/tex">
+w_{i}=1/N
+</script>
+</span> where <span class="MathJax_Preview"><script type="math/tex">
+i=1,\cdots,N
+</script>
+</span>
+</li>
+<li>
+For <span class="MathJax_Preview"><script type="math/tex">
+m=1:M
+</script>
+</span><ol>
+<li>
+Fit <span class="MathJax_Preview"><script type="math/tex">
+ELM_{m}\left(x\right)
+</script>
+</span> to the training data using weights <span class="MathJax_Preview"><script type="math/tex">
+w_{i}
+</script>
+</span>.
+</li>
+<li>
+Compute the weighted error<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+
+err_{m}=\dfrac{\sum_{i=1}^{N}w_{i}I\left(c_{i}\ne ELM_{m}\left(x_{i}\right)\right)}{\sum_{i=1}^{N}w_{i}}
+
+</script>
+
+</span>
+
+</li>
+<li>
+Compute the weight of the <span class="MathJax_Preview"><script type="math/tex">
+m
+</script>
+</span>th classifier<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+
+a_{m}=\log\dfrac{1-err_{m}}{err_{m}}+\log\left(K-1\right)
+
+</script>
+
+</span>
+
+</li>
+<li>
+Update the weights <span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+
+w_{i}=w_{i}\exp\left(\alpha_{m}\times I\left(c_{i}\ne ELM_{m}\left(x_{i}\right)\right)\right)
+
+</script>
+
+</span>
+
+</li>
+<li>
+Re-normalize <span class="MathJax_Preview"><script type="math/tex">
+w_{i}
+</script>
+</span>
+</li>
+
+</ol>
+
+</li>
+<li>
+Output <span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+
+C\left(x\right)=\arg\max_{k}\sum_{m=1}^{M}\alpha_{m}I\left(ELM_{m}\left(x\right)=k\right)
+
+</script>
+
+</span>
+
+</li>
+
+</ol>
+<div class="Standard">
+Note that in Adaboost ELM, we updates the <span class="MathJax_Preview"><script type="math/tex">
+\underline{\beta}
+</script>
+</span> in Eq <a class="Reference" href="#eq:2-6-1">(↓)</a> by <span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+
+\underline{\beta}=\underline{H}^{T}\left(\dfrac{\underline{I}}{C}+\underline{W}\underline{H}\underline{H}^{T}\right)^{-1}\underline{W}\underline{Y}
+
+</script>
+
+</span>
+where <span class="MathJax_Preview"><script type="math/tex">
+W_{ii}=w_{i}
+</script>
+</span> and <span class="MathJax_Preview"><script type="math/tex">
+W_{ij}=0
+</script>
+</span> for <span class="MathJax_Preview"><script type="math/tex">
+i\ne j
+</script>
+</span>.
+</div>
+<h1 class="Section">
+<a class="toc" name="toc-Section-4">4</a> Visualization by tSNE
+</h1>
+<div class="Standard">
+tSNE stands for <span class="MathJax_Preview"><script type="math/tex">
+t
+</script>
+</span> distributed Stochastic Neighborhood Embedding <span class="bibcites">[<a class="bibliocite" name="cite-5" href="#biblio-5"><span class="bib-index">5</span></a>]</span>. Its basic idea is to use conditional probability to define a measure of similarity between data points. Or For any <span class="MathJax_Preview"><script type="math/tex">
+\underline{x}_{i}
+</script>
+</span>, <span class="MathJax_Preview"><script type="math/tex">
+\underline{x}_{j}\in\mathbb{R}^{p}
+</script>
+</span> , define conditional probability that <span class="MathJax_Preview"><script type="math/tex">
+x_{i}
+</script>
+</span> would pick <span class="MathJax_Preview"><script type="math/tex">
+x_{j}
+</script>
+</span> as its neighbor.<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{equation}
+p_{j\mid i}=\dfrac{\exp\left(-\left\Vert \underline{x}_{i}-\underline{x}_{j}\right\Vert ^{2}/2\sigma_{i}^{2}\right)}{\sum_{k\ne i}\exp\left(-\left\Vert \underline{x}_{i}-\underline{x}_{k}\right\Vert ^{2}/2\sigma_{i}^{2}\right)}\label{eq:4-1}
+\end{equation}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+For any <span class="MathJax_Preview"><script type="math/tex">
+\underline{y}_{i},\underline{y}_{j}\in\mathbb{R}^{2}
+</script>
+</span>, same definition extends to mapped lower dimension.<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{equation}
+q_{j\mid i}=\dfrac{\exp\left(-\left\Vert \underline{y}_{i}-\underline{y}_{j}\right\Vert ^{2}\right)}{\sum_{k\ne i}\exp\left(-\left\Vert \underline{y}_{i}-\underline{y}_{k}\right\Vert ^{2}\right)}\label{eq:4-1-1}
+\end{equation}
+</script>
+
+</span>
+Our aim is to find a mapping <span class="MathJax_Preview"><script type="math/tex">
+\gamma:x_{i}\rightarrow y_{i}
+</script>
+</span> such that <span class="MathJax_Preview"><script type="math/tex">
+p_{j\mid i}\approx q_{j\mid i}
+</script>
+</span>. Naturally Cross-entropy or Kullback-Leibler divergence is utilized to model the lost between two probability.
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{equation}
+C=\sum_{i}KL\left(P_{i}\parallel Q_{i}\right)=\sum_{i}\sum_{j}p_{j\mid i}\log\dfrac{p_{j\mid i}}{q_{j\mid i}}\label{eq:4-2}
+\end{equation}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+Since Eq <a class="Reference" href="#eq:4-1">(↓)</a>’s <span class="MathJax_Preview"><script type="math/tex">
+\sigma_{i}
+</script>
+</span> induces a probability distribution <span class="MathJax_Preview"><script type="math/tex">
+P_{i}
+</script>
+</span> whose entropy increase as <span class="MathJax_Preview"><script type="math/tex">
+\sigma_{i}
+</script>
+</span> increase, an user specific parameter perplexity is introduced to constraint the information. <span class="MathJax_Preview"><script type="math/tex">
+Perp\left(P_{i}\right)=2^{H\left(P_{i}\right)}
+</script>
+</span> where <span class="MathJax_Preview"><script type="math/tex">
+H\left(P_{i}\right)
+</script>
+</span> is the Shannon entropy of <span class="MathJax_Preview"><script type="math/tex">
+P_{i}
+</script>
+</span> defined as <span class="MathJax_Preview"><script type="math/tex">
+H\left(P_{i}\right)=-\sum_{j}p_{j\mid i}\log_{2}p_{j\mid i}
+</script>
+</span> . Finally, we can use gradient descent to optimize the cost function in Eq <a class="Reference" href="#eq:4-2">(↓)</a>. Or we take derivative in Eq <a class="Reference" href="#eq:4-2">(↓)</a> with respective to each mapped point <span class="MathJax_Preview"><script type="math/tex">
+\underline{y}_{i}
+</script>
+</span> shown in Eq <a class="Reference" href="#eq:4-3">(↓)</a> and then use monotone Gradient descent in Eq <a class="Reference" href="#eq:4-4">(↓)</a> to update each individual mapped point <span class="MathJax_Preview"><script type="math/tex">
+\underline{y}_{i}
+</script>
+</span>. <span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{equation}
+\dfrac{\delta C}{\delta\underline{y}_{i}}=2\sum_{j}\left(p_{j\mid i}-q_{j\mid i}+p_{i\mid j}-q_{i\mid j}\right)\left(\underline{y}_{i}-\underline{y}_{j}\right)\label{eq:4-3}
+\end{equation}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{equation}
+\gamma^{\left(t\right)}=\gamma^{\left(t-1\right)}+\underbrace{\eta}_{\text{learning rate}}\dfrac{\delta C}{\delta\gamma}+\underbrace{\alpha\left(t\right)\left(\gamma^{\left(t-1\right)}-\gamma^{\left(t-2\right)}\right)}_{\text{momentume term}}\label{eq:4-4}
+\end{equation}
+</script>
+
+</span>
+where <span class="MathJax_Preview"><script type="math/tex">
+\alpha\left(t\right)
+</script>
+</span> a momentum term is added to the update function to expedite the descending process. The above is the definition of Stochastic Neighborhood Embedding (SNE) purposed by G. Hinton. They then further changed the condition distribution defined in Eq <a class="Reference" href="#eq:4-1">(↓)</a> to Joint Probability distribution in Eq <a class="Reference" href="#eq:4-5">(↓)</a> and use heavy tail <span class="MathJax_Preview"><script type="math/tex">
+t
+</script>
+</span> distribution with one degree of freedom shown in Eq <a class="Reference" href="#eq:4-6">(↓)</a>.
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{equation}
+p_{ij}=\dfrac{\exp\left(-\left\Vert \underline{x}_{i}-\underline{x}_{j}\right\Vert ^{2}/2\sigma^{2}\right)}{\sum_{k\ne i}\exp\left(-\left\Vert \underline{x}_{i}-\underline{x}_{k}\right\Vert ^{2}/2\sigma^{2}\right)}\label{eq:4-5}
+\end{equation}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{equation}
+q_{ij}=\dfrac{\left(1+\left\Vert \underline{y}_{i}-\underline{y}_{j}\right\Vert ^{2}\right)^{-1}}{\sum_{k\ne l}\left(1+\left\Vert \underline{y}_{i}-\underline{y}_{j}\right\Vert ^{2}\right)^{-1}}\label{eq:4-6}
+\end{equation}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+Those changes not only save computational time (exponential term in Eq <a class="Reference" href="#eq:4-1-1">(↓)</a> is more intensive than the inverse operator in Eq <a class="Reference" href="#eq:4-6">(↓)</a>) but also solves the crowding problem faced in SNE (the area to accommodate similarity points in <span class="MathJax_Preview"><script type="math/tex">
+\underline{x}_{i}
+</script>
+</span> is not large enough for mapped point <span class="MathJax_Preview"><script type="math/tex">
+\underline{y}_{i}
+</script>
+</span> ). For more information about the technique detail about t-SNE, please refer to the their paper <span class="bibcites">[<a class="bibliocite" name="cite-5" href="#biblio-5"><span class="bib-index">5</span></a>]</span>. Here we present a comparison visualization plots between PCA (or Classical MDS) and t-SNE in Figure <a class="Reference" href="#fig:5-1">(2↓)</a>.
+</div>
+<div class="Standard">
+<div class="float">
+<a class="Label" name="fig:5-1"> </a><div class="multifigure">
+<div class="center">
+<span class="float">
+<div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT640/pca640.png" alt="figure pca640.png" style="width: 8cm; max-width: 341px; height: auto; max-height: 265px;"/>
+
+</div>
+<div class="caption">
+(a) PCA
+</div>
+
+</div>
+
+</span>
+<span class="float">
+<div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT640/tSNE640.png" alt="figure tSNE640.png" style="width: 8cm; max-width: 353px; height: auto; max-height: 265px;"/>
+
+</div>
+<div class="caption">
+(b) tSNE
+</div>
+
+</div>
+
+</span>
+<div class="caption">
+Figure 2 PCA and tSNE’s Visualization Result. 
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="Standard">
+We can see tSNE does a better job at visualization than PCA and Group 4 and 5 are such overlapping with each other in t-SNE that we later confirmed some data points between 4 and 5 are hard to separate by either ELM or SVM.
+</div>
+<h1 class="Section">
+<a class="toc" name="toc-Section-5">5</a> Experiment Result
+</h1>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-5.1">5.1</a> Tuning Parameters
+</h2>
+<div class="Standard">
+It is important to tune parameters for finding the optimal model with good generation ability and performance on the testing data set. We used minimum Cross Validation errors to select ELM and SVM’s optimal parameters as shown in Figure <a class="Reference" href="#fig:4-1">3↓</a> and <a class="Reference" href="#fig:4-2">4↓</a>. The basic process for Cross Validation is to divide the data set we have into model selection (80%) and model assessment (20%). Further divide the selection data set into <span class="MathJax_Preview"><script type="math/tex">
+K
+</script>
+</span> folds, and then take turns to build a model using <span class="MathJax_Preview"><script type="math/tex">
+K-1
+</script>
+</span> folds to predict on the last fold.
+</div>
+<div class="Standard">
+For Random Forest or Bagging, the most convenient way to tune the number of parameters sampled is to use Out of Bag errors or calculate prediction errors on the observations left out from the bootstrap sample. From Figure <a class="Reference" href="#fig:4-1">3↓</a> to <a class="Reference" href="#fig:4-3">5↓</a>, the following parameters in Table <a class="Reference" href="#tab:4-1">2↓</a> are used for our model comparison and assessment in the Section 4-2.
+</div>
+<div class="Standard">
+<div class="float">
+<a class="Label" name="tab:4-1"> </a><div class="table">
+<div class="center">
+<table>
+<tr>
+<td align="center" valign="top" colspan="8">
+Linear Model
+</td>
+
+</tr>
+<tr>
+<td align="center" valign="top">
+Name
+</td>
+<td align="center" valign="top">
+SVM
+</td>
+<td align="center" valign="top">
+ELM
+</td>
+<td align="center" valign="top">
+CDELM
+</td>
+<td align="center" valign="top">
+CSELM
+</td>
+<td align="center" valign="top">
+MIXELM
+</td>
+<td align="center" valign="top">
+RELM
+</td>
+<td align="center" valign="top">
+RSELM
+</td>
+
+</tr>
+<tr>
+<td align="center" valign="top">
+Cost
+</td>
+<td align="center" valign="top">
+<span class="MathJax_Preview"><script type="math/tex">
+2^{10}
+</script>
+</span>
+</td>
+<td align="center" valign="top">
+<span class="MathJax_Preview"><script type="math/tex">
+2^{0}
+</script>
+</span>
+</td>
+<td align="center" valign="top">
+<span class="MathJax_Preview"><script type="math/tex">
+2^{10}
+</script>
+</span>
+</td>
+<td align="center" valign="top">
+<span class="MathJax_Preview"><script type="math/tex">
+2^{10}
+</script>
+</span>
+</td>
+<td align="center" valign="top">
+<span class="MathJax_Preview"><script type="math/tex">
+2^{10}
+</script>
+</span>
+</td>
+<td align="center" valign="top">
+<span class="MathJax_Preview"><script type="math/tex">
+2^{10}
+</script>
+</span>
+</td>
+<td align="center" valign="top">
+<span class="MathJax_Preview"><script type="math/tex">
+2^{0}
+</script>
+</span>
+</td>
+
+</tr>
+<tr>
+<td align="center" valign="top" colspan="8">
+Kernel Model
+</td>
+
+</tr>
+<tr>
+<td align="center" valign="top">
+Name
+</td>
+<td align="center" valign="top">
+SVM
+</td>
+<td align="center" valign="top">
+ELM
+</td>
+<td align="center" valign="top">
+
+</td>
+<td align="center" valign="top">
+
+</td>
+<td align="center" valign="top">
+
+</td>
+<td align="center" valign="top">
+
+</td>
+<td align="center" valign="top">
+
+</td>
+
+</tr>
+<tr>
+<td align="center" valign="top">
+Cost
+</td>
+<td align="center" valign="top">
+<span class="MathJax_Preview"><script type="math/tex">
+2^{10}
+</script>
+</span>
+</td>
+<td align="center" valign="top">
+<span class="MathJax_Preview"><script type="math/tex">
+2^{11}
+</script>
+</span>
+</td>
+<td align="center" valign="top">
+
+</td>
+<td align="center" valign="top">
+
+</td>
+<td align="center" valign="top">
+
+</td>
+<td align="center" valign="top">
+
+</td>
+<td align="center" valign="top">
+
+</td>
+
+</tr>
+<tr>
+<td align="center" valign="top">
+<span class="MathJax_Preview"><script type="math/tex">
+\gamma
+</script>
+</span>
+</td>
+<td align="center" valign="top">
+<span class="MathJax_Preview"><script type="math/tex">
+2^{-10}
+</script>
+</span>
+</td>
+<td align="center" valign="top">
+<span class="MathJax_Preview"><script type="math/tex">
+2^{11}
+</script>
+</span>
+</td>
+<td align="center" valign="top">
+
+</td>
+<td align="center" valign="top">
+
+</td>
+<td align="center" valign="top">
+
+</td>
+<td align="center" valign="top">
+
+</td>
+<td align="center" valign="top">
+
+</td>
+
+</tr>
+<tr>
+<td align="center" valign="top" colspan="8">
+Random Forest Model
+</td>
+
+</tr>
+<tr>
+<td align="center" valign="top">
+Name
+</td>
+<td align="center" valign="top">
+SVM
+</td>
+<td align="center" valign="top">
+ELM
+</td>
+<td align="center" valign="top">
+
+</td>
+<td align="center" valign="top">
+
+</td>
+<td align="center" valign="top">
+
+</td>
+<td align="center" valign="top">
+
+</td>
+<td align="center" valign="top">
+
+</td>
+
+</tr>
+<tr>
+<td align="center" valign="top">
+mtry
+</td>
+<td align="center" valign="top">
+<span class="MathJax_Preview"><script type="math/tex">
+450
+</script>
+</span>
+</td>
+<td align="center" valign="top">
+<span class="MathJax_Preview"><script type="math/tex">
+450
+</script>
+</span>
+</td>
+<td align="center" valign="top">
+
+</td>
+<td align="center" valign="top">
+
+</td>
+<td align="center" valign="top">
+
+</td>
+<td align="center" valign="top">
+
+</td>
+<td align="center" valign="top">
+
+</td>
+
+</tr>
+
+</table>
+
+</div>
+<div class="caption">
+Table 2 Parameter Selected using Cross Validation and Out of Bag errors.
+</div>
+
+</div>
+
+</div>
+
+</div>
+<h3 class="Subsubsection">
+<a class="toc" name="toc-Subsubsection-5.1.1">5.1.1</a> Kernel Form
+</h3>
+<div class="Standard">
+<div class="float">
+<a class="Label" name="fig:4-1"> </a><div class="multifigure">
+<span class="float">
+<div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT640/cvERR.png" alt="figure cvERR.png" style="width: 8cm; max-width: 402px; height: auto; max-height: 332px;"/>
+
+</div>
+<div class="caption">
+(a) ELM
+</div>
+
+</div>
+
+</span>
+<span class="float">
+<div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT640/cvSVMerr.png" alt="figure cvSVMerr.png" style="width: 8cm; max-width: 412px; height: auto; max-height: 337px;"/>
+
+</div>
+<div class="caption">
+(b) SVM
+</div>
+
+</div>
+
+</span>
+<div class="caption">
+Figure 3 Kernel SVM (5 folds) and ELM (10 folds)’s Cross Validation 
+</div>
+
+</div>
+
+</div>
+
+</div>
+<h3 class="Subsubsection">
+<a class="toc" name="toc-Subsubsection-5.1.2">5.1.2</a> Linear Form
+</h3>
+<div class="Standard">
+<div class="float">
+<a class="Label" name="fig:4-2"> </a><div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT640/tuneLinear.png" alt="figure tuneLinear.png" style="width: 16cm; max-width: 1000px; height: auto; max-height: 570px;"/>
+
+</div>
+<div class="caption">
+Figure 4 10 Folds Cross Validation for 6 linear ELM models.
+</div>
+
+</div>
+
+</div>
+
+</div>
+<h3 class="Subsubsection">
+<a class="toc" name="toc-Subsubsection-5.1.3">5.1.3</a> Random Forest Form
+</h3>
+<div class="Standard">
+<div class="float">
+<a class="Label" name="fig:4-3"> </a><div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT640/BagELM.png" alt="figure BagELM.png" style="width: 16cm; max-width: 1000px; height: auto; max-height: 570px;"/>
+
+</div>
+<div class="caption">
+Figure 5 Random Forest Out of Bag errors.
+</div>
+
+</div>
+
+</div>
+
+</div>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-5.2">5.2</a> Accuracy Comparison
+</h2>
+<div class="Standard">
+Since we just got the testing data set labels from Dr. Allen, it is interesting to know how those different basic learner perform. Here we present the testing accuracies in Table <a class="Reference" href="#tab:5-1">(3↓)</a> where each model’s parameters are selected in Section 5.1 shown in Table <a class="Reference" href="#tab:4-1">(2↑)</a>. However, we don’t have the results for SVM type of Random Forest and Adaboost for time limits. 2000 hidden notes are used in each linear models. Bag number equates to 300 for every random forest and adaboost method.
+</div>
+<div class="Standard">
+<div class="float">
+<a class="Label" name="tab:5-1"> </a><div class="table">
+<div class="center">
+<table>
+<tr>
+<td align="center" valign="top" colspan="8">
+Linear Model
+</td>
+
+</tr>
+<tr>
+<td align="center" valign="top">
+Version
+</td>
+<td align="center" valign="top">png
+SVM
+</td>
+<td align="center" valign="top">
+ELM
+</td>
+<td align="center" valign="top">
+CDELM
+</td>
+<td align="center" valign="top">
+CSELM
+</td>
+<td align="center" valign="top">
+MIXEML
+</td>
+<td align="center" valign="top">
+RELM
+</td>
+<td align="center" valign="top">
+RSELM
+</td>
+
+</tr>
+<tr>
+<td align="center" valign="top">
+Normal
+</td>
+<td align="center" valign="top">
+0.888
+</td>
+<td align="center" valign="top">
+0.923
+</td>
+<td align="center" valign="top">
+0.896
+</td>
+<td align="center" valign="top">
+0.904
+</td>
+<td align="center" valign="top">
+<span class="red">0.945</span>
+</td>
+<td align="center" valign="top">
+0.879
+</td>
+<td align="center" valign="top">
+0.906
+</td>
+
+</tr>
+<tr>
+<td align="center" valign="top">
+RF
+</td>
+<td align="center" valign="top">
+NA
+</td>
+<td align="center" valign="top">
+0.929
+</td>
+<td align="center" valign="top">
+0.923
+</td>
+<td align="center" valign="top">
+<span class="red">0.947</span>
+</td>
+<td align="center" valign="top">
+<span class="black">0.930</span>
+</td>
+<td align="center" valign="top">
+0.930
+</td>
+<td align="center" valign="top">
+0.900
+</td>
+
+</tr>
+<tr>
+<td align="center" valign="top">
+Adaboost
+</td>
+<td align="center" valign="top">
+NA
+</td>
+<td align="center" valign="top">
+<span class="red">0.933</span>
+</td>
+<td align="center" valign="top">
+0.903
+</td>
+<td align="center" valign="top">
+0.910
+</td>
+<td align="center" valign="top">
+0.931
+</td>
+<td align="center" valign="top">
+0.887
+</td>
+<td align="center" valign="top">
+0.910
+</td>
+
+</tr>
+<tr>
+<td align="center" valign="top" colspan="8">
+Kernel Model
+</td>
+
+</tr>
+<tr>
+<td align="center" valign="top">
+Version
+</td>
+<td align="center" valign="top">
+SVM
+</td>
+<td align="center" valign="top">
+ELM
+</td>
+<td align="center" valign="top">
+
+</td>
+<td align="center" valign="top">
+
+</td>
+<td align="center" valign="top">
+
+</td>
+<td align="center" valign="top">
+
+</td>
+<td align="center" valign="top">
+
+</td>
+
+</tr>
+<tr>
+<td align="center" valign="top">
+Normal
+</td>
+<td align="center" valign="top">
+0.900
+</td>
+<td align="center" valign="top">
+<span class="red">0.962</span>
+</td>
+<td align="center" valign="top">
+
+</td>
+<td align="center" valign="top">
+
+</td>
+<td align="center" valign="top">
+
+</td>
+<td align="center" valign="top">
+
+</td>
+<td align="center" valign="top">
+
+</td>
+
+</tr>
+<tr>
+<td align="center" valign="top">
+RF
+</td>
+<td align="center" valign="top">
+NA
+</td>
+<td align="center" valign="top">
+0.960
+</td>
+<td align="center" valign="top">
+
+</td>
+<td align="center" valign="top">
+
+</td>
+<td align="center" valign="top">
+
+</td>
+<td align="center" valign="top">
+
+</td>
+<td align="center" valign="top">
+
+</td>
+
+</tr>
+<tr>
+<td align="center" valign="top">
+Adaboost
+</td>
+<td align="center" valign="top">
+NA
+</td>
+<td align="center" valign="top">
+0.962
+</td>
+<td align="center" valign="top">
+
+</td>
+<td align="center" valign="top">
+
+</td>
+<td align="center" valign="top">
+
+</td>
+<td align="center" valign="top">
+
+</td>
+<td align="center" valign="top">
+
+</td>
+
+</tr>
+
+</table>
+
+</div>
+<div class="caption">
+Table 3 Testing dataset accuracy. 
+</div>
+
+</div>
+
+</div>
+
+</div>
+<h1 class="Section">
+<a class="toc" name="toc-Section-6">6</a> Conclusion
+</h1>
+<div class="Standard">
+In this report we compared SVM, ELM and ELM’s constraint versions. ELM outperforms SVM in three ways: First ELM is extremely fast because its time complexity is similar to that of the least squared. Second ELM has better model assessment accuracy as indicated by our competition results. Finally ELM is very easy to implement since it provides an analytical prediction function for the new observations. However, ELM’s theoretical background is even weaker than SVM. Although some researchers pointed out ELM is a deep neural network with infinite layers and it is a biological inspired method, more deep research need to be done to provide a solid theoretical background for the model’s interpretability. 
+</div>
+<div class="Standard">
+For our final entry, we first iteratively added prediction results returned by kernel ELM. Then we divided our prediction results in to Group 1,2,3 and Group 4,5,6 and separately built two Kernel ELMs. For hard separating classes 4 and 5, we tried to use Random Forest ELM and Adaboost ELM but we gave up those two methods because group 4 and 5 are overlapping seriously enough for any classifier to distinguish them right. Finally, after trial and error we detected testing subject No. 13 as an abnormal walking person in our training set and then used unsupervised methods to recover the label of Subject No. 13 shown in Figure <a class="Reference" href="#fig:6-1">6↓</a>.
+</div>
+<div class="Standard">
+We would like to thank glass and water server at Rice University for providing fast and stable computing power throughout this data mining competition. 
+</div>
+<div class="Standard">
+<div class="float">
+<a class="Label" name="fig:6-1"> </a><div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT640/No_13.png" alt="figure No_13.png" style="width: 16cm; max-width: 1000px; height: auto; max-height: 570px;"/>
+
+</div>
+<div class="caption">
+Figure 6 Abnormal walking behavior Subject No. 13 visualized using tSNE (anomalous pattern circled).
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="Standard">
+<h1 class="biblio">
+References
+</h1>
+<p class="biblio">
+<span class="entry">[<a class="biblioentry" name="biblio-1"><span class="bib-index">1</span></a>] </span> <span class="bib-authors">Corinna Cortes, Vladimir Vapnik</span>. <span class="bib-title">Support-vector networks</span>. <i><span class="bib-journal">Machine learning</span></i>, <span class="bib-volume">20</span>(<span class="bib-number">3</span>):<span class="bib-pages">273—297</span>, <span class="bib-year">1995</span>.
+</p>
+<p class="biblio">
+<span class="entry">[<a class="biblioentry" name="biblio-2"><span class="bib-index">2</span></a>] </span> <span class="bib-authors">Yoav Freund, Robert E Schapire</span>. <span class="bib-title">A desicion-theoretic generalization of on-line learning and an application to boosting</span>.  <i><span class="bib-booktitle">Computational learning theory</span></i>:<span class="bib-pages">23—37</span>, <span class="bib-year">1995</span>.
+</p>
+<p class="biblio">
+<span class="entry">[<a class="biblioentry" name="biblio-3"><span class="bib-index">3</span></a>] </span> <span class="bib-authors">Guang-Bin Huang, Lei Chen, Chee-Kheong Siew</span>. <span class="bib-title">Universal approximation using incremental constructive feedforward networks with random hidden nodes</span>. <i><span class="bib-journal">Neural Networks, IEEE Transactions on</span></i>, <span class="bib-volume">17</span>(<span class="bib-number">4</span>):<span class="bib-pages">879—892</span>, <span class="bib-year">2006</span>.
+</p>
+<p class="biblio">
+<span class="entry">[<a class="biblioentry" name="biblio-4"><span class="bib-index">4</span></a>] </span> <span class="bib-authors">Punyaphol Horata, Sirapat Chiewchanwattana, Khamron Sunat</span>. <span class="bib-title">Robust extreme learning machine </span>. <i><span class="bib-journal">Neurocomputing </span></i>, <span class="bib-volume">102</span>(<span class="bib-number">0</span>):<span class="bib-pages">31 - 44</span>, <span class="bib-year">2013</span>. URL <a href="http://www.sciencedirect.com/science/article/pii/S0925231212004171"><span class="bib-url">http://www.sciencedirect.com/science/article/pii/S0925231212004171</span></a>. <span class="bib-note">Advances in Extreme Learning Machines (ELM 2011) </span>.
+</p>
+<p class="biblio">
+<span class="entry">[<a class="biblioentry" name="biblio-5"><span class="bib-index">5</span></a>] </span> <span class="bib-authors">Laurens Van der Maaten, Geoffrey Hinton</span>. <span class="bib-title">Visualizing data using t-SNE</span>. <i><span class="bib-journal">Journal of Machine Learning Research</span></i>, <span class="bib-volume">9</span>(<span class="bib-number">2579-2605</span>):<span class="bib-pages">85</span>, <span class="bib-year">2008</span>.
+</p>
+<p class="biblio">
+<span class="entry">[<a class="biblioentry" name="biblio-6"><span class="bib-index">6</span></a>] </span> <span class="bib-authors">Wentao Zhu, Jun Miao, Laiyun Qing</span>. <span class="bib-title">Constrained Extreme Learning Machine: A novel highly discriminative random feedforward neural network</span>.  <i><span class="bib-booktitle">Neural Networks (IJCNN), 2014 International Joint Conference on</span></i>:<span class="bib-pages">800-807</span>, <span class="bib-year">2014</span>.
+</p>
+
+</div>
+
+</body>
+</html>

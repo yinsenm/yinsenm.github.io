@@ -1,0 +1,1206 @@
+---
+layout: post
+title: High Dimensional Data Visualizing using tSNE
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta name="generator" content="http://www.nongnu.org/elyxer/"/>
+<meta name="create-date" content="2015-02-01"/>
+<!-- <link rel="stylesheet" href="http://elyxer.nongnu.org/lyx.css" type="text/css" media="all"/> -->
+<!-- <title>High Dimensional Data Visualizing using tSNE</title> -->
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+</head>
+<body>
+<div id="globalWrapper">
+<script type="math/tex">
+\newcommand{\lyxlock}{}
+</script>
+<noscript>
+<div class="warning">
+Warning: <a href="http://www.mathjax.org/">MathJax</a> requires JavaScript to correctly process the mathematics on this page. Please enable JavaScript on your browser.
+</div><hr/>
+</noscript>
+<!-- <h1 class="title">
+High Dimensional Data Visualizing using tSNE
+</h1> -->
+<div class="Standard">
+<p><br/>
+</p>
+
+</div>
+<div class="fulltoc">
+<div class="tocheader">
+Table of Contents
+</div>
+<div class="tocindent">
+<div class="toc">
+<a class="Link" href="#toc-Section-1">Section 1: Introduction</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Section-2">Section 2: SNE</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Section-3">Section 3: tSNE</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Section-4">Section 4: Experiment</a>
+</div>
+<div class="tocindent">
+<div class="toc">
+<a class="Link" href="#toc-Subsection-4.1">Subsection 4.1: Simulating Dataset</a>
+</div>
+<div class="tocindent">
+<div class="toc">
+<a class="Link" href="#toc-Subsubsection-4.1.1">Subsubsection 4.1.1: Gaussian Mixture</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsubsection-4.1.2">Subsubsection 4.1.2: Swiss Roll</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsubsection-4.1.3">Subsubsection 4.1.3: Double Swiss Roll</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsubsection-4.1.4">Subsubsection 4.1.4: Spiral </a>
+</div>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsection-4.2">Subsection 4.2: Real Dataset Performance</a>
+</div>
+<div class="tocindent">
+<div class="toc">
+<a class="Link" href="#toc-Subsubsection-4.2.1">Subsubsection 4.2.1: Human Activity</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsubsection-4.2.2">Subsubsection 4.2.2: MINST</a>
+</div>
+</div>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Section-5">Section 5: Conclusion</a>
+</div>
+</div>
+
+</div>
+<div class="Standard">
+<p><br/>
+</p>
+
+</div>
+<h1 class="Section">
+<a class="toc" name="toc-Section-1">1</a> Introduction
+</h1>
+<div class="Standard">
+In the machine learning literature, many learning algorithms’ performance are hampered by the high dimensionality of the real world data which is also known as the curse of dimension. It is of utmost interest for the researchers to do multidimensional scaling (MDS) and have a vivid insight into the actual structure of the data. Dimensional reduction tries to find the intrinsic dimensionality from the data. Suppose we have a high dimensional data with a feature space <span class="MathJax_Preview"><script type="math/tex">
+\mathcal{X}\in\mathbb{R}^{p}
+</script>
+</span>. Dimensionality reduction techniques map <span class="MathJax_Preview"><script type="math/tex">
+\mathcal{X}
+</script>
+</span> into a lower dimensional space and, meanwhile, keeps as much information as possible. One way to understand these techniques is to treat high dimensional data in a latent space as a stochastic process and then map the data to lower dimensional spaces such that the structure of data is maintained. 
+</div>
+<div class="Standard">
+Over the last decades, there are many good algorithms purposed to reduce dimensions. Some of them focus on maintaining local structures, such as ISOMAP <span class="bibcites">[<a class="bibliocite" name="cite-5" href="#biblio-5"><span class="bib-index">5</span></a>]</span> (Tenenbaum et al., 2000), Local Linear Embedding <span class="bibcites">[<a class="bibliocite" name="cite-4" href="#biblio-4"><span class="bib-index">4</span></a>]</span> (Saul et al., 2006) and Maximum Variance Unfolding (MVU; Weiberger et al., 2004) while others look at variance maximizing, like PCA (Goldberger et al., 2005), MDS (Young et al. 1938) and autoencoder (Hinton et al., 2006). However, for non-parametric manifold learners, the main limitation is that they don’t provide a parametric mapping between the data points. For spectral techniques, this out-of-sample extension can be realized by some approximations. But they usually need to handle a broader range of cost functions, which may cause computational problems. 
+</div>
+<div class="Standard">
+This report aims at the rationale behind SNE and tSNE and validating their performance. The report is structured as follows. Section 2 entails SNE. In particular, we will exam how SNE define similarity metrics, construct cost function and optimize the function. Section 3 begins with the drawbacks faced by SNE and discusses what changes tSNE makes to alleviate the problems. Section 4 provides a detail comparison between tSNE and other MDS methods on four simulation and two real datasets. Finally, we conclude that tSNE is among the successful non-parametric MDS methods and recommend researcers adding it to their MDS toolbox.
+</div>
+<h1 class="Section">
+<a class="toc" name="toc-Section-2">2</a> SNE
+</h1>
+<div class="Standard">
+Stochastic Neighbor Embedding (SNE) <span class="bibcites">[<a class="bibliocite" name="cite-6" href="#biblio-6"><span class="bib-index">6</span></a>]</span> maps the data points in high-dimension space <span class="MathJax_Preview"><script type="math/tex">
+\mathcal{X}=\left\{ \mathbf{x}_{1},\mathbf{x}_{2},\cdots,\mathbf{x}_{n}\right\} 
+</script>
+</span>, <span class="MathJax_Preview"><script type="math/tex">
+\forall\mathbf{x}\in\mathbb{R}^{p}
+</script>
+</span> where <span class="MathJax_Preview"><script type="math/tex">
+p>3
+</script>
+</span> into observable low-dimension space <span class="MathJax_Preview"><script type="math/tex">
+\mathcal{Y}=\left\{ \mathbf{y}_{1},\mathbf{y}_{2},\cdots,\mathbf{y}_{n}\right\} 
+</script>
+</span> , <span class="MathJax_Preview"><script type="math/tex">
+\forall\mathbf{y}\in\mathbb{R}^{2}
+</script>
+</span> or <span class="MathJax_Preview"><script type="math/tex">
+\mathbf{y}\in\mathbb{R}^{3}
+</script>
+</span>. SNE converts the the high dimensional Euclidean distance between data points into conditional probability for the similarity measurement. Or for any <span class="MathJax_Preview"><script type="math/tex">
+\mathbf{x}_{i},\mathbf{x}_{j}\in\mathbb{R}^{p}
+</script>
+</span>, we define conditional probability in Eq <a class="Reference" href="#eq:2-1">(↓)</a> that <span class="MathJax_Preview"><script type="math/tex">
+\mathbf{x}_{i}
+</script>
+</span> would pick <span class="MathJax_Preview"><script type="math/tex">
+\mathbf{x}_{j}
+</script>
+</span> as its neighbor if the neighbors were picked up in proportion to the Gaussian density centered at <span class="MathJax_Preview"><script type="math/tex">
+\mathbf{x}_{i}
+</script>
+</span>. Since we only care about pairwise similarity, <span class="MathJax_Preview"><script type="math/tex">
+p_{i\mid i}
+</script>
+</span> is set to <span class="MathJax_Preview"><script type="math/tex">
+0
+</script>
+</span>. 
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{eqnarray}
+p_{j\mid i} & = & \dfrac{\exp\left(-\left\Vert \mathbf{x}_{i}-\mathbf{x}_{j}\right\Vert ^{2}/2\sigma_{i}^{2}\right)}{\sum_{k\ne i}\exp\left(-\left\Vert \mathbf{x}_{i}-\mathbf{x}_{k}\right\Vert ^{2}/2\sigma_{i}^{2}\right)}\label{eq:2-1}
+\end{eqnarray}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+Similar for any <span class="MathJax_Preview"><script type="math/tex">
+\mathbf{y}_{i},\mathbf{y}_{j}\in\mathbb{R}^{2}
+</script>
+</span>, we extend the same definition to the mapped lower dimension. <span class="MathJax_Preview"><script type="math/tex">
+q_{i\mid i}
+</script>
+</span> is set to <span class="MathJax_Preview"><script type="math/tex">
+0
+</script>
+</span> as <span class="MathJax_Preview"><script type="math/tex">
+p_{i\mid i}
+</script>
+</span>. <span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{eqnarray}
+q_{j\mid i} & = & \dfrac{\exp\left(-\left\Vert \mathbf{y}_{i}-\mathbf{y}_{j}\right\Vert ^{2}\right)}{\sum_{k\ne i}\exp\left(-\left\Vert \mathbf{y}_{i}-\mathbf{y}_{k}\right\Vert ^{2}\right)}\label{eq:2-2}
+\end{eqnarray}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+Our aim is to find a mapping <span class="MathJax_Preview"><script type="math/tex">
+\gamma:\mathbf{x}_{i}\rightarrow\mathbf{y}_{i}
+</script>
+</span> such that <span class="MathJax_Preview"><script type="math/tex">
+q_{j\mid i}
+</script>
+</span> is a good approximation of <span class="MathJax_Preview"><script type="math/tex">
+p_{j\mid i}
+</script>
+</span>. Since both <span class="MathJax_Preview"><script type="math/tex">
+q_{j\mid i}
+</script>
+</span> and <span class="MathJax_Preview"><script type="math/tex">
+p_{j\mid i}
+</script>
+</span> are some measurement of the probability, we can naturally use cross-entropy or Kullback-Leibler divergence to minimize the information lost those two.
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{equation}
+C=\sum_{i}KL\left(P_{i}\parallel Q_{i}\right)=\sum_{i}\sum_{j}p_{j\mid i}\log\dfrac{p_{j\mid i}}{q_{j\mid i}}\label{eq:2-3}
+\end{equation}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+Notice that the lost function defined in Eq <a class="Reference" href="#eq:2-3">(↓)</a> is non symmetric such that use small <span class="MathJax_Preview"><script type="math/tex">
+q_{j\mid i}
+</script>
+</span> to model large <span class="MathJax_Preview"><script type="math/tex">
+p_{j\mid i}
+</script>
+</span> is largely penalized than the reverse. In other words, the SNE cost function tends to persevere local structure and leads to the &ldquo;crowding&rdquo; problem. 
+</div>
+<div class="Standard">
+The last parameter to determine is the <span class="MathJax_Preview"><script type="math/tex">
+\sigma_{i}
+</script>
+</span> defined in Eq <a class="Reference" href="#eq:2-1">(↓)</a>. Because <span class="MathJax_Preview"><script type="math/tex">
+\sigma_{i}
+</script>
+</span> induces a probability distribution <span class="MathJax_Preview"><script type="math/tex">
+P_{i}
+</script>
+</span> whose entropy increases as <span class="MathJax_Preview"><script type="math/tex">
+\sigma_{i}
+</script>
+</span> increases and the density of <span class="MathJax_Preview"><script type="math/tex">
+P_{i}
+</script>
+</span> variates with individual data point, therefore each data point should have its own <span class="MathJax_Preview"><script type="math/tex">
+\sigma_{i}
+</script>
+</span>. SNE performs a binary search for <span class="MathJax_Preview"><script type="math/tex">
+\sigma_{i}
+</script>
+</span> that produces a <span class="MathJax_Preview"><script type="math/tex">
+P_{i}
+</script>
+</span> with a fixed perplexity defined by the user.
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{equation}
+Perp\left(P_{i}\right)=2^{H\left(P_{i}\right)}
+\end{equation}
+</script>
+
+</span>
+where <span class="MathJax_Preview"><script type="math/tex">
+H\left(P_{i}\right)
+</script>
+</span> is the Shannon entropy of <span class="MathJax_Preview"><script type="math/tex">
+P_{i}
+</script>
+</span> defined as <span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{equation}
+H\left(P_{i}\right)=-\sum_{j}p_{j\mid i}\log_{2}p_{j\mid i}
+\end{equation}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+The final step is to minimize the cost function <span class="MathJax_Preview"><script type="math/tex">
+C
+</script>
+</span> in Eq <a class="Reference" href="#eq:2-3">↓</a>. We take the derivative with respective to each mapped point <span class="MathJax_Preview"><script type="math/tex">
+\mathbf{y}_{i}
+</script>
+</span> and then use Gradient descent.
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{equation}
+\dfrac{\delta C}{\delta\mathbf{y}_{i}}=2\sum_{j}\left(p_{j\mid i}-q_{j\mid i}+p_{i\mid j}-q_{i\mid j}\right)\left(\mathbf{y}_{i}-\mathbf{y}_{j}\right)\label{eq:2-6}
+\end{equation}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+A momentum term (a decaying sum of previous gradients) is added to the update function to expedite the process. <span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{equation}
+\gamma^{\left(t\right)}=\gamma^{\left(t-1\right)}+\underbrace{\eta}_{\text{learning rate}}\dfrac{\delta C}{\delta\gamma}+\underbrace{\alpha\left(t\right)\left(\gamma^{\left(t-1\right)}-\gamma^{\left(t-2\right)}\right)}_{\text{momentume term}}
+\end{equation}
+</script>
+
+</span>
+
+</div>
+<h1 class="Section">
+<a class="toc" name="toc-Section-3">3</a> tSNE
+</h1>
+<div class="Standard">
+Although SNE sounds like a good visualization approach, its performance is hindered by the difficult optimization function and the &ldquo;crowding&rdquo; problem. The cost function in is hard to optimize in two ways: first we have to determine many parameters such as <span class="MathJax_Preview"><script type="math/tex">
+\eta
+</script>
+</span>, perplexity, <span class="MathJax_Preview"><script type="math/tex">
+\alpha\left(t\right)
+</script>
+</span> before the actual optimizing process; second the optimization problem is non convex such that SNE is easily subject to local minimum if some ameliorating action is not taken. 
+</div>
+<div class="Standard">
+The &ldquo;crowding&rdquo; problem is due to the fact that two dimensional distance cannot faithfully model that distance of higher dimension. For example, in 2 dimensions we can find 3 points (an equilateral triangle) that are mutually equal distance but in 3 or <span class="MathJax_Preview"><script type="math/tex">
+n
+</script>
+</span> dimensions the number of points with such property can be 4 (an equilateral tetrahedron) or <span class="MathJax_Preview"><script type="math/tex">
+n+1
+</script>
+</span>. In other words, the area of 2-dimension map available to accommodate mapped points is not large enough for &ldquo;closed&rdquo; data points in high-dimension. Since SNE’s non-symmetric metric tends to preserve local structure, SNE makes the &ldquo;crowding&rdquo; problem even worse.
+</div>
+<div class="Standard">
+t-Distributed Stochastic Neighbor Embedding (tSNE) employs symmetric similarity metrics and heavy tail distribution in the in the low-dimensional space to alleviate the above drawbacks. The symmetric metrics is introduced as Eq <a class="Reference" href="#eq:3-1">(↓)</a> and <a class="Reference" href="#eq:3-2">(↓)</a>. 
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{eqnarray}
+p_{ij} & = & \dfrac{\exp\left(-\left\Vert \mathbf{x}_{i}-\mathbf{x}_{j}\right\Vert ^{2}/2\sigma^{2}\right)}{\sum_{k\ne i}\exp\left(-\left\Vert \mathbf{x}_{i}-\mathbf{x}_{k}\right\Vert ^{2}/2\sigma^{2}\right)}\label{eq:3-1}\\
+q_{ij} & = & \dfrac{\exp\left(-\left\Vert \mathbf{y}_{i}-\mathbf{y}_{j}\right\Vert ^{2}\right)}{\sum_{k\ne i}\exp\left(-\left\Vert \mathbf{y}_{i}-\mathbf{y}_{k}\right\Vert ^{2}\right)}\label{eq:3-2}
+\end{eqnarray}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+However, Eq <a class="Reference" href="#eq:3-2">(↓)</a> has one additional problem when there are outliers in the extreme high-dimension space. If a data point <span class="MathJax_Preview"><script type="math/tex">
+\mathbf{x}_{i}
+</script>
+</span> is an outlier, then all pairwise distances <span class="MathJax_Preview"><script type="math/tex">
+\left\Vert \mathbf{x}_{i}-\mathbf{x}_{j}\right\Vert 
+</script>
+</span> <span class="MathJax_Preview"><script type="math/tex">
+\forall j\ne i
+</script>
+</span> are large for <span class="MathJax_Preview"><script type="math/tex">
+\mathbf{x}_{i}
+</script>
+</span>. Then as <span class="MathJax_Preview"><script type="math/tex">
+p\rightarrow\infty
+</script>
+</span>, <span class="MathJax_Preview"><script type="math/tex">
+p_{ij}
+</script>
+</span> converges to <span class="MathJax_Preview"><script type="math/tex">
+0
+</script>
+</span>, and has little effect on the cost function. An alternative way is taking the average of two conditional probability <span class="MathJax_Preview"><script type="math/tex">
+p_{i\mid j}
+</script>
+</span> and <span class="MathJax_Preview"><script type="math/tex">
+p_{j\mid i}
+</script>
+</span> as in Eq <a class="Reference" href="#eq:3-4">(↓)</a>. But for fast computation definition of Eq <a class="Reference" href="#eq:3-1">(↓)</a> is used, if <span class="MathJax_Preview"><script type="math/tex">
+p
+</script>
+</span> is not that large.
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{equation}
+p_{ij}=\dfrac{p_{j\mid i}+p_{i\mid j}}{2n}\label{eq:3-3}
+\end{equation}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+The lost function in Eq <a class="Reference" href="#eq:2-3">(↓)</a> naturally changes to Eq <a class="Reference" href="#eq:3-4">(↓)</a>. <span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{equation}
+C=\sum_{i}KL\left(P_{i}\parallel Q_{i}\right)=\sum_{i}\sum_{j}p_{ij}\log\dfrac{p_{ij}}{q_{ij}}\label{eq:3-4}
+\end{equation}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+Student t-distribution with one degree of freedom is employed in tSNE or Eq <a class="Reference" href="#eq:3-2">(↓)</a> is replaced by Eq <a class="Reference" href="#eq:3-5">(↓)</a>. This change not only allows moderate distance in high-dimension to be faithfully modeled by a larger distance in the low-dimension map but also is much faster to evaluate since it does not involve an exponential term as Eq <a class="Reference" href="#eq:3-2">(↓)</a>. The theoretical support for this change is that Student t-distribution is an infinite mixture of Gaussians. 
+</div>
+<div class="Standard">
+<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{equation}
+q_{ij}=\dfrac{\left(1+\left\Vert \mathbf{y}_{i}-\mathbf{y}_{j}\right\Vert ^{2}\right)^{-1}}{\sum_{k\ne l}\left(1+\left\Vert \mathbf{y}_{i}-\mathbf{y}_{j}\right\Vert ^{2}\right)^{-1}}\label{eq:3-5}
+\end{equation}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+Now the gradient of Lost function becomes<span class="MathJax_Preview">
+<script type="math/tex;mode=display">
+\begin{equation}
+\dfrac{\delta C}{\delta\mathbf{y}_{i}}=4\sum_{j}\left(p_{ij}-q_{ij}\right)\left(\mathbf{y}_{i}-\mathbf{y}_{j}\right)\left(1+\left\Vert \mathbf{y}_{i}-\mathbf{y}_{j}\right\Vert ^{2}\right)^{-1}\label{eq:3-6}
+\end{equation}
+</script>
+
+</span>
+
+</div>
+<div class="Standard">
+Figure <a class="Reference" href="#fig:3-1">1↓</a> shows the gradients as a function of <span class="MathJax_Preview"><script type="math/tex">
+\left\Vert \mathbf{y}_{i}-\mathbf{y}_{j}\right\Vert 
+</script>
+</span> and <span class="MathJax_Preview"><script type="math/tex">
+\left\Vert \mathbf{x}_{i}-\mathbf{x}_{j}\right\Vert 
+</script>
+</span> for the SNE and tSNE. The negative values of the gradients represent an increase in the loss function <span class="MathJax_Preview"><script type="math/tex">
+C
+</script>
+</span> or a repulsion between two mapped points while the positive values represent an attraction. Notice that SNE’s attraction in Figure <a class="Reference" href="#fig:3-1-1">a↓</a> when using small <span class="MathJax_Preview"><script type="math/tex">
+\left\Vert \mathbf{y}_{i}-\mathbf{y}_{j}\right\Vert 
+</script>
+</span> to model large <span class="MathJax_Preview"><script type="math/tex">
+\left\Vert \mathbf{x}_{i}-\mathbf{x}_{j}\right\Vert 
+</script>
+</span> is just less than the reverse but tSNE provides a repulsion force to push <span class="MathJax_Preview"><script type="math/tex">
+\mathbf{y}_{i}
+</script>
+</span> and <span class="MathJax_Preview"><script type="math/tex">
+\mathbf{y}_{j}
+</script>
+</span> apart. It is the repulsion induced by the symmetric metric and heavy tail t-distribution of <span class="MathJax_Preview"><script type="math/tex">
+q_{ij}
+</script>
+</span> that makes tSNE successful in handling the &ldquo;crowding&rdquo; problems. 
+</div>
+<div class="Standard">
+<div class="float">
+<a class="Label" name="fig:3-1"> </a><div class="multifigure">
+<div class="center">
+<span class="float">
+<a class="Label" name="fig:3-1-1"> </a><div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT545/sne.png" alt="figure sne.png" style="width: 8cm; max-width: 496px; height: auto; max-height: 470px;"/>
+
+</div>
+<div class="caption">
+(a) Gradient of SNE
+</div>
+
+</div>
+
+</span>
+<span class="float">
+<a class="Label" name="fig:3-1-2"> </a><div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT545/tsne.png" alt="figure tsne.png" style="width: 8cm; max-width: 426px; height: auto; max-height: 401px;"/>
+<div class="caption">
+(b) Gradient of tSNE
+</div>
+
+</div>
+
+</div>
+
+</span>
+
+</div>
+<div class="PlainVisible">
+<div class="center">
+<div class="caption">
+Figure 1 Comparison of Gradients of the Loss functions
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="Standard">
+</div>
+<h1 class="Section">
+<a class="toc" name="toc-Section-4">4</a> Experiment
+</h1>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-4.1">4.1</a> Simulating Dataset
+</h2>
+<div class="Standard">
+For performance comparison among different visualization methods, we simulated four types of datasets with different statistical distributions. Shown in Figure <a class="Reference" href="#fig:4-1-1">2↓</a>, the simulated types are Gaussian mixture, Swiss roll, double Swiss roll and Spiral respectively. For Gaussian mixture data, 4 normal distributions with different mean vectors but the same identical covariance matrix are used for generating and the colors of the data points in Figure <a class="Reference" href="#fig:4-1-1-a">a↓</a> represent their actual labeling. For the Swiss roll data, their color labels are generated by hierarchy clustering with the local constraints <span class="bibcites">[<a class="bibliocite" name="cite-3" href="#biblio-3"><span class="bib-index">3</span></a>]</span>. And the double Swiss roll data and their labels were downloaded via this website<span class="FootOuter"><span class="SupFootMarker"> [A] </span><span class="HoverFoot"><span class="SupFootMarker"> [A] </span>http://people.cs.uchicago.edu/~dinoj/manifold/swissroll.html</span></span>. 
+</div>
+<div class="Standard">
+<div class="float">
+<a class="Label" name="fig:4-1-1"> </a><div class="multifigure">
+<div class="center">
+<span class="float">
+<a class="Label" name="fig:4-1-1-a"> </a><div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT545/Gau.png" alt="figure Gau.png" style="width: 8cm; max-width: 486px; height: auto; max-height: 383px;"/>
+
+</div>
+<div class="caption">
+(a) Gaussian Mixture
+</div>
+
+</div>
+
+</span>
+<span class="float">
+<a class="Label" name="fig:4-1-b"> </a><div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT545/Swiss.png" alt="figure Swiss.png" style="width: 8cm; max-width: 477px; height: auto; max-height: 405px;"/>
+<div class="caption">
+(b) Swiss Roll
+</div>
+
+</div>
+
+</div>
+
+</span>
+
+</div>
+<div class="PlainVisible">
+<div class="center">
+<span class="float">
+<a class="Label" name="fig:4-1-c"> </a><div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT545/dSwiss.png" alt="figure dSwiss.png" style="width: 8cm; max-width: 389px; height: auto; max-height: 331px;"/>
+<div class="caption">
+(c) Double Swiss Roll
+</div>
+
+</div>
+
+</div>
+
+</span>
+<span class="float">
+<a class="Label" name="fig:4-1-d"> </a><div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT545/Spin.png" alt="figure Spin.png" style="width: 8cm; max-width: 480px; height: auto; max-height: 393px;"/>
+<div class="caption">
+(d) Spiral
+</div>
+
+</div>
+
+</div>
+
+</span>
+<div class="caption">
+Figure 2 Simulated Datasets in 3 dimensions.
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+<h3 class="Subsubsection">
+<a class="toc" name="toc-Subsubsection-4.1.1">4.1.1</a> Gaussian Mixture
+</h3>
+<div class="Standard">
+<div class="float">
+<a class="Label" name="fig:4-1-2"> </a><div class="multifigure">
+<div class="center">
+<span class="float">
+<div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT545/dPCAGau.png" alt="figure dPCAGau.png" style="width: 8cm; max-width: 410px; height: auto; max-height: 385px;"/>
+
+</div>
+<div class="caption">
+(a) PCA (PC1 versus PC2)
+</div>
+
+</div>
+
+</span>
+<span class="float">
+<div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT545/dmdsGau.png" alt="figure dmdsGau.png" style="width: 8cm; max-width: 387px; height: auto; max-height: 371px;"/>
+<div class="caption">
+(b) Classical MDS
+</div>
+
+</div>
+
+</div>
+
+</span>
+
+</div>
+<div class="PlainVisible">
+<div class="center">
+<span class="float">
+<div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT545/dsammonGau.png" alt="figure dsammonGau.png" style="width: 8cm; max-width: 393px; height: auto; max-height: 379px;"/>
+<div class="caption">
+(c) Sammon
+</div>
+
+</div>
+
+</div>
+
+</span>
+<span class="float">
+<div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT545/tSNEGau.png" alt="figure tSNEGau.png" style="width: 8cm; max-width: 402px; height: auto; max-height: 357px;"/>
+<div class="caption">
+(d) tSNE
+</div>
+
+</div>
+
+</div>
+
+</span>
+<div class="caption">
+Figure 3 Visualization of Simulated Gaussian Mixture Dataset Results in 2d.
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="Standard">
+Figure <a class="Reference" href="#fig:4-1-2">3↑</a> shows that all methods successfully obtain the structure of the original Gaussian mixture dataset in Figure <a class="Reference" href="#fig:4-1-1-a">a↑</a> and tSNE is better to group the data points into their relevant clusters than others. Notice that some points are wrongly assigned by tSNE but if we take a look at the original 3d distribution from Figure <a class="Reference" href="#fig:4-1-1-a">a↑</a>, those are confusing points within the boundary of two clusters.
+</div>
+<h3 class="Subsubsection">
+<a class="toc" name="toc-Subsubsection-4.1.2">4.1.2</a> Swiss Roll
+</h3>
+<div class="Standard">
+<div class="float">
+<a class="Label" name="Figure-4"> </a><div class="multifigure">
+<div class="center">
+<span class="float">
+<div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT545/PCASwiss.png" alt="figure PCASwiss.png" style="width: 8cm; max-width: 371px; height: auto; max-height: 339px;"/>
+
+</div>
+<div class="caption">
+(a) PCA (PC1 versus PC2)
+</div>
+
+</div>
+
+</span>
+<span class="float">
+<div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT545/mdsSwiss.png" alt="figure mdsSwiss.png" style="width: 8cm; max-width: 371px; height: auto; max-height: 334px;"/>
+<div class="caption">
+(b) Classical MDS
+</div>
+
+</div>
+
+</div>
+
+</span>
+
+</div>
+<div class="PlainVisible">
+<div class="center">
+<span class="float">
+<div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT545/sammonSwiss.png" alt="figure sammonSwiss.png" style="width: 8cm; max-width: 425px; height: auto; max-height: 355px;"/>
+<div class="caption">
+(c) Sammon
+</div>
+
+</div>
+
+</div>
+
+</span>
+<span class="float">
+<div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT545/dtSNESwiss.png" alt="figure dtSNESwiss.png" style="width: 8cm; max-width: 375px; height: auto; max-height: 381px;"/>
+<div class="caption">
+(d) tSNE
+</div>
+
+</div>
+
+</div>
+
+</span>
+<div class="caption">
+Figure 4 Visualization of Simulated Swiss Roll Dataset Result in 2d.
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="Standard">
+Again all MDS methods successfully attain the internal structure of the original data in Figure <a class="Reference" href="#fig:4-1-b">b↑</a>. It is interesting to note that tSNE doesn’t preserve the Swiss structure in 2d and assigns some data points wrongly. Since tSNE depends on the conditional probability for similarity metrics other than the traditional pairwise distance matrix, such a distortion of structure can be reasonable and quite acceptable if the researcher just wants to detect the internal relationships between datapoints. The missclassification issue can be related to either a non suitable perplexity (40 in our case) or the bad performance of hierarchical clustering as we don’t have the ground truth labels.
+</div>
+<h3 class="Subsubsection">
+<a class="toc" name="toc-Subsubsection-4.1.3">4.1.3</a> Double Swiss Roll
+</h3>
+<div class="Standard">
+<div class="float">
+<a class="Label" name="Figure-5"> </a><div class="multifigure">
+<div class="center">
+<span class="float">
+<div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT545/dPCASwiss.png" alt="figure dPCASwiss.png" style="width: 8cm; max-width: 399px; height: auto; max-height: 378px;"/>
+
+</div>
+<div class="caption">
+(a) PCA (PC1 versus PC2)
+</div>
+
+</div>
+
+</span>
+<span class="float">
+<div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT545/dmdsSwiss.png" alt="figure dmdsSwiss.png" style="width: 8cm; max-width: 399px; height: auto; max-height: 371px;"/>
+<div class="caption">
+(b) Classical MDS
+</div>
+
+</div>
+
+</div>
+
+</span>
+
+</div>
+<div class="PlainVisible">
+<div class="center">
+<span class="float">
+<div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT545/dsammonSwiss.png" alt="figure dsammonSwiss.png" style="width: 8cm; max-width: 385px; height: auto; max-height: 342px;"/>
+<div class="caption">
+(c) Sammon
+</div>
+
+</div>
+
+</div>
+
+</span>
+<span class="float">
+<div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT545/tSNESwiss.png" alt="figure tSNESwiss.png" style="width: 8cm; max-width: 432px; height: auto; max-height: 343px;"/>
+<div class="caption">
+(d) tSNE
+</div>
+
+</div>
+
+</div>
+
+</span>
+<div class="caption">
+Figure 5 Visualization of Simulated Double Swiss Roll Dataset Result in 2d.
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="Standard">
+This time PCA and CMDS fail. tSNE performs even better than Sammon despite failing to keep the double Swiss roll structure. This example illustrates the linear techniques including PCA and CMDS that focus on keeping the low-dimensional representations of dissimilar data points far apart fail when high-dimensional data lie on a non-linear manifold as Figure <a class="Reference" href="#fig:4-1-c">c↑</a>. In high-dimensional setting, it is more important for a MDS to keep the low-dimensional representations of very similar data points close together.
+</div>
+<h3 class="Subsubsection">
+<a class="toc" name="toc-Subsubsection-4.1.4">4.1.4</a> Spiral 
+</h3>
+<div class="Standard">
+<div class="float">
+<a class="Label" name="Figure-6"> </a><div class="multifigure">
+<div class="center">
+<span class="float">
+<div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT545/dPCASpin.png" alt="figure dPCASpin.png" style="width: 8cm; max-width: 363px; height: auto; max-height: 319px;"/>
+
+</div>
+<div class="caption">
+(a) PCA (PC1 versus PC2)
+</div>
+
+</div>
+
+</span>
+<span class="float">
+<div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT545/dmdsSpin.png" alt="figure dmdsSpin.png" style="width: 8cm; max-width: 362px; height: auto; max-height: 326px;"/>
+<div class="caption">
+(b) Classical MDS
+</div>
+
+</div>
+
+</div>
+
+</span>
+
+</div>
+<div class="PlainVisible">
+<div class="center">
+<span class="float">
+<div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT545/dsammonSpin.png" alt="figure dsammonSpin.png" style="width: 8cm; max-width: 369px; height: auto; max-height: 368px;"/>
+<div class="caption">
+(c) Sammon
+</div>
+
+</div>
+
+</div>
+
+</span>
+<span class="float">
+<a class="Label" name="fig:4-4-d"> </a><div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT545/tSNESpin.png" alt="figure tSNESpin.png" style="width: 8cm; max-width: 395px; height: auto; max-height: 382px;"/>
+<div class="caption">
+(d) tSNE
+</div>
+
+</div>
+
+</div>
+
+</span>
+<div class="caption">
+Figure 6 Visualization of Simulated Spiral Dataset Result in 2d.
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="Standard">
+tSNE successfully attain the structure this time while others fail. Similarly as discussed above, for high-dimension data lying on a non linear manifold, it is more important to keep similar points together. Figure <a class="Reference" href="#fig:4-4-d">d↑</a> shows a &ldquo;Stochastic&rdquo; property of tSNE that once the data point in the Markov process converges to a stable state, it gets stuck in that state.
+</div>
+<div class="Standard">
+</div>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-4.2">4.2</a> Real Dataset Performance
+</h2>
+<div class="Standard">
+In the following, we compared the PCA and tSNE’s performance on two real high dimensional datasets. The first real dataset is the training data of STAT 640 data mining competition <span class="bibcites">[<a class="bibliocite" name="cite-1" href="#biblio-1"><span class="bib-index">1</span></a>]</span> which is a 66.3% subset of the full Human Activity dataset <span class="bibcites">[<a class="bibliocite" name="cite-2" href="#biblio-2"><span class="bib-index">2</span></a>]</span>. The training data contains a data matrix of size 6,831 observations by 561 features and 20 subjects comprise the subset. Each observation is uniquely assigned with a class activity label coded from 1 to 6. The actual number of observations of each activity and the activity labels are coded in Table <a class="Reference" href="#tab:4-1">1↓</a>. 
+</div>
+<div class="Standard">
+<div class="float">
+<a class="Label" name="tab:4-1"> </a><div class="table">
+<div class="center">
+<table>
+<tr>
+<td align="center" valign="top">
+Code
+</td>
+<td align="center" valign="top">
+Activity
+</td>
+<td align="center" valign="top">
+Observations
+</td>
+<td align="center" valign="top">
+Type
+</td>
+
+</tr>
+<tr>
+<td align="center" valign="top">
+1
+</td>
+<td align="center" valign="top">
+Walking
+</td>
+<td align="center" valign="top">
+1108
+</td>
+<td align="center" valign="top">
+Dynamic
+</td>
+
+</tr>
+<tr>
+<td align="center" valign="top">
+2
+</td>
+<td align="center" valign="top">
+Walking Upstairs
+</td>
+<td align="center" valign="top">
+1025
+</td>
+<td align="center" valign="top">
+
+</td>
+
+</tr>
+<tr>
+<td align="center" valign="top">
+3
+</td>
+<td align="center" valign="top">
+Walking Downstairs
+</td>
+<td align="center" valign="top">
+928
+</td>
+<td align="center" valign="top">
+
+</td>
+
+</tr>
+<tr>
+<td align="center" valign="top">
+4
+</td>
+<td align="center" valign="top">
+Sitting
+</td>
+<td align="center" valign="top">
+1192
+</td>
+<td align="center" valign="top">
+Static
+</td>
+
+</tr>
+<tr>
+<td align="center" valign="top">
+5
+</td>
+<td align="center" valign="top">
+Standing
+</td>
+<td align="center" valign="top">
+1263
+</td>
+<td align="center" valign="top">
+
+</td>
+
+</tr>
+<tr>
+<td align="center" valign="top">
+6
+</td>
+<td align="center" valign="top">
+Laying
+</td>
+<td align="center" valign="top">
+1315
+</td>
+<td align="center" valign="top">
+
+</td>
+
+</tr>
+
+</table>
+
+</div>
+<div class="caption">
+Table 1 Activity Labels and Relevant Codes 
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="Standard">
+Another real dataset is the training set of MNIST handwritten digits data containing a data matrix of 60,000 examples by 784 variables. Each observation is a &ldquo;normalized&rdquo; <span class="MathJax_Preview"><script type="math/tex">
+28\times28
+</script>
+</span> black and white image of certain digit.  Sampled digits from 0 to 9 can be referred by Figure <a class="Reference" href="#fig:4-1">7↓</a>. For better visualization, we magnify the resolution of each digit but the original resolution is <span class="MathJax_Preview"><script type="math/tex">
+28\times28
+</script>
+</span> or a vector of size <span class="MathJax_Preview"><script type="math/tex">
+784
+</script>
+</span> in dimensions. 
+</div>
+<div class="Standard">
+<div class="float">
+<a class="Label" name="fig:4-1"> </a><div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT545/mnist.png" alt="figure mnist.png" style="width: 12 cm; max-width: 1000px; height: auto; max-height: 500px;"/>
+
+</div>
+<div class="caption">
+Figure 7 10 samples from MNIST digits dataset.
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="Standard">
+In Figure <a class="Reference" href="#fig:4-2-1">8↓</a>, we show the results of the experiments with PCA and tSNE on Human Activity dataset. The results reveal strong performance of tSNE over PCA. In particular, PCA only detect the two main clusters namely 1, 2, 3 as the dynamic pattern and 4, 5, 6 as the static one but tSNE does a considerable better job in separating 1, 2, 3 and 6 into their sub clusters. Although there are some salient overlapping between group 4 and 5, the two clusters, sitting and standing, are seriously mixed up such that even the advanced classifiers such as random forest or support vector machine can not distinguish them well. For the digits data in Figure <a class="Reference" href="#fig:4-2-2">9↓</a>, PCA produce little insight to the data with large overlaps between the digits classes but tSNE construct a mapping where we can easily see each clustering in their relevant colors shown in Figure <a class="Reference" href="#fig:4-2-2-b">b↓</a>. Although some digits are clustered with the wrong classes, but most of them are distorted digits and quite hard for the human to identify.
+</div>
+<h3 class="Subsubsection">
+<a class="toc" name="toc-Subsubsection-4.2.1">4.2.1</a> Human Activity
+</h3>
+<div class="Standard">
+<div class="float">
+<a class="Label" name="fig:4-2-1"> </a><div class="multifigure">
+<div class="center">
+<span class="float">
+<div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT545/pca640.png" alt="figure pca640.png" style="width: 8cm; max-width: 341px; height: auto; max-height: 265px;"/>
+
+</div>
+<div class="caption">
+(a) PCA (PC1 versus PC2)
+</div>
+
+</div>
+
+</span>
+<span class="float">
+<div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT545/tSNE640.png" alt="figure tSNE640.png" style="width: 8cm; max-width: 353px; height: auto; max-height: 265px;"/>
+<div class="caption">
+(b) tSNE
+</div>
+
+</div>
+
+</div>
+
+</span>
+
+</div>
+<div class="PlainVisible">
+<div class="center">
+<div class="caption">
+Figure 8 Visualization of Human Activity Data Set Result in 2d.
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+<h3 class="Subsubsection">
+<a class="toc" name="toc-Subsubsection-4.2.2">4.2.2</a> MINST
+</h3>
+<div class="Standard">
+<div class="float">
+<a class="Label" name="fig:4-2-2"> </a><div class="multifigure">
+<div class="center">
+<span class="float">
+<div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT545/mnPCA.png" alt="figure mnPCA.png" style="width: 8cm; max-width: 729px; height: auto; max-height: 589px;"/>
+
+</div>
+<div class="caption">
+(a) PCA (PC1 versus PC2)
+</div>
+
+</div>
+
+</span>
+<span class="float">
+<a class="Label" name="fig:4-2-2-b"> </a><div class="figure">
+<div class="center">
+<img class="embedded" src="{{ site.baseurl }}figure/STAT545/mnist_large.jpg" alt="figure mnist_large.jpg" style="width: 8cm; max-width: 2700px; height: auto; max-height: 2972px;"/>
+<div class="caption">
+(b) tSNE
+</div>
+
+</div>
+
+</div>
+
+</span>
+
+</div>
+<div class="PlainVisible">
+<div class="center">
+<div class="caption">
+Figure 9 Visualization of MINST Data Set Result in 2d.
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+<h1 class="Section">
+<a class="toc" name="toc-Section-5">5</a> Conclusion
+</h1>
+<div class="Standard">
+In this project we provide details about the rationality of SNE namely its asymmetric conditional probability similarity metrics, cross entropy cost function, non convex optimization problem and its two drawbacks. Then we focus on two alternations tSNE makes to ameliorate crowding and optimization problem by the symmetric join probability and the heavy tail t-distribution in <span class="MathJax_Preview"><script type="math/tex">
+q_{ij}
+</script>
+</span>. 
+</div>
+<div class="Standard">
+Then we compare some MDS methods such as PCA, MDS, non-linear Sammon and tSNE on several simulation and real datasets. It turns out that tSNE always attains better solution than the others. We realize that for data lying on non-linear manifold in high-dimension keeping the similarity data points together is more important than pushing dissimilarity points apart. And the Markov process of mapped data points make tSNE more Statistical reasonable. 
+</div>
+<div class="Standard">
+One addition drawback for tSNE is that it doesn’t obtain a parametric mapping <span class="MathJax_Preview"><script type="math/tex">
+\gamma
+</script>
+</span> function. You have to redo the computation when applying to new dataset. However, as an efficient non-parametric MDS methods, tSNE indeed provides an alternative to PCA and the other MDSs to help you gain new insight into your high-dimension data.
+</div>
+<div class="Standard">
+<h1 class="biblio">
+References
+</h1>
+<p class="biblio">
+<span class="entry">[<a class="biblioentry" name="biblio-1"><span class="bib-index">1</span></a>] </span> <span class="bib-title">STAT 640 Data Mining Competition Fall 2014</span>. URL <a href="https://inclass.kaggle.com/c/stat-444-640-smart-phone-activity/leaderboard"><span class="bib-url">https://inclass.kaggle.com/c/stat-444-640-smart-phone-activity/leaderboard</span></a>.
+</p>
+<p class="biblio">
+<span class="entry">[<a class="biblioentry" name="biblio-2"><span class="bib-index">2</span></a>] </span> <span class="bib-authors">Davide Anguita, Alessandro Ghio, Luca Oneto, Xavier Parra, Jorge L Reyes-Ortiz</span>. <span class="bib-title">A public domain dataset for human activity recognition using smartphones</span>.  <i><span class="bib-booktitle">European Symposium on Artificial Neural Networks, Computational Intelligence and Machine Learning, ESANN</span></i>, <span class="bib-year">2013</span>.
+</p>
+<p class="biblio">
+<span class="entry">[<a class="biblioentry" name="biblio-3"><span class="bib-index">3</span></a>] </span> <span class="bib-authors">Ian Davidson, SS Ravi</span>. <span class="bib-title">Agglomerative hierarchical clustering with constraints: Theoretical and empirical results</span>. In <i><span class="bib-booktitle">Knowledge Discovery in Databases: PKDD 2005</span></i> . <span class="bib-publisher">Springer</span>, <span class="bib-year">2005</span>.
+</p>
+<p class="biblio">
+<span class="entry">[<a class="biblioentry" name="biblio-4"><span class="bib-index">4</span></a>] </span> <span class="bib-authors">Sam T Roweis, Lawrence K Saul</span>. <span class="bib-title">Nonlinear dimensionality reduction by locally linear embedding</span>. <i><span class="bib-journal">Science</span></i>, <span class="bib-volume">290</span>(<span class="bib-number">5500</span>):<span class="bib-pages">2323—2326</span>, <span class="bib-year">2000</span>.
+</p>
+<p class="biblio">
+<span class="entry">[<a class="biblioentry" name="biblio-5"><span class="bib-index">5</span></a>] </span> <span class="bib-authors">Vin D Silva, Joshua B Tenenbaum</span>. <span class="bib-title">Global versus local methods in nonlinear dimensionality reduction</span>.  <i><span class="bib-booktitle">Advances in neural information processing systems</span></i>:<span class="bib-pages">705—712</span>, <span class="bib-year">2002</span>.
+</p>
+<p class="biblio">
+<span class="entry">[<a class="biblioentry" name="biblio-6"><span class="bib-index">6</span></a>] </span> <span class="bib-authors">Laurens Van der Maaten, Geoffrey Hinton</span>. <span class="bib-title">Visualizing data using t-SNE</span>. <i><span class="bib-journal">Journal of Machine Learning Research</span></i>, <span class="bib-volume">9</span>(<span class="bib-number">2579-2605</span>):<span class="bib-pages">85</span>, <span class="bib-year">2008</span>.
+</p>
+
+</div>
+
+
+</body>
+</html>
