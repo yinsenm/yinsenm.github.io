@@ -1,0 +1,116 @@
+---
+title: "R Markdown Example"
+
+output:
+  pdf_document: default
+  html_document:
+    fig_height: 7
+    fig_width: 6
+    theme: journal
+---
+*Note: This is an expanded version of the default R Markdown tutorial* 
+
+
+# Basics 
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+Note the figure options set in the opening "YAML" header. The YAML header is a group of value pairs that tells the compiler what you want your output to look like. Begin and end your YAML with three dashes. (Note: The R Markdown template pre-builds this for you!)
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+
+[//]: (comments can be added to the document like this.) 
+
+```{r}
+summary(iris)
+```
+
+You can also embed plots, for example:
+
+```{r, echo=FALSE}
+plot(iris)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+# Formatting 
+You can write code in line, using \` , e.g. `r 1+3` or `r mean(cars$speed)`.
+
+Also, you can write equations inline using the dollar sign, e.g., $\pi \approx \frac{22}{7}$. Note that this will only be "pretty print" in the PDF, and may show up as LaTeX code in the HTML. 
+
+Math can be in display mode as well, with the double dollar sign $$ e = mc^2 $$
+
+You can get superscript with carets (^) like^this^, strikethrough with tildes (\~) like ~~this~~, and subscripts with tildes as well, like~this~. In order to print out any ["special" characters][3], you must preface them with a backslash, like so: "\textbackslash \#", which prints "\#".
+
+Block quotes are done with \>, 
+
+> Love all, trust a few,
+> do wrong to none. -- Shakespeare
+
+You can create links in [phrases][1]!
+
+Another formatting point is with asterisks. You can make text *italic* and **bold**, as well as adding a horizontal rule, with three or more astericks, as below.
+
+*****
+
+Unordered lists are made with asterisks and plus signs,
+
+* Item 1
+    + Item 1A
+    + Item 1B
+* Item 2
+* Item 3
+
+Ordered lists are made with numbers 
+
+1. Item 1
+    a. Item 1A
+    b. Item 1B
+2. Item 2 
+    + Item 2A
+    + Item 2B
+3. Item 3
+
+
+R plots can be as fancy as you'd like. 
+
+##
+```{r}
+library(ggplot2)
+qplot(speed, dist, data = cars) + geom_smooth()
+
+```
+If there is an error in R code, you need to install ggplot2 package.
+
+If you want verbatim text, use the \`\`\` command without the bracketed r.
+
+```
+Then the text will come out in fixed-width font
+```
+
+It can also be done in-line to make the name of a `function` obvious.
+
+
+*****
+
+Tables can be made easily in Markdown, like the following
+
+Blah  | BlahBlah
+----- | -----
+Stuff  | Stuff
+Stuff | Stuff
+
+
+# More Advanced content
+
+A table of content can be added by setting `toc:true` in the preamble. The theme can be changed there as well. To see this content, look [here][2]. Shiny is an extremely interesting interactive document that can be produced within R Markdown, while it is out of our scope for today, I suggest you look into it.
+
+
+
+The reference guides linked [here][4] are very helpful with figuring out R Markdown nuances.
+
+
+[1]: http://lmgtfy.com/?q=R+Markdown+Tutorial
+[2]: http://rmarkdown.rstudio.com/html_document_format.html#appearance-and-style
+[3]: https://en.wikibooks.org/wiki/LaTeX/Special_Characters#Other_symbols
+[4]: https://sites.google.com/site/riceorientationrtutorial/home/reproducible-homework/usn

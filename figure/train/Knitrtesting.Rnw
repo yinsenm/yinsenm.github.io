@@ -1,0 +1,82 @@
+%% LyX 2.1.4 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[english]{article}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{geometry}
+\geometry{verbose,tmargin=3cm,bmargin=3cm,lmargin=3cm,rmargin=3cm}
+\usepackage{float}
+\usepackage{amstext}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+\newcommand{\lyxmathsym}[1]{\ifmmode\begingroup\def\b@ld{bold}
+  \text{\ifx\math@version\b@ld\bfseries\fi#1}\endgroup\else#1\fi}
+
+
+\makeatother
+
+\usepackage{babel}
+\begin{document}
+
+\title{Knitr Testing}
+
+\maketitle
+Please try to understand how we write R code in each file.
+
+We have this special structure to containe the R code.
+
+You may find more options at http://yihui.name/knitr/options/.
+
+
+\section*{1. Options avaliable}
+
+<<chunk1>>=
+1+1
+a=4
+b=3
+a^2+b^2
+@
+
+By adding one option, R code will not be evaluated.
+
+<<chunk2,eval=FALSE>>=
+1+1
+a=4
+b=3
+a^2+b^2
+@
+
+(In future, you may need to use option in knitr to adjust the size
+of your plot when you are working on your report.)
+
+
+\section*{2. Create your own R code here }
+
+Note: R code is always between $\lyxmathsym{\textquotedblleft}=\lyxmathsym{\textquotedblright}$
+and$\lyxmathsym{\textquotedblleft}@\lyxmathsym{\textquotedblright}$
+and each line can only contains one subject of calculation in R. 
+
+In lyx file, we first select ``insert'', choose ``Tex Code'' and
+then you can write you own R code in the format as we did above.
+
+In rnw file, you can write you own R code in the format as we did
+above directly.
+
+
+\section*{3. Storages between R codes}
+
+<<chunk3>>=
+#iris is a dataset in R 
+q=iris[1,1]
+#we select the 1,1 entry of the dataset iris
+@
+
+The information carried by variable ``$q$'' can be used in any
+following chunks of R code.
+
+<<chunk4>>=
+q^2+2
+@
+\end{document}

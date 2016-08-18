@@ -1,0 +1,576 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\begin_modules
+knitr
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement H
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 3cm
+\topmargin 3cm
+\rightmargin 3cm
+\bottommargin 3cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+Section for Statistical Computing
+\end_layout
+
+\begin_layout Title
+PAGE 1
+\end_layout
+
+\begin_layout Title
+Statistical Computing
+\end_layout
+
+\begin_layout Standard
+R is a programming language and software environment for statistical computing
+ and graphics (https://www.r-project.org/).
+ More importantly, R will be used a lot for some courses at Rice.
+ While you will likely have lots of practice in your courses, picking it
+ up quickly will be extremely helpful.
+ 
+\end_layout
+
+\begin_layout Standard
+It's free, open source, widely used among statisticians and data miners
+ for developing statistical software and data analysis.
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+LINK TO THREE SUBPAGE:
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Installing R 
+\end_layout
+
+\begin_layout Standard
+Installing RStudio
+\end_layout
+
+\begin_layout Standard
+Using RStudio/R
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Title
+PAGE 2
+\begin_inset Newline newline
+\end_inset
+
+Installing R 
+\end_layout
+
+\begin_layout Standard
+The files are downloaded via CRAN mirrors, https://cran.r-project.org/mirrors.html,
+ with the closest one being in Dallas, but it doesn't really matter which
+ one you choose, they're just designed to take the load off of the servers
+ at the R-project.
+ 
+\end_layout
+
+\begin_layout Standard
+Once you choose a mirror, you'll find a link like the one below, click the
+ one appropriate to your OS.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename C:/Users/aaronK/Desktop/training/picture1.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Windows: 
+\end_layout
+
+\begin_layout Standard
+1.After clicking the "Download R for Windows" above, you then want to click
+ the "base" link.
+\end_layout
+
+\begin_layout Standard
+2.Right-click on Download R 3.3.1 for Windows, and just save the .exe to your
+ desktop (or wherever you want) 
+\end_layout
+
+\begin_layout Standard
+3.Double click on the .exe, and follow the instructions.
+\end_layout
+
+\begin_layout Standard
+4.Choose the default "User" installation and don't worry about "customizing
+ startup options"
+\end_layout
+
+\begin_layout Standard
+Mac: 
+\end_layout
+
+\begin_layout Standard
+1.
+ After clicking the "Download R for (Mac) OS X, you want to choose the correct
+ download for your OS.
+ 
+\end_layout
+
+\begin_layout Standard
+2.
+ R-3.3.1.pkg is for Mavericks, while R-3.3.1-snowleopard.pkg is for Snow leopard.
+ 
+\end_layout
+
+\begin_layout Standard
+3.
+ Open the .pkg file, and follow the instructions.
+ 
+\end_layout
+
+\begin_layout Standard
+4.
+ Choose the defaults and do not worry about "customizing startup options"
+\end_layout
+
+\begin_layout Standard
+The current version of R is 3.3.1, and you will need to update R as new releases
+ come out.
+\end_layout
+
+\begin_layout Title
+PAGE 3
+\begin_inset Newline newline
+\end_inset
+
+Installing Rstudio
+\end_layout
+
+\begin_layout Standard
+RStudio is a free and open-source integrated development environment (IDE)
+ for R.
+ You can download it at https://www.rstudio.com/products/rstudio/download2/.
+\end_layout
+
+\begin_layout Standard
+Choose "Download RStudio Desktop" (with free license), then choose the correct
+ OS download.
+ 
+\end_layout
+
+\begin_layout Title
+PAGE 4
+\begin_inset Newline newline
+\end_inset
+
+Using RStudio/R
+\end_layout
+
+\begin_layout Standard
+The .R file below contains a introduction to the functionalities of R.
+ The .txt and .csv files will be needed as well.
+ Download all three and save them in the SAME folder.
+\end_layout
+
+\begin_layout Standard
+Once you've opened your RStudio, run the command setwd("location/nameofyourfolde
+r").
+ Alternatively, you can find your folder in the "file" window and select
+ "set working directory".
+ This will set where R works from, saving any output files and looking for
+ any input data.
+\end_layout
+
+\begin_layout Standard
+The script (Thanks to Kate!) will run through basics, importing data, basic
+ data exploration, intro to plotting/graphics, and packages.
+\end_layout
+
+\begin_layout Standard
+Like any language, it will take some time to be familiar with the commands
+ and environment, enjoy!
+\end_layout
+
+\begin_layout Standard
+File downloadable here:
+\end_layout
+
+\begin_layout Standard
+R TUTORIAL.R 
+\end_layout
+
+\begin_layout Standard
+EXAMPLE.CSV 
+\end_layout
+
+\begin_layout Standard
+TITANIC.TXT 
+\end_layout
+
+\begin_layout Standard
+Section for Reproducible Homework
+\end_layout
+
+\begin_layout Title
+PAGE 5
+\end_layout
+
+\begin_layout Title
+Reproducible Homework
+\end_layout
+
+\begin_layout Standard
+Since we know R and LaTeX, we will combine them so that you can add R code
+ in lyx or write mathematical symbols in R.
+\end_layout
+
+\begin_layout Standard
+RMarkdown and knitr are two literate programming tools that can tangle R
+ and LaTeX.
+ 
+\end_layout
+
+\begin_layout Standard
+Markdown is simple and fast, not very customizable, but makes a clean looking
+ report (which is sometimes all you need).
+ 
+\end_layout
+
+\begin_layout Standard
+knitr is extremely dynamic, allows for large projects easily with features
+ like caching and multiple input languages.
+\begin_inset Newline newline
+\end_inset
+
+Two subpages:
+\end_layout
+
+\begin_layout Standard
+knitr 
+\end_layout
+
+\begin_layout Standard
+RMarkdown 
+\end_layout
+
+\begin_layout Title
+PAGE 6
+\end_layout
+
+\begin_layout Title
+Knitr
+\end_layout
+
+\begin_layout Standard
+knitr is an engine for dynamic report generation with R.
+\end_layout
+
+\begin_layout Standard
+In order to using knitr in R:
+\end_layout
+
+\begin_layout Standard
+Setup Start by running the following commands in the console of RStudio:
+\end_layout
+
+\begin_layout Standard
+> install.packages(c("knitr", "ggplot2"))
+\end_layout
+
+\begin_layout Standard
+> require(knitr) 
+\end_layout
+
+\begin_layout Standard
+> require(ggplot2)
+\end_layout
+
+\begin_layout Standard
+Then Select “Tools
+\begin_inset Quotes erd
+\end_inset
+
+ and then choose 
+\begin_inset Quotes eld
+\end_inset
+
+global options
+\begin_inset Quotes erd
+\end_inset
+
+.
+ Select “Sweave” and at the top of the page switch the “Weave Rnw files
+ using” dropdown menu to knitr.
+\end_layout
+
+\begin_layout Standard
+Then you can select 
+\begin_inset Quotes eld
+\end_inset
+
+File
+\begin_inset Quotes erd
+\end_inset
+
+, choose 
+\begin_inset Quotes eld
+\end_inset
+
+New file
+\begin_inset Quotes erd
+\end_inset
+
+ and then create 
+\begin_inset Quotes eld
+\end_inset
+
+R sweave
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Note: To directly write in Rnw file, you may need to know how to write articles
+ in LaTeX.
+\end_layout
+
+\begin_layout Standard
+In order to using knitr in Lyx:
+\end_layout
+
+\begin_layout Standard
+It's very simple and you can find it at http://yihui.name/knitr/demo/lyx/.
+\end_layout
+
+\begin_layout Standard
+Select 
+\begin_inset Quotes eld
+\end_inset
+
+Document
+\begin_inset Quotes erd
+\end_inset
+
+, choose 
+\begin_inset Quotes eld
+\end_inset
+
+Settings
+\begin_inset Quotes erd
+\end_inset
+
+ and then select 
+\begin_inset Quotes eld
+\end_inset
+
+Modules
+\begin_inset Quotes erd
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+Add Rnw(knitr) from avaliable modules and install knitr in R; then you are
+ done.
+\end_layout
+
+\begin_layout Standard
+You can play around with knitr by compiling both two files below.
+\end_layout
+
+\begin_layout Standard
+To compile Rnw files, click 
+\begin_inset Quotes eld
+\end_inset
+
+Compile PDF
+\begin_inset Quotes erd
+\end_inset
+
+ in Rstudio when you open the rnw file.
+\end_layout
+
+\begin_layout Standard
+To compile lyx files, click 
+\begin_inset Quotes eld
+\end_inset
+
+view
+\begin_inset Quotes erd
+\end_inset
+
+ or ctrl+R.
+\end_layout
+
+\begin_layout Standard
+You will find more information at http://yihui.name/knitr/options/.
+\end_layout
+
+\begin_layout Standard
+Two files here:
+\end_layout
+
+\begin_layout Standard
+Knitrtesting.rnw
+\end_layout
+
+\begin_layout Standard
+Knitrtesting.lyx
+\end_layout
+
+\begin_layout Title
+PAGE 6
+\end_layout
+
+\begin_layout Title
+RMarkdown
+\end_layout
+
+\begin_layout Standard
+RMarkdown is a lightweight text markup language with R commands (Source:
+ http://rmarkdown.rstudio.com).
+ 
+\end_layout
+
+\begin_layout Standard
+If you are not familiar with LaTeX, Markdown should be much easier to work
+ with.
+ The syntax is designed to mimic plain-text email.
+\end_layout
+
+\begin_layout Standard
+Setup Run the following command in your RStudio console: > install.packages("rmar
+kdown") 
+\end_layout
+
+\begin_layout Standard
+Download the below .txt and copy/paste it in to an empty RStudio editor and
+ save it as Markdown_example.Rmd - Similar to last time, note the file extension.
+ 
+\end_layout
+
+\begin_layout Standard
+Once the file has been saved as an .Rmd, RStudio gives the option to "Knit
+ HTML".
+ 
+\end_layout
+
+\begin_layout Standard
+In the drop-down menu of that button, note that there are two other options,
+ "Knit PDF" and "Knit Word".
+ 
+\end_layout
+
+\begin_layout Standard
+Useful Links:
+\end_layout
+
+\begin_layout Standard
+RMarkdown Cheat Sheet: https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdow
+n-cheatsheet.pdf
+\end_layout
+
+\begin_layout Standard
+RMarkdown Reference Guide: https://www.rstudio.com/wp-content/uploads/2015/03/rmar
+kdown-reference.pdf
+\end_layout
+
+\begin_layout Standard
+One file here:
+\end_layout
+
+\begin_layout Standard
+MARKDOWN_EXAMPLE.TXT
+\end_layout
+
+\begin_layout Standard
+As a quick note about R Markdown, you can use it to produce slide presentations
+ as well.
+ Details can be found at http://slidify.org/.
+\end_layout
+
+\end_body
+\end_document

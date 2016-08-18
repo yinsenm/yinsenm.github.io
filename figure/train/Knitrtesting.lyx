@@ -1,0 +1,311 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\begin_modules
+knitr
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement H
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 3cm
+\topmargin 3cm
+\rightmargin 3cm
+\bottommargin 3cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Knitr Testing
+\end_layout
+
+\begin_layout Standard
+Please try to understand how we write R code in each file.
+\end_layout
+
+\begin_layout Standard
+We have this special structure to containe the R code.
+\end_layout
+
+\begin_layout Standard
+You may find more options at http://yihui.name/knitr/options/.
+\end_layout
+
+\begin_layout Section*
+1.
+ Options avaliable
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<chunk1>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+1+1
+\end_layout
+
+\begin_layout Plain Layout
+
+a=4
+\end_layout
+
+\begin_layout Plain Layout
+
+b=3
+\end_layout
+
+\begin_layout Plain Layout
+
+a^2+b^2
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+By adding one option, R code will not be evaluated.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<chunk2,eval=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+1+1
+\end_layout
+
+\begin_layout Plain Layout
+
+a=4
+\end_layout
+
+\begin_layout Plain Layout
+
+b=3
+\end_layout
+
+\begin_layout Plain Layout
+
+a^2+b^2
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+(In future, you may need to use option in knitr to adjust the size of your
+ plot when you are working on your report.)
+\end_layout
+
+\begin_layout Section*
+2.
+ Create your own R code here 
+\end_layout
+
+\begin_layout Standard
+Note: R code is always between 
+\begin_inset Formula $“=”$
+\end_inset
+
+ and
+\begin_inset Formula $“@”$
+\end_inset
+
+ and each line can only contains one subject of calculation in R.
+ 
+\end_layout
+
+\begin_layout Standard
+In lyx file, we first select 
+\begin_inset Quotes eld
+\end_inset
+
+insert
+\begin_inset Quotes erd
+\end_inset
+
+, choose 
+\begin_inset Quotes eld
+\end_inset
+
+Tex Code
+\begin_inset Quotes erd
+\end_inset
+
+ and then you can write you own R code in the format as we did above.
+\end_layout
+
+\begin_layout Standard
+In rnw file, you can write you own R code in the format as we did above
+ directly.
+\end_layout
+
+\begin_layout Section*
+3.
+ Storages between R codes
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<chunk3>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+#iris is a dataset in R 
+\end_layout
+
+\begin_layout Plain Layout
+
+q=iris[1,1]
+\end_layout
+
+\begin_layout Plain Layout
+
+#we select the 1,1 entry of the dataset iris
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The information carried by variable 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Formula $q$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+ can be used in any following chunks of R code.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<chunk4>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+q^2+2
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
