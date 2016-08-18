@@ -380,7 +380,7 @@ LyX is like any other editor in that you need to have the distribution installed
 ### Install LyX
 After [downloading](https://www.lyx.org/Download) and installing Lyx, open up the application and create a new document.
 
-- [Windows](ftp://ftp.lyx.org/pub/lyx/bin/2.2.1/LyX-221-Bundle-2.exe). [Dropbox](https://github.com/yinsenm/yinsenm.github.io.git)
+- [Windows](ftp://ftp.lyx.org/pub/lyx/bin/2.2.1/LyX-221-Bundle-2.exe).  [Dropbox](https://www.dropbox.com/s/qy7ma9mjtsb53qg/LyX-221-Bundle-2.exe?dl=0)
 - [Mac OS X](ftp://ftp.lyx.org/pub/lyx/bin/2.2.1/LyX-2.2.1+qt5-x86_64-cocoa.dmg), If not working, please try to install software for [Older System](ftp://ftp.lyx.org/pub/lyx/bin/2.2.1/LyX-2.2.1+qt4-i386-cocoa.dmg).
 - [Linux](https://www.lyx.org/Download). Please follow the instruction below:
 
