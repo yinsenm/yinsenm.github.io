@@ -56,9 +56,12 @@ The CLEAR systems are available to all students to help with coursework computat
 
 - Mactintosh
 	1. Open terminal
-	2. In terminal type ```
-			ssh<myNetID>@<alias>.clear.rice.edu
-		```
+	2. In terminal type 
+	
+```
+[ym11@myMac ~]$ssh<myNetID>@<alias>.clear.rice.edu
+```
+	
 	- Replace <myNetID> with your Rice NetID and <alias> with one of the alias options above.
 	-  Example: My NetID is **ym11**, and if I pick the water alias I would enter: [ym11@water.clear.rice.edu](ym11@water.clear.rice.edu).
 	3.  Proceed to the exercise below.
@@ -68,7 +71,7 @@ The CLEAR systems are available to all students to help with coursework computat
 	2. Follow the Macintosh instructions above.
 - Windows
 	1. Download the [MobaXterm](http://mobaxterm.mobatek.net/) via this [link](http://mobaxterm.mobatek.net/download.html).
-	2.  Click **Session** and then choose **ssh ** . Fill in one of the four aliases above such as [water.clear.rice.edu](water.clear.rice.edu) in the **Remote host** and your netid in **Specify username**. 
+	2.  Click **Session** and then choose **ssh** . Fill in one of the four aliases above such as [water.clear.rice.edu](water.clear.rice.edu) in the **Remote host** and your netid in **Specify username**. 
 
 <p align="center">
    			<img src="/figure/train/1.png" alt="">
@@ -78,9 +81,13 @@ The CLEAR systems are available to all students to help with coursework computat
    			<img src="/figure/train/2.png" alt="">
 </p>
 
+
 	3. Click on one of the saved sessions.
 
-#### Moving files between your computer and CLEAR
+
+
+### Moving files between your computer and CLEAR
+
 
 - Your U: drive home folder is your home directory when you login to CLEAR.  Anything you drop there will be accessible to you. 
 - Use sftp feature offered by the  [MobaXterm](http://mobaxterm.mobatek.net/).
@@ -140,6 +147,7 @@ The CLEAR systems are available to all students to help with coursework computat
 ```
 
 or
+
 ```
 [ym11@water ~]$top &
 ```
@@ -191,12 +199,12 @@ Find history commands that contain the ```ls```.
 
 ### File Permissions
 
+To find the permissions for files in a directory type, use ```ls -l```.
+
 <p align="center">
    			<img src="/figure/train/7.png" alt="">
 </p>
 
-
-To find the permissions for files in a directory type, use ```ls -l```.
 
 Change file permission.
 
@@ -252,19 +260,8 @@ In case you need administrator permission to access or change a file or director
 
 
 
->Specially Thank to Jie Yang for helping preparing a detail tutorial for this section! Thank you!!!
+> Thank to Jie Yang for helping preparing a detail tutorial for this section! Thank you!!!
 
-
-### Exercise Two: Copying files and directories
-
-	1. Create a test directory by typing **mkdir testDir**.
-	2. Enter directory by typing **cd testDir**.
-	3. Create a file called testFile using nano by typing **nano testFile.txt**.
-	4. Type any string of characters into the file and press Ctrl-x, follow the prompts to save. 
-	5. Exit directory by typing **cd ..** (this moves up one directory level).
-	6. We can now copy this directory by typing **cp -r testDir testDirCopy**.
-	7. Type **ls** to see that we now have an exact copy of the directory testDir, named testDirCopy.
-	8. Remove both of these by typing **rm -r testDir testDirCopy **.
 
 
 ---------------------------------------------------------
@@ -272,7 +269,7 @@ In case you need administrator permission to access or change a file or director
 ## LaTeX
 [LaTeX](http://www.latex-project.org/)  is a type-setting system for preparing documents, and is the standard used in almost all technical disciplines. It permits a high level of control over the structure of presentations and text documents, while also allowing the user to enter mathematical symbols.
 
-Learning how to use LaTeX is Necessary for research publications, with it you can make elegant documents which can be edited quickly. Graduate students should learn how to use LaTeX as quickly as possible. It is not formally required in all classes, but you will be handicapping yourself if you do not learn how to use it quickly.
+Learning how to use LaTeX is **necessary** for research publications, with it you can make elegant documents which can be edited quickly. Graduate students should learn how to use LaTeX as quickly as possible. It is not formally required in all classes, but you will be handicapping yourself if you do not learn how to use it quickly.
 
 ### Install LaTeX
 LaTeX is a language and not an editor, or notepad: such as word, so how Interact with LaTeX you will be dictated by what implementation and what editor you use.
@@ -281,7 +278,7 @@ You first need to download and install the TeX distribution appropriate for your
 
 - Unix & Linux:  [TeX Live](http://www.tug.org/texlive/), [Kile](http://kile.sourceforge.net/).
 - Mac OS X:  [TeXWorks](http://tug.org/texworks/).
-- Windows:  [Kile](http://www.winkde.org/pub/kde/ports/win32/installer/kdewin-installer-gui-latest.exe),  **Follow the ** [installing tutorial ](http://www.latex-community.org/forum/viewtopic.php?f=20&t=8212).
+- Windows:  [Kile](http://www.winkde.org/pub/kde/ports/win32/installer/kdewin-installer-gui-latest.exe),  **Follow the** [installing tutorial](http://www.latex-community.org/forum/viewtopic.php?f=20&t=8212).
 
 ### Example of Compiling a LaTeX Document Via Kile
 The backslash operator is used to denote when LaTeX specific syntax is being entered, and this is used to specify controls sequences (such as **\begin{equation}**), and also to enter new characters (such as **\pi** or **\newline**). **%** is used to specify comments.
@@ -300,6 +297,7 @@ You should get something similar to:
 
 
 The syntax for Beamer documents is very similar, but there are certain properties which have to be handled differently. For instance, you need to specify the beginning and ends of frames using the control sequence 
+
 ```
 \begin{frame} 
 		...
@@ -340,14 +338,14 @@ If you click on the Insert tab, a few options will come up which allow you to ma
 This opens up a blue space, and a symbol menu at the bottom. You can click on this symbol menu to input symbols, and click outside of the blue square to begin typing normal text again.
 
 <p align="center">
-   			<img src="/figure/train/8.png" alt="">
+   			<img src="/figure/train/8.PNG" alt="">
 </p>
 
 
 Within the math entry section in LyX, you can enter a standard LaTeX control sequence and LyX will convert them to symbols for you:
 
 <p align="center">
-   			<img src="/figure/train/9.png" alt="">
+   			<img src="/figure/train/9.PNG" alt="">
 </p>
 
 In this sense LyX is sort of a WYSWYG (pronounced "wiz-ee-wig")  or "what you see is what you get" editor.
@@ -367,7 +365,7 @@ There are a couple of resources that can be useful for learning how to use LaTeX
 
 
 ### Exercise Three: Compile the two documents in the zip file.
-> [Template.zip](/figure/train/Template.zip)
+> [Template.zip](/figure/train/Template.tar.gz)
 
 >Thank you Ryan Warnich for preparing  this section!!
 
@@ -388,20 +386,23 @@ The files are downloaded via [CRAN mirrors](https://cran.r-project.org/mirrors.h
 
 Once you choose a mirror, you'll find a link like the one below, click the one appropriate to your OS.
 
+<p align="center">
+   			<img src="/figure/train/picture1.png" alt="">
+</p>
 
 #### Windows
 
-	1. After clicking the "Download R for Windows" above, you then want to click the "base" link.
-	2. Right-click on Download R 3.3.1 for Windows, and just save the .exe to your desktop (or wherever you want) 
-	3. Double click on the .exe, and follow the instructions.
-	4. Choose the default "User" installation and don't worry about "customizing startup options"
+1. After clicking the "Download R for Windows" above, you then want to click the "base" link.
+2. Right-click on Download R 3.3.1 for Windows, and just save the .exe to your desktop (or wherever you want) 
+3. Double click on the .exe, and follow the instructions.
+4. Choose the default "User" installation and don't worry about "customizing startup options"
 
 #### Mac
 
-	1. After clicking the "Download R for (Mac) OS X, you want to choose the correct download for your OS. 
-	2. R-3.3.1.pkg is for Mavericks, while R-3.3.1-snowleopard.pkg is for Snow leopard. 
-	3. Open the .pkg file, and follow the instructions. 
-	4. Choose the defaults and do not worry about "customizing startup options"
+1. After clicking the "Download R for (Mac) OS X, you want to choose the correct download for your OS. 
+2. R-3.3.1.pkg is for Mavericks, while R-3.3.1-snowleopard.pkg is for Snow leopard. 
+3. Open the .pkg file, and follow the instructions. 
+4. Choose the defaults and do not worry about "customizing startup options"
 
 
 >The current version of R is **3.3.1**, and you will need to update R as new releases come out.
@@ -413,13 +414,15 @@ RStudio is a free and open-source integrated development environment (IDE) for R
 Choose "**Download RStudio Desktop**" (with free license), then choose the correct OS download. 
 
 ### Use RStudio / R
-The **\*.R** file below contains a introduction to the functionalities of R. The **\*.txt ** and **\*.csv** files will be needed as well. Download all three and save them in the SAME folder.
+The **\*.R** file below contains a introduction to the functionalities of R. The **\*.txt** and **\*.csv** files will be needed as well. Download all three and save them in the **SAME** folder.
 
 Once you've opened your RStudio, run the command 
+
 
 ```
 setwd("location/nameofyourfolder")
 ```
+
 
 Alternatively, you can find your folder in the "**file**" window and select "**set working directory**". This will set where R works from, saving any output files and looking for any input data.
 
@@ -427,10 +430,7 @@ The script (Thanks to Kate!) will run through basics, importing data, basic data
 
 Like any language, it will take some time to be familiar with the commands and environment, enjoy!
 
->Files downloadable here:
->[R_Tutorial.R](/figure/train/R_Tutorial.R)
->[example.csv](/figure/train/example.csv)
->[titanic.txt](/figure/train/titanic.txt)
+>Files downloadable here: [R_Tutorial.R](/figure/train/R_Tutorial.R), [example.csv](/figure/train/example.csv), [titanic.txt](/figure/train/titanic.txt)
 
 ---------------------------------------------------------
 
@@ -455,14 +455,14 @@ require(knitr)
 require(ggplot2)
 ```
 
-Then Select “**Tools**” and then choose “**global options**”. Select “**Sweave**” and at the top of the page switch the “Weave Rnw files using” dropdown menu to knitr.
+Then Select “**Tools**” and then choose “**global options**”. Select “**Sweave**” and at the top of the page switch the “**Weave Rnw files using**” dropdown menu to knitr.
 Then you can select “**File**”, choose “**New file**” and then create “**R sweave**”.
 
 >Note: To directly write in Rnw file, you may need to know how to write articles in LaTeX.
 
 In order to using knitr in Lyx:
 
-It's very simple and you can find it at http://yihui.name/knitr/demo/lyx/.
+It's very simple and you can find it at [http://yihui.name/knitr/demo/lyx/](http://yihui.name/knitr/demo/lyx/).
 Select “**Document**”, choose “**Settings**” and then select “**Modules**”. 
 
 Add Rnw(knitr) from avaliable modules and install knitr in R; then you are done.
@@ -471,18 +471,21 @@ You can play around with knitr by compiling both two files below.
 
 To compile Rnw files, click “**Compile PDF**” in Rstudio when you open the rnw file.
 
-To compile lyx files, click “**View**” or ctrl+R.
+To compile lyx files, click “**View**” or ```Ctrl+R```.
 
-You will find more information at http://yihui.name/knitr/options/.
+You will find more information at [http://yihui.name/knitr/options/](http://yihui.name/knitr/options/).
 
 Another thing is that you have to tell LyX where is Rscript (add the path
  to PATH prefix):
 
+<p align="center">
+   			<img src="/figure/train/knitrInR.png" alt="">
+</p>
+
 
 then reconfigure LyX. You now can get the path to Rscript by executing this in R:
->Files downloadable here:
->[Knitrtesting.rnw](/figure/train/Knitrtesting.rnw)
->[Knitrtesting.lyx](/figure/train/Knitrtesting.lyx)
+
+>Files downloadable here: [Knitrtesting.rnw](/figure/train/Knitrtesting.rnw), [Knitrtesting.lyx](/figure/train/Knitrtesting.lyx)
 
 
 ### RMarkdown 
@@ -492,6 +495,7 @@ then reconfigure LyX. You now can get the path to Rscript by executing this in R
 If you are not familiar with LaTeX, Markdown should be much easier to work with. The syntax is designed to mimic plain-text email.
 
 Setup Run the following command in your RStudio console:
+
 ```
 install.packages("rmarkdown") 
 ```
