@@ -9,39 +9,34 @@ Welcome to Statistical Orientation Lab
 	- [Unix and Rice Computing Resources](#1.1)
 	- [The U-Drive](#1.2)
 	- [CLEAR (Curricular Linux Environment At Rice)](#1.3)
-	- [Logging into CLEAR with SSH](#1.4)
-	- [Login Steps](#1.5)
-	- [Moving files between your computer and CLEAR](#1.6)
-Unix Tutorial
-Unix Directory Structure
-Navigating the UNIX File System
-Executing Programs
-Manipulating Files and Directories
-Piping commands and input/output
-File Permissions
-More references for Unix Command
-Install and compile software via make
-Exercise Two: Copying files and directories
-LaTeX
-Install LaTeX
-Example of Compiling a LaTeX Document Via Kile
-Beamer
-LyX
-Install LyX
-LaTeX and LyX Useful Resources
-Exercise Three: Compile the two documents in the zip file.
-Statistical Computing
-Installing R
-Windows
-Mac
-Installing R-Studio
-Use RStudio / R
-Reproducible Homework
-knitr
-RMarkdown
+	- [Login Steps](#1.4)
+	- [Moving files between your computer and CLEAR](#1.5)
+- [Unix Tutorial](#2)
+	- [Unix Directory Structure](#2.1)
+	- [Navigating the UNIX File System](#2.2)
+	- [Executing Programs](#2.3)
+	- [Manipulating Files and Directories](#2.4)
+	- [Piping commands and input/output](#2.5)
+	- [File Permissions](#2.6)
+	- [More references for Unix Command](#2.7)
+- [LaTeX](#3)
+	- [Install LaTeX](#3.1)
+	- [Beamer](#3.2)
+- [LyX](#4)
+	- [Install LyX](#4.1)
+	- [LaTeX and LyX Useful Resources](#4.2)
+- [Statistical Computing](#5)
+	- [Installing R](#5.1)
+	- [Installing R-Studio](#5.2)
+	- [Use RStudio / R](#5.3)
+- [Reproducible Homework](#6)
+	- [knitr](#6.1)
+	- [RMarkdown](#6.2)
 
+<a id = '1'></a>
 ## Technical Setup
 
+<a id = '1.1'></a>
 ### Unix and Rice Computing Resources
 
 [Unix](http://www.unix.org/what_is_unix.html) (Uniplexed Information and Computing System) is a family of multitasking, multiuser computer operating systems that derive from the original AT&T Unix, developed in the 1970s at Bell Labs. 
@@ -57,6 +52,7 @@ So why do we need Unix and servers?
 
 >Note: In order to access Rice computing resources or mount your U: Drive from off campus you will need to use a VPN. Instructions can be found [here](https://docs.rice.edu/confluence/x/0INGAg).
 
+<a id = '1.2'></a>
 ### The U-Drive
 
  - Each Rice graduate student is provided with 5GB of storage on the university servers.
@@ -72,11 +68,12 @@ So why do we need Unix and servers?
 - Follow instructions for your OS given above
 - Find your U Drive and explore it.
 
+<a id = '1.3'></a>
+
 ### CLEAR (Curricular Linux Environment At Rice)
 
 The CLEAR systems are available to all students to help with coursework computations. Research computation should be done on other faster servers.
 
-### Logging into CLEAR with SSH
 
 **SSH** stands for "Secure SHell". It allows you to securely log onto a remote system (like CLEAR) to utilize its resources. Logging into CLEAR is done in different ways depending on your operating system. CLEAR has several aliases so that you can sign into different ones to distribute your impact. The aliases are
 
@@ -84,6 +81,8 @@ The CLEAR systems are available to all students to help with coursework computat
 - [water.clear.rice.edu](water.clear.rice.edu)
 - [glass.clear.rice.edu](glass.clear.rice.edu)
 - [ring.clear.rice.edu](ring.clear.rice.edu)
+
+<a id = '1.4'></a>
 
 ### Login Steps 
 > Be sure to connected to the internet.
@@ -118,6 +117,7 @@ The CLEAR systems are available to all students to help with coursework computat
 	3. Click on one of the saved sessions.
 
 
+<a id = '1.5'></a>
 
 ### Moving files between your computer and CLEAR
 
@@ -134,7 +134,10 @@ The CLEAR systems are available to all students to help with coursework computat
 
 ---------------------------------------------------------
 
+<a id = '2'></a>
 ## Unix Tutorial
+
+<a id = '2.1'></a>
 
 ### Unix Directory Structure
 
@@ -142,6 +145,8 @@ The CLEAR systems are available to all students to help with coursework computat
    			<img src="/figure/train/4.png" alt="">
 </p>
 
+
+<a id = '2.2'></a>
 
 ### Navigating the UNIX File System
 
@@ -158,6 +163,8 @@ The CLEAR systems are available to all students to help with coursework computat
 |```kill```| End current process|
 |```mdfind```| Find a file on the computer|
 |```clear``` or ```Ctrl + L```| Clear the screen|
+
+<a id = '2.3'></a>
 
 ### Executing Programs
 
@@ -197,6 +204,8 @@ or
 [ym11@water ~]$kill 1122
 ```
 
+<a id = '2.4'></a>
+
 ### Manipulating Files and Directories
 
 | Code | Function  |
@@ -210,6 +219,8 @@ or
 |cp file directory | Copy file to location|
 |mv file1 file2 | Move file or rename file |
 |mkdir directory|Make a new directory |
+
+<a id = '2.5'></a>
 
 ### Piping commands and input/output
 
@@ -229,6 +240,8 @@ Find history commands that contain the ```ls```.
 ```
 [ym11@water ~]$history|grep ls
 ```
+
+<a id = '2.6'></a>
 
 ### File Permissions
 
@@ -272,7 +285,8 @@ In case you need administrator permission to access or change a file or director
 [ym11@water ~]$sudo cp file.text ../Downloads/
 ```
 
-### Additional Commands.
+
+**Additional Commands**
 
 | Code | Function  |Example|
 |: ------------- |-------------:|:---|
@@ -280,9 +294,11 @@ In case you need administrator permission to access or change a file or director
 |```tar```| Compress or decompress a directory| Compress: ```tar - czf file.tar```, Decompress: ```tar - xzf file.tar``` |
 
 
-### Install and compile software via ```make```
+**Install and compile software via ```make```**
 
 [https://code.google.com/archive/p/bedtools/downloads](https://code.google.com/archive/p/bedtools/downloads)
+
+<a id = '2.7'></a>
 
 ### More references for Unix Command
 
@@ -299,10 +315,14 @@ In case you need administrator permission to access or change a file or director
 
 ---------------------------------------------------------
 
+<a id = '3'></a>
+
 ## LaTeX
 [LaTeX](http://www.latex-project.org/)  is a type-setting system for preparing documents, and is the standard used in almost all technical disciplines. It permits a high level of control over the structure of presentations and text documents, while also allowing the user to enter mathematical symbols.
 
 Learning how to use LaTeX is **necessary** for research publications, with it you can make elegant documents which can be edited quickly. Graduate students should learn how to use LaTeX as quickly as possible. It is not formally required in all classes, but you will be handicapping yourself if you do not learn how to use it quickly.
+
+<a id = '3.1'></a>
 
 ### Install LaTeX
 LaTeX is a language and not an editor, or notepad: such as word, so how Interact with LaTeX you will be dictated by what implementation and what editor you use.
@@ -317,6 +337,8 @@ You first need to download and install the TeX distribution appropriate for your
 The backslash operator is used to denote when LaTeX specific syntax is being entered, and this is used to specify controls sequences (such as **\begin{equation}**), and also to enter new characters (such as **\pi** or **\newline**). **%** is used to specify comments.
 
 If you want to use a protected character as a text character, you need to precede it with a backslash. For example, **\\** would give you a single backslash and would not start a control sequence, or **\%** would give you the character **%** without beginning a comment.
+
+<a id = '3.2'></a>
 
 ### Beamer
 
@@ -341,12 +363,15 @@ The syntax for Beamer documents is very similar, but there are certain propertie
 
 You can edit these templates as a basis for how to construct documents until you learn how to compose the documents you would like, or you can download LaTeX templates online which you feel are more appropriate.
 
+<a id = '4'></a>
 
 ## LyX
 
 Dealing with LaTeX can be sort of difficult, particularly when you're first starting out, and the pace at which you can create documents might not be appropriate for particular tasks (such as taking notes, or writing up homework problems). Fortunately, there are a number of editors designed to streamline the process. The most commonly used of these editors being [LyX](http://www.lyx.org/).
 
 LyX is like any other editor in that you need to have the distribution installed on your system for it to work appropriately, but it's much easier to create documents without knowing all of the LaTeX syntax. 
+
+<a id = '4.1'></a>
 
 ### Install LyX
 After [downloading](https://www.lyx.org/Download) and installing Lyx, open up the application and create a new document.
@@ -385,6 +410,8 @@ In this sense LyX is sort of a WYSWYG (pronounced "wiz-ee-wig")  or "what you se
 
 It's important to remember that LyX documents are not **.tex** files, and if you are collaborating with someone who doesn't use LyX you will need to convert the LyX file to a **.tex** file.  This can be done via **File -> Export -> LaTeX (pdflatex)**. 
 
+<a id = '4.2'></a>
+
 ### LaTeX and LyX Useful Resources
 
 There are a couple of resources that can be useful for learning how to use LaTeX:
@@ -397,7 +424,7 @@ There are a couple of resources that can be useful for learning how to use LaTeX
 - [LyX Templates](http://wiki.lyx.org/Layouts/Layouts) : Contains templates for LyX documents.
 
 
-### Exercise Three: Compile the two documents in the zip file
+**Exercise Three: Compile the two documents in the zip file**
 > [TTemplate.tar.gz](/figure/train/Template.tar.gz)
 
 >Thank you Ryan Warnich for preparing  this section!!
@@ -406,12 +433,16 @@ There are a couple of resources that can be useful for learning how to use LaTeX
 ---------------------------------------------------------
 
 
+<a id = '5'></a>
+
 Statistical Computing
 ---------------------------------------------------------
 
 [R](https://www.r-project.org/) is a programming language and software environment for statistical computing and graphics . More importantly, R will be used a lot for some courses at Rice. While you will likely have lots of practice in your courses, picking it up quickly will be extremely helpful. 
 
 It's free, open source, widely used among statisticians and data miners for developing statistical software and data analysis.
+
+<a id = '5.1'></a>
 
 ## Installing R
 
@@ -423,14 +454,14 @@ Once you choose a mirror, you'll find a link like the one below, click the one a
    			<img src="/figure/train/picture1.png" alt="">
 </p>
 
-#### Windows
+**Windows**
 
 1. After clicking the "Download R for Windows" above, you then want to click the "base" link.
 2. Right-click on Download R 3.3.1 for Windows, and just save the .exe to your desktop (or wherever you want) 
 3. Double click on the .exe, and follow the instructions.
 4. Choose the default "User" installation and don't worry about "customizing startup options"
 
-#### Mac
+**Mac**
 
 1. After clicking the "Download R for (Mac) OS X, you want to choose the correct download for your OS. 
 2. R-3.3.1.pkg is for Mavericks, while R-3.3.1-snowleopard.pkg is for Snow leopard. 
@@ -441,10 +472,13 @@ Once you choose a mirror, you'll find a link like the one below, click the one a
 >The current version of R is **3.3.1**, and you will need to update R as new releases come out.
 
 
+<a id = '5.2'></a>
 
 ### Installing R-Studio
 RStudio is a free and open-source integrated development environment (IDE) for R. You can download it at [this link](https://www.rstudio.com/products/rstudio/download2/).
 Choose "**Download RStudio Desktop**" (with free license), then choose the correct OS download. 
+
+<a id = '5.3'></a>
 
 ### Use RStudio / R
 The **\*.R** file below contains a introduction to the functionalities of R. The **\*.txt** and **\*.csv** files will be needed as well. Download all three and save them in the **SAME** folder.
@@ -467,6 +501,7 @@ Like any language, it will take some time to be familiar with the commands and e
 
 ---------------------------------------------------------
 
+<a id = '6'></a>
 
 ## Reproducible Homework
 
@@ -477,6 +512,8 @@ RMarkdown and knitr are two literate programming tools that can tangle R and LaT
 Markdown is simple and fast, not very customizable, but makes a clean looking report (which is sometimes all you need). 
 
 knitr is extremely dynamic, allows for large projects easily with features like caching and multiple input languages.
+
+<a id = '6.1'></a>
 
 ### knitr 
 [knitr](http://yihui.name/knitr/) is an engine for dynamic report generation with R.
@@ -520,6 +557,7 @@ then reconfigure LyX. You now can get the path to Rscript by executing this in R
 
 >Files downloadable here: [Knitrtesting.rnw](/figure/train/Knitrtesting.rnw), [Knitrtesting.lyx](/figure/train/Knitrtesting.lyx)
 
+<a id = '6.2'></a>
 
 ### RMarkdown 
 
