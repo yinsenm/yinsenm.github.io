@@ -6,7 +6,8 @@ Welcome to Statistical Orientation Lab
 ===========================
 [TOC]
 
-##Technical Setup
+## Technical Setup
+
 ### Unix and Rice Computing Resources
 
 [Unix](http://www.unix.org/what_is_unix.html) (Uniplexed Information and Computing System) is a family of multitasking, multiuser computer operating systems that derive from the original AT&T Unix, developed in the 1970s at Bell Labs. 
@@ -20,14 +21,14 @@ So why do we need Unix and servers?
  4. Security
  5. Interoperability
 
->Note: In order to access Rice computing resources or mount your U: Drive from off campus you will need to use a VPN. Instructions can be found [here](https://docs.rice.edu/confluence/pages/viewpage.action?pageId=15959053).
+>Note: In order to access Rice computing resources or mount your U: Drive from off campus you will need to use a VPN. Instructions can be found [here](https://docs.rice.edu/confluence/x/0INGAg).
 
 ### The U-Drive
 
  - Each Rice graduate student is provided with 5GB of storage on the university servers.
  - An easy way to access your U: Drive is to mount a network drive. Once mounted, the U: Drive can be found and used like any other hard drive (as long as internet access is maintained).
  - To connect to your U: Drive, follow the instructions for your OS below:
-	 - [ Windows 7](https://docs.rice.edu/confluence/x/9wIHAQ)
+	 - [Windows 7](https://docs.rice.edu/confluence/x/9wIHAQ)
 	 - [Windows 8](https://docs.rice.edu/confluence/x/MqsxAg)
 	 - [Mactintosh](https://docs.rice.edu/confluence/x/IQM9)
 	 - [Linux](https://docs.rice.edu/confluence/x/84Gj)
@@ -79,20 +80,28 @@ The CLEAR systems are available to all students to help with coursework computat
 
 	3. Click on one of the saved sessions.
 
-<p align="center">
-   			<img src="/figure/train/3.png" alt="">
-</p>
-
 #### Moving files between your computer and CLEAR
 
 - Your U: drive home folder is your home directory when you login to CLEAR.  Anything you drop there will be accessible to you. 
 - Use sftp feature offered by the  [MobaXterm](http://mobaxterm.mobatek.net/).
+
+<p align="center">
+   			<img src="/figure/train/3.png" alt="">
+</p>
+
 - Use sftp command in unix. [Reference](http://www.computerhope.com/unix/sftp.htm).
 
 
+---------------------------------------------------------
 
 ## Unix Tutorial
+
 ### Unix Directory Structure
+
+<p align="center">
+   			<img src="/figure/train/4.png" alt="">
+</p>
+
 
 ### Navigating the UNIX File System
 
@@ -111,34 +120,44 @@ The CLEAR systems are available to all students to help with coursework computat
 |```clear``` or ```Ctrl + L```| Clear the screen|
 
 ### Executing Programs
+
 -  If the program is already in **bin** or **sbin** folder,
+
 ```
 [ym11@water ~]$top
 ```
+
 - Otherwise execute the program using its full directory
+
 ```
 [ym11@water ~]$./bin/top
 ```
+
 - By default the program will run in foreground. To run a program in the background use the **&** command.
 
 ```
 [ym11@water ~]$./bin/top &
 ```
+
 or
 ```
 [ym11@water ~]$top &
 ```
 
-- To view all progresses running in the background .
+- To view all progresses running in the background.
+
 ```
 [ym11@water ~]$ps
 ```
+
 - To stop a process via killing its process ID
+
 ```
 [ym11@water ~]$kill 1122
 ```
 
 ### Manipulating Files and Directories
+
 | Code | Function  |
 |: ------------- |-------------:|
 |touch file | Create a new file|
@@ -151,9 +170,10 @@ or
 |mv file1 file2 | Move file or rename file |
 |mkdir directory|Make a new directory |
 
-###Piping commands and input/output
+### Piping commands and input/output
 
 A powerful aspect of UNIX is the ability to redirect output and combine multiple commands using the pipe character ```| ```.
+
 | Code | Function  |
 |: ------------- |-------------:|
 |Command > file | Output text to file|
@@ -164,10 +184,18 @@ A powerful aspect of UNIX is the ability to redirect output and combine multiple
 
 **Example**
 Find history commands that contain the ```ls```.
+
 ```
 [ym11@water ~]$history|grep ls
 ```
-###File Permissions
+
+### File Permissions
+
+<p align="center">
+   			<img src="/figure/train/7.png" alt="">
+</p>
+
+
 To find the permissions for files in a directory type, use ```ls -l```.
 
 Change file permission.
@@ -177,28 +205,43 @@ Change file permission.
 ```
 [ym11@water ~]$chmod +rwx file.txt
 ```
+
 - Remove **read and write** permissions for current user.
+
 
 ```
 [ym11@water ~]$chmod -rx file.txt
 ```
+
 - Grand all permissions to all user
+
 ```
 [ym11@water ~]$chmod a+wrx file.txt
 ```
+
 or
+
 ```
 [ym11@water ~]$chmod 777 file.txt
 ```
+
 In case you need administrator permission to access or change a file or directory, you might need the sudo (super user do?) command.
+
 ```
 [ym11@water ~]$sudo cp file.text ../Downloads/
 ```
-Additional Commands.
+
+### Additional Commands.
+
 | Code | Function  |Example|
 |: ------------- |-------------:|:---|
 |```man```| Look up for documentation|```man cp```|
 |```tar```| Compress or decompress a directory| Compress: ```tar - czf file.tar```, Decompress: ```tar - xzf file.tar``` |
+
+
+### Install and compile software via ```make```
+
+[https://code.google.com/archive/p/bedtools/downloads](https://code.google.com/archive/p/bedtools/downloads)
 
 ### More references for Unix Command
 
@@ -207,34 +250,24 @@ Additional Commands.
 3. [Reference 3](http://www.thegeekstuff.com/2010/11/50-linux-commands/).
 
 
-### Install and compile software via ```make```
-
-[https://code.google.com/archive/p/bedtools/downloads](https://code.google.com/archive/p/bedtools/downloads)
-
-
-
-
-
-
-
-
-
 
 
 >Specially Thank to Jie Yang for helping preparing a detail tutorial for this section! Thank you!!!
 
+
 ### Exercise Two: Copying files and directories
-1.   Create a test directory by typing **mkdir testDir**.
-2. Enter directory by typing **cd testDir**.
-3. Create a file called testFile using nano by typing **nano testFile.txt**.
-4. Type any string of characters into the file and press Ctrl-x, follow the prompts to save. 
-5. Exit directory by typing **cd ..** (this moves up one directory level).
-6. We can now copy this directory by typing **cp -r testDir testDirCopy**.
-7. Type **ls** to see that we now have an exact copy of the directory testDir, named testDirCopy.
-8. Remove both of these by typing **rm -r testDir testDirCopy **.
+
+	1. Create a test directory by typing **mkdir testDir**.
+	2. Enter directory by typing **cd testDir**.
+	3. Create a file called testFile using nano by typing **nano testFile.txt**.
+	4. Type any string of characters into the file and press Ctrl-x, follow the prompts to save. 
+	5. Exit directory by typing **cd ..** (this moves up one directory level).
+	6. We can now copy this directory by typing **cp -r testDir testDirCopy**.
+	7. Type **ls** to see that we now have an exact copy of the directory testDir, named testDirCopy.
+	8. Remove both of these by typing **rm -r testDir testDirCopy **.
 
 
-
+---------------------------------------------------------
 
 ## LaTeX
 [LaTeX](http://www.latex-project.org/)  is a type-setting system for preparing documents, and is the standard used in almost all technical disciplines. It permits a high level of control over the structure of presentations and text documents, while also allowing the user to enter mathematical symbols.
@@ -261,6 +294,11 @@ Beamer is a package in LaTeX used to create **.pdf** presentations. It has the s
 
 You should get something similar to:
 
+<p align="center">
+   			<img src="/figure/train/6.png" alt="">
+</p>
+
+
 The syntax for Beamer documents is very similar, but there are certain properties which have to be handled differently. For instance, you need to specify the beginning and ends of frames using the control sequence 
 ```
 \begin{frame} 
@@ -286,17 +324,31 @@ After [downloading](https://www.lyx.org/Download) and installing Lyx, open up th
 - [Mac OS X](ftp://ftp.lyx.org/pub/lyx/bin/2.2.1/LyX-2.2.1+qt5-x86_64-cocoa.dmg), If not working, please try to install software for [Older System](ftp://ftp.lyx.org/pub/lyx/bin/2.2.1/LyX-2.2.1+qt4-i386-cocoa.dmg).
 - [Linux](https://www.lyx.org/Download). Please follow the instruction below:
 
-	```
-	$ sudo add-apt-repository ppa:lyx-devel/release
-	$ sudo apt-get update
-	$ sudo apt-get install lyx
-	```
+```
+[ym11@water ~]$ sudo add-apt-repository ppa:lyx-devel/release
+[ym11@water ~]$ sudo apt-get update
+[ym11@water ~]$ sudo apt-get install lyx
+```
 
-If you click on the Insert tab, a few options will come up which allow you to manually enter LaTeX without inputting the code directly. Clicking on the **Insert->Math** option or **Ctrl + M**  combination through the keyboard will give you something similar to the following:
+If you click on the Insert tab, a few options will come up which allow you to manually enter LaTeX without inputting the code directly. Clicking on the **Insert->Math** option or ```Ctrl + M```  combination through the keyboard will give you something similar to the following:
+
+<p align="center">
+   			<img src="/figure/train/5.png" alt="">
+</p>
+
 
 This opens up a blue space, and a symbol menu at the bottom. You can click on this symbol menu to input symbols, and click outside of the blue square to begin typing normal text again.
 
+<p align="center">
+   			<img src="/figure/train/8.png" alt="">
+</p>
+
+
 Within the math entry section in LyX, you can enter a standard LaTeX control sequence and LyX will convert them to symbols for you:
+
+<p align="center">
+   			<img src="/figure/train/9.png" alt="">
+</p>
 
 In this sense LyX is sort of a WYSWYG (pronounced "wiz-ee-wig")  or "what you see is what you get" editor.
 
@@ -315,47 +367,60 @@ There are a couple of resources that can be useful for learning how to use LaTeX
 
 
 ### Exercise Three: Compile the two documents in the zip file.
-> [Template.zip]()
+> [Template.zip](/figure/train/Template.zip)
 
-Thank you Ryan Warnich for preparing  this section!
+>Thank you Ryan Warnich for preparing  this section!!
+
+
+---------------------------------------------------------
 
 
 Statistical Computing
 ---------------------------------------------------------
+
 R is a programming language and software environment for statistical computing and graphics (https://www.r-project.org/). More importantly, R will be used a lot for some courses at Rice. While you will likely have lots of practice in your courses, picking it up quickly will be extremely helpful. 
 
 It's free, open source, widely used among statisticians and data miners for developing statistical software and data analysis.
 
-###Installing R
+## Installing R
+
 The files are downloaded via [CRAN mirrors](https://cran.r-project.org/mirrors.html), with the closest one being in Dallas, but it doesn't really matter which one you choose, they're just designed to take the load off of the servers at the R-project. 
 
 Once you choose a mirror, you'll find a link like the one below, click the one appropriate to your OS.
 
-####Windows
 
- 1. After clicking the "Download R for Windows" above, you then want to click the "base" link.
- 2. Right-click on Download R 3.3.1 for Windows, and just save the .exe to your desktop (or wherever you want) 
- 3. Double click on the .exe, and follow the instructions.
- 4. Choose the default "User" installation and don't worry about "customizing startup options"
+#### Windows
 
-####Mac
+	1. After clicking the "Download R for Windows" above, you then want to click the "base" link.
+	2. Right-click on Download R 3.3.1 for Windows, and just save the .exe to your desktop (or wherever you want) 
+	3. Double click on the .exe, and follow the instructions.
+	4. Choose the default "User" installation and don't worry about "customizing startup options"
 
-1. After clicking the "Download R for (Mac) OS X, you want to choose the correct download for your OS. 
-2. R-3.3.1.pkg is for Mavericks, while R-3.3.1-snowleopard.pkg is for Snow leopard. 
-3. Open the .pkg file, and follow the instructions. 
-4. Choose the defaults and do not worry about "customizing startup options"
+#### Mac
+
+	1. After clicking the "Download R for (Mac) OS X, you want to choose the correct download for your OS. 
+	2. R-3.3.1.pkg is for Mavericks, while R-3.3.1-snowleopard.pkg is for Snow leopard. 
+	3. Open the .pkg file, and follow the instructions. 
+	4. Choose the defaults and do not worry about "customizing startup options"
+
 
 >The current version of R is **3.3.1**, and you will need to update R as new releases come out.
-###Installing R-Studio
+
+
+
+### Installing R-Studio
 RStudio is a free and open-source integrated development environment (IDE) for R. You can download it at [this link](https://www.rstudio.com/products/rstudio/download2/).
 Choose "**Download RStudio Desktop**" (with free license), then choose the correct OS download. 
-###Use RStudio / R
-The ***.R** file below contains a introduction to the functionalities of R. The **.txt ** and **.csv** files will be needed as well. Download all three and save them in the SAME folder.
+
+### Use RStudio / R
+The **\*.R** file below contains a introduction to the functionalities of R. The **\*.txt ** and **\*.csv** files will be needed as well. Download all three and save them in the SAME folder.
 
 Once you've opened your RStudio, run the command 
+
 ```
 setwd("location/nameofyourfolder")
 ```
+
 Alternatively, you can find your folder in the "**file**" window and select "**set working directory**". This will set where R works from, saving any output files and looking for any input data.
 
 The script (Thanks to Kate!) will run through basics, importing data, basic data exploration, intro to plotting/graphics, and packages.
@@ -363,11 +428,14 @@ The script (Thanks to Kate!) will run through basics, importing data, basic data
 Like any language, it will take some time to be familiar with the commands and environment, enjoy!
 
 >Files downloadable here:
->[R_Tutorial.R]()
->[example.csv]()
->[titanic.txt]()
+>[R_Tutorial.R](/figure/train/R_Tutorial.R)
+>[example.csv](/figure/train/example.csv)
+>[titanic.txt](/figure/train/titanic.txt)
 
-##Reproducible Homework
+---------------------------------------------------------
+
+
+## Reproducible Homework
 
 Since we know R and LaTeX, we will combine them so that you can add R code in lyx or write mathematical symbols in R.
 
@@ -377,14 +445,16 @@ Markdown is simple and fast, not very customizable, but makes a clean looking re
 
 knitr is extremely dynamic, allows for large projects easily with features like caching and multiple input languages.
 
-###knitr 
+### knitr 
 [knitr](http://yihui.name/knitr/) is an engine for dynamic report generation with R.
 In order to using knitr in R: Setup Start by running the following commands in the console of RStudio:
+
 ```
 install.packages(c("knitr", "ggplot2"))
 require(knitr) 
 require(ggplot2)
 ```
+
 Then Select “**Tools**” and then choose “**global options**”. Select “**Sweave**” and at the top of the page switch the “Weave Rnw files using” dropdown menu to knitr.
 Then you can select “**File**”, choose “**New file**” and then create “**R sweave**”.
 
@@ -411,11 +481,11 @@ Another thing is that you have to tell LyX where is Rscript (add the path
 
 then reconfigure LyX. You now can get the path to Rscript by executing this in R:
 >Files downloadable here:
->[Knitrtesting.rnw]()
->[Knitrtesting.lyx]()
+>[Knitrtesting.rnw](/figure/train/Knitrtesting.rnw)
+>[Knitrtesting.lyx](/figure/train/Knitrtesting.lyx)
 
 
-###RMarkdown 
+### RMarkdown 
 
 [RMarkdown](http://rmarkdown.rstudio.com) is a lightweight text markup language with R commands. 
 
@@ -439,7 +509,7 @@ Useful Links:
 [RMarkdown Reference Guide](https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf)
 
 >File downloadable here:
->[Markdown_example.txt]()
+>[Markdown_example.txt](/figure/train/Markdown_example.txt)
 
-As a quick note about R Markdown, you can use it to produce slide presentations as well. Details can be found at http://slidify.org/.
+As a quick note about R Markdown, you can use it to produce slide presentations as well. Details can be found at [http://slidify.org/](http://slidify.org/).
 
