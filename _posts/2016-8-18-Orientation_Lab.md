@@ -34,9 +34,11 @@ Welcome to Statistical Orientation Lab
 	- [RMarkdown](#6.2)
 
 <a id = '1'></a>
+
 ## Technical Setup
 
 <a id = '1.1'></a>
+
 ### Unix and Rice Computing Resources
 
 [Unix](http://www.unix.org/what_is_unix.html) (Uniplexed Information and Computing System) is a family of multitasking, multiuser computer operating systems that derive from the original AT&T Unix, developed in the 1970s at Bell Labs. 
@@ -53,6 +55,7 @@ So why do we need Unix and servers?
 >Note: In order to access Rice computing resources or mount your U: Drive from off campus you will need to use a VPN. Instructions can be found [here](https://docs.rice.edu/confluence/x/0INGAg).
 
 <a id = '1.2'></a>
+
 ### The U-Drive
 
  - Each Rice graduate student is provided with 5GB of storage on the university servers.
@@ -104,6 +107,7 @@ The CLEAR systems are available to all students to help with coursework computat
 - Windows
 	1. Download the [MobaXterm](http://mobaxterm.mobatek.net/) via this [link](http://mobaxterm.mobatek.net/download.html).
 	2.  Click **Session** and then choose **ssh** . Fill in one of the four aliases above such as [water.clear.rice.edu](water.clear.rice.edu) in the **Remote host** and your netid in **Specify username**. 
+	3. Click on one of the saved sessions.
 
 <p align="center">
    			<img src="/figure/train/1.png" alt="">
@@ -114,7 +118,6 @@ The CLEAR systems are available to all students to help with coursework computat
 </p>
 
 
-	3. Click on one of the saved sessions.
 
 
 <a id = '1.5'></a>
@@ -135,6 +138,7 @@ The CLEAR systems are available to all students to help with coursework computat
 ---------------------------------------------------------
 
 <a id = '2'></a>
+
 ## Unix Tutorial
 
 <a id = '2.1'></a>
@@ -309,7 +313,7 @@ In case you need administrator permission to access or change a file or director
 
 
 
-> Thank to Jie Yang for helping preparing a detail tutorial for this section! Thank you!!!
+> Thanks to Jie Yang for helping preparing a detail tutorial for this section! Thank you!
 
 
 
@@ -425,6 +429,7 @@ There are a couple of resources that can be useful for learning how to use LaTeX
 
 
 **Exercise Three: Compile the two documents in the zip file**
+
 > [TTemplate.tar.gz](/figure/train/Template.tar.gz)
 
 >Thank you Ryan Warnich for preparing  this section!!
