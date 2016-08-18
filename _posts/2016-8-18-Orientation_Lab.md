@@ -313,7 +313,7 @@ In case you need administrator permission to access or change a file or director
 
 
 
-> Thanks to Jie Yang for helping preparing a detail tutorial for this section! Thank you!
+> Thanks to Jie Yang for helping preparing a detailed tutorial for this section! Thank you!!
 
 
 
@@ -432,7 +432,7 @@ There are a couple of resources that can be useful for learning how to use LaTeX
 
 > [TTemplate.tar.gz](/figure/train/Template.tar.gz)
 
->Thank you Ryan Warnich for preparing  this section!!
+>Thank you Ryan Warnick for preparing  this section!!
 
 
 ---------------------------------------------------------
