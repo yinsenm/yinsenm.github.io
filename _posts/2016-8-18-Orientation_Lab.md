@@ -4,7 +4,41 @@ title: Statistical Orientation Lab
 ---
 Welcome to Statistical Orientation Lab
 ===========================
-[TOC]
+
+- [Technical Setup](#1)
+	- [Unix and Rice Computing Resources](#1.1)
+	- [The U-Drive](#1.2)
+	- [CLEAR (Curricular Linux Environment At Rice)](#1.3)
+	- [Logging into CLEAR with SSH](#1.4)
+	- [Login Steps](#1.5)
+	- [Moving files between your computer and CLEAR](#1.6)
+Unix Tutorial
+Unix Directory Structure
+Navigating the UNIX File System
+Executing Programs
+Manipulating Files and Directories
+Piping commands and input/output
+File Permissions
+More references for Unix Command
+Install and compile software via make
+Exercise Two: Copying files and directories
+LaTeX
+Install LaTeX
+Example of Compiling a LaTeX Document Via Kile
+Beamer
+LyX
+Install LyX
+LaTeX and LyX Useful Resources
+Exercise Three: Compile the two documents in the zip file.
+Statistical Computing
+Installing R
+Windows
+Mac
+Installing R-Studio
+Use RStudio / R
+Reproducible Homework
+knitr
+RMarkdown
 
 ## Technical Setup
 
@@ -33,7 +67,7 @@ So why do we need Unix and servers?
 	 - [Mactintosh](https://docs.rice.edu/confluence/x/IQM9)
 	 - [Linux](https://docs.rice.edu/confluence/x/84Gj)
 
-#### Exercise One: Mounting U Drive
+**Exercise One: Mounting U Drive**
 
 - Follow instructions for your OS given above
 - Find your U Drive and explore it.
@@ -62,9 +96,8 @@ The CLEAR systems are available to all students to help with coursework computat
 [ym11@myMac ~]$ssh<myNetID>@<alias>.clear.rice.edu
 ```
 	
-	- Replace <myNetID> with your Rice NetID and <alias> with one of the alias options above.
-	-  Example: My NetID is **ym11**, and if I pick the water alias I would enter: [ym11@water.clear.rice.edu](ym11@water.clear.rice.edu).
-	3.  Proceed to the exercise below.
+- Replace <myNetID> with your Rice NetID and <alias> with one of the alias options above.
+- Example: My NetID is **ym11**, and if I pick the water alias I would enter: [ym11@water.clear.rice.edu](ym11@water.clear.rice.edu).
 
 - Linux
 	1. Open the Terminal (This can be found by searching for **Terminal**).
@@ -364,8 +397,8 @@ There are a couple of resources that can be useful for learning how to use LaTeX
 - [LyX Templates](http://wiki.lyx.org/Layouts/Layouts) : Contains templates for LyX documents.
 
 
-### Exercise Three: Compile the two documents in the zip file.
-> [Template.zip](/figure/train/Template.tar.gz)
+### Exercise Three: Compile the two documents in the zip file
+> [TTemplate.tar.gz](/figure/train/Template.tar.gz)
 
 >Thank you Ryan Warnich for preparing  this section!!
 
@@ -376,7 +409,7 @@ There are a couple of resources that can be useful for learning how to use LaTeX
 Statistical Computing
 ---------------------------------------------------------
 
-R is a programming language and software environment for statistical computing and graphics (https://www.r-project.org/). More importantly, R will be used a lot for some courses at Rice. While you will likely have lots of practice in your courses, picking it up quickly will be extremely helpful. 
+[R](https://www.r-project.org/) is a programming language and software environment for statistical computing and graphics . More importantly, R will be used a lot for some courses at Rice. While you will likely have lots of practice in your courses, picking it up quickly will be extremely helpful. 
 
 It's free, open source, widely used among statisticians and data miners for developing statistical software and data analysis.
 
