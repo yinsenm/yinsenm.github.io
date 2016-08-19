@@ -335,7 +335,7 @@ You first need to download and install the TeX distribution appropriate for your
 
 - Unix & Linux:  [TeX Live](http://www.tug.org/texlive/), [Kile](http://kile.sourceforge.net/).
 - Mac OS X:  [TeXWorks](http://tug.org/texworks/).
-- Windows:  [Kile](http://www.winkde.org/pub/kde/ports/win32/installer/kdewin-installer-gui-latest.exe),  **Follow the** [installing tutorial](http://www.latex-community.org/forum/viewtopic.php?f=20&t=8212).
+- Windows:  [Kile](http://www.winkde.org/pub/kde/ports/win32/installer/kdewin-installer-gui-latest.exe),  **Follow the** [installing tutorial](http://www.latex-community.org/forum/viewtopic.php?f=20&t=8212), The file in that tutorial can be doneloaded via this [Dropbox](https://www.dropbox.com/s/koxc8pnadn2qnoo/kdewin-installer-gui-1.0.0.exe?dl=0) link.
 
 ### Example of Compiling a LaTeX Document Via Kile
 The backslash operator is used to denote when LaTeX specific syntax is being entered, and this is used to specify controls sequences (such as **\begin{equation}**), and also to enter new characters (such as **\pi** or **\newline**). **%** is used to specify comments.
